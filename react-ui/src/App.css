@@ -1,32 +1,102 @@
-.App {
-  text-align: center;
+/* Styling for HyperionDev Bootcamp - level 3 task 15 - capstone project - blog */
+/* Misc styles */
+body {
+  font-size: 16px;
+  font-family: "Open Sans", Arial, sans-serif;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.beachImg,
+.pcImg {
+  width: 15rem;
+  margin-bottom: 1rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Main container "app" */
+.app {
   display: flex;
   flex-direction: column;
+}
+
+/* Header styles */
+.logo {
+  height: 3rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+
+  background-color: #282c34;
+  height: 5rem;
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.logoAndHeading {
+  display: flex;
+  flex-direction: row;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.headerLinks {
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+/* Breadcrumbs just under header */
+.breadCrumbs {
+  margin-left: 1rem;
+}
+
+.breadCrumbs p {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+/* End of breadcrumbs -------------------------------- */
+
+/* Elements of main part of page */
+.bodyDiv {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 1rem;
+}
+
+.leftPanel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid red;
+}
+
+.centerPanel {
+  display: flex;
+  flex: 3;
+  flex-direction: column;
+  padding: 1rem;
+  margin: 0rem 1rem 0rem 1rem;
+  border: 1px solid red;
+}
+
+.rightPanel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid red;
+}
+
+/* Footer styles */
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 3rem;
+  background-color: cadetblue;
 }
