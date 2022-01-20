@@ -7,14 +7,18 @@ body {
 
 .beachImg,
 .pcImg {
-  width: 15rem;
+  width: 16rem;
   margin-bottom: 1rem;
+  border: 1px solid #6f5f5d;
 }
 
 /* Main container "app" */
+/* Learned how to push footer to bottom of page here: 
+https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
 .app {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Header styles */
@@ -27,13 +31,13 @@ body {
 .header {
   display: flex;
   flex-direction: row;
-
-  background-color: #282c34;
-  height: 5rem;
+  /* background-color: #282c34; */
+  height: 4rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: white;
+  border-bottom: 1px solid #dedede;
+  padding-top: 0.5rem;
 }
 
 .logoAndHeading {
@@ -41,14 +45,45 @@ body {
   flex-direction: row;
 }
 
-.headerLinks {
-  margin-left: auto;
+/* Styling for Menu */
+.menuDiv {
+  display: flex;
+
   margin-right: 1rem;
+  margin-left: auto;
+}
+
+.menuDiv ul {
+  margin: 0;
+  padding: 0;
+}
+
+.menuDiv li {
+  display: inline;
+  margin: 0rem 0.5rem;
+  color: blue;
+}
+
+.menuDiv a {
+  text-decoration: none;
+}
+
+.menuDiv a:hover {
+  text-decoration: underline;
+}
+
+/* End of styling for menu ------------------------------*/
+
+/* Div for area just under header. Includes breadcrumbs and login status message */
+.underHeader {
+  display: flex;
+  align-items: center;
 }
 
 /* Breadcrumbs just under header */
 .breadCrumbs {
   margin-left: 1rem;
+  margin-top: 0.5rem;
 }
 
 .breadCrumbs p {
@@ -56,14 +91,39 @@ body {
   padding: 0;
   display: inline;
 }
-
 /* End of breadcrumbs -------------------------------- */
+
+/* Div for login status message */
+.loginStatusDiv {
+  margin-left: auto;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+}
+
+.loginStatusDiv p {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  margin-right: 1rem;
+}
 
 /* Elements of main part of page */
 .bodyDiv {
   display: flex;
   flex-direction: row;
-  padding: 1rem 1rem;
+  flex: 1;
+  padding: 1rem 0rem 0rem 0rem;
+}
+
+.loginDiv {
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem;
+  width: 25rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid red;
 }
 
 .leftPanel {
@@ -71,17 +131,19 @@ body {
   flex: 1;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
-  border: 1px solid red;
+  padding: 0.5rem;
+  border-right: 1px solid #dedede;
+  border-top: 1px solid #dedede;
+  background-color: #f4f2f0;
 }
 
 .centerPanel {
   display: flex;
   flex: 3;
   flex-direction: column;
-  padding: 1rem;
+  padding: 0rem 1rem;
   margin: 0rem 1rem 0rem 1rem;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .rightPanel {
@@ -89,14 +151,22 @@ body {
   flex: 1;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid red;
+  /* border: 1px solid red; */
+  border-left: 1px solid #dedede;
 }
 
 /* Footer styles */
 .footer {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: center;
   height: 3rem;
-  background-color: cadetblue;
+  border-top: 1px solid #dedede;
+}
+
+.footer p {
+  display: inline;
+  margin: 0;
+  padding: 0;
 }

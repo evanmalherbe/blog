@@ -7,7 +7,7 @@ import "../App.css";
 function Footer(props) {
   return (
     <div className="footer">
-      <h2>footer</h2>
+      <p>© Copyright Evan Malherbe 2022</p>
     </div>
   );
 }

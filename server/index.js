@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const cluster = require("cluster");
 const numCPUs = require("os").cpus().length;
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
 
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3001;
@@ -23,17 +25,20 @@ if (!isDev && cluster.isMaster) {
 } else {
   const app = express();
 
+  // Use bodyparser to send data in body of http request
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+
+  // Set path to .env file
+  dotenv.config({ path: ".env" });
+
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
 
   //Import routes
   require("../routes/api")(app);
-
-  // // Answer API requests.
-  // app.get("/api", function (req, res) {
-  //   res.set("Content-Type", "application/json");
-  //   res.send({ message: "Hello from Evans server!" });
-  // });
+  require("../routes/login")(app);
+  require("../routes/resource")(app);
 
   // All remaining requests return the React app, so it can handle routing.
   app.get("*", function (request, response) {

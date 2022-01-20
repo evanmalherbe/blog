@@ -3,6 +3,9 @@ import React from "react";
 // Import logo image
 import logo from "../blogLogo.png";
 
+// Import component
+import Menu from "./Menu";
+
 // Import custom stylesheet
 import "../App.css";
 
@@ -14,9 +17,7 @@ function Header(props) {
         <img src={logo} className="logo" alt="logo" />
         <h1>Blog</h1>
       </div>
-      <div className="headerLinks">
-        <a href="">Home</a>
-      </div>
+      <Menu loggedIn={props.loggedIn} />
     </header>
   );
 }

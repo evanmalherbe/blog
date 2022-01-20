@@ -7,7 +7,7 @@ import "../App.css";
 function LeftPanel(props) {
   return (
     <div className="leftPanel">
-      <h2>Authors</h2>
+      <h4>Blog Authors</h4>
     </div>
   );
 }
