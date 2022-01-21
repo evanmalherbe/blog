@@ -4,6 +4,7 @@ const cluster = require("cluster");
 const numCPUs = require("os").cpus().length;
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3001;
@@ -37,8 +38,49 @@ if (!isDev && cluster.isMaster) {
 
   //Import routes
   require("../routes/api")(app);
+  require("../routes/getposts")(app);
+  require("../routes/getlogins")(app);
   require("../routes/login")(app);
+  require("../routes/register")(app);
   require("../routes/resource")(app);
+  require("../routes/addpost")(app);
+
+  // Auth details for connecting to db
+  const username = "evanmalherbe";
+
+  /* Get password from .env file. Needed to consult the following website to get it to work: 
+https://stackoverflow.com/questions/65896414/how-can-i-use-environmental-variable-for-database-password-in-nodejs */
+  const password = process.env.PASSWORD;
+  const cluster = "cluster0.xrjxb";
+  const dbname = "blog";
+
+  mongoose.Promise = global.Promise;
+
+  /* This website was very useful in getting the connection and error handling commands right:
+https://mongoosejs.com/docs/connections.html */
+
+  // Initial connection to db and error handling if initial connection fails
+  mongoose
+    .connect(
+      `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbname}?retryWrites=true&w=majority`
+    )
+    .catch((error) =>
+      console.log("Failed initial connection to db. Error is: " + error)
+    );
+
+  // Message if success in connecting to db
+  mongoose.connection.once("open", function () {
+    console.log("Successfully connected to the database");
+  });
+
+  // Error handling if connection to db fails after an initially successful connection
+  mongoose.connection.on("error", (error) => {
+    if (error) {
+      console.log("An error occurred after initial connection to db: " + error);
+    } else {
+      console.log("Connection Established");
+    }
+  });
 
   // All remaining requests return the React app, so it can handle routing.
   app.get("*", function (request, response) {

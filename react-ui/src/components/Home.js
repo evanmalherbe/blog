@@ -5,6 +5,7 @@ import "../App.css";
 
 // Import components
 import RightPanel from "./RightPanel";
+import CentrePanel from "./CentrePanel";
 import LeftPanel from "./LeftPanel";
 
 // Function to display rightpanel
@@ -12,14 +13,13 @@ function Home(props) {
   return (
     <div className="bodyDiv">
       <LeftPanel />
-      <div className="centerPanel">
-        <h2>Bob's blog</h2>{" "}
-        <p>
-          {"« "}
-          <strong>{props.message}</strong>
-          {" »"}
-        </p>
-      </div>
+      <CentrePanel
+        titlesArray={props.titlesArray}
+        idArray={props.idArray}
+        postsArray={props.postsArray}
+        authorArray={props.authorArray}
+        message={props.message}
+      />
       <RightPanel />
     </div>
   );

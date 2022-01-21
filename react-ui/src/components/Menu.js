@@ -7,12 +7,25 @@ import { Link } from "react-router-dom";
 React router to only show particular components to the user (i.e. Minesweeper game or Help page) */
 function Menu(props) {
   let loginLink;
+  let createPostLink;
 
+  // Only display log in link in menu if there is no user logged in yet
   if (!props.loggedIn) {
     loginLink = (
       <li>
         <Link to="/Login" className="menuLink">
           Log in
+        </Link>
+      </li>
+    );
+  }
+
+  // Only display create post link in menu if a user is logged in
+  if (props.loggedIn) {
+    createPostLink = (
+      <li>
+        <Link to="/CreatePost" className="menuLink">
+          Create Post
         </Link>
       </li>
     );
@@ -27,6 +40,12 @@ function Menu(props) {
           </Link>
         </li>
         {loginLink}
+        <li>
+          <Link to="/Register" className="menuLink">
+            Register
+          </Link>
+        </li>
+        {createPostLink}
       </ul>
     </div>
   );

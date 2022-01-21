@@ -12,6 +12,10 @@ body {
   border: 1px solid #6f5f5d;
 }
 
+.redText {
+  color: red;
+}
+
 /* Main container "app" */
 /* Learned how to push footer to bottom of page here: 
 https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
@@ -123,7 +127,24 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   width: 25rem;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid red;
+}
+
+.registerDiv {
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem;
+  width: 25rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.createPostDiv {
+  display: flex;
+  flex: 3;
+  flex-direction: column;
+  padding: 0rem 1rem;
+  margin: 0rem 1rem 0rem 1rem;
 }
 
 .leftPanel {
@@ -134,7 +155,7 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   padding: 0.5rem;
   border-right: 1px solid #dedede;
   border-top: 1px solid #dedede;
-  background-color: #f4f2f0;
+  background-color: #f9fbfa;
 }
 
 .centerPanel {
@@ -154,6 +175,32 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   /* border: 1px solid red; */
   border-left: 1px solid #dedede;
 }
+
+/* ------------------------------------------ */
+
+/* Blog post styles  */
+.post {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0rem 1rem 1rem 1rem;
+  border: 1px solid #dedede;
+}
+
+.author {
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.postBody {
+  margin-top: 1rem;
+}
+
+/* --------------------------------------- */
 
 /* Footer styles */
 .footer {

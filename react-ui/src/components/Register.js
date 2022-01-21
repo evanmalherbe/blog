@@ -11,13 +11,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 
 // Function to display rightpanel
-function Login(props) {
+function Register(props) {
   return (
-    <div className="loginDiv">
-      <h1>Log in</h1>
+    <div className="registerDiv">
+      <h1>Register</h1>
       {/* Learned how to turn autocomplete off here: 
       https://reactgo.com/react-turn-off-autocomplete/ */}
-      <Form id="loginForm" autoComplete="off" className="loginForm">
+      <Form id="registerForm" autoComplete="off" className="registerForm">
         <FormGroup className="mb-3">
           {" "}
           <FormControl
@@ -41,9 +41,9 @@ function Login(props) {
               className="buttons"
               variant="primary"
               type="button"
-              onClick={props.handleLogin}
+              onClick={props.handleRegister}
             >
-              Login
+              Register
             </Button>
           </Col>
         </Row>
@@ -53,4 +53,4 @@ function Login(props) {
 }
 
 // Export component to be used in other files
-export default Login;
+export default Register;
