@@ -11,6 +11,9 @@ import Footer from "./components/Footer";
 import Register from "./components/Register";
 // import ReloadPage from "./components/ReloadPage";
 import CreatePost from "./components/CreatePost";
+import AdminArea from "./components/AdminArea";
+import GetPosts from "./components/GetPosts";
+// import GetLogins from "./components/GetLogins";
 
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -36,6 +39,7 @@ class App extends React.Component {
       loggedIn: false,
       token: null,
       currentUser: null,
+      adminStatus: null,
       titlesArray: [],
       postsArray: [],
       idArray: [],
@@ -54,15 +58,23 @@ class App extends React.Component {
     this.handleAuth = this.handleAuth.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
-    this.reloadPage = this.reloadPage.bind(this);
+    // this.reloadPage = this.reloadPage.bind(this);
     this.reload = this.reload.bind(this);
 
-    this.getPosts = this.getPosts.bind(this);
+    this.loadPosts = this.loadPosts.bind(this);
     this.getLogins = this.getLogins.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handlePost = this.handlePost.bind(this);
     this.handleSavePost = this.handleSavePost.bind(this);
+    this.handleEditPost = this.handleEditPost.bind(this);
+    this.handleDeletePost = this.handleDeletePost.bind(this);
+
+    this.createWelcomeMsg = this.createWelcomeMsg.bind(this);
   }
+
+  handleEditPost() {}
+
+  handleDeletePost() {}
 
   // Functions to save post title and blog post to state when user types them in to create post form
   handleTitle(event) {
@@ -122,7 +134,7 @@ class App extends React.Component {
                 );
 
                 alert("Blog post saved.");
-                this.reloadPage();
+                // this.reloadPage();
               }
             );
           },
@@ -142,13 +154,12 @@ class App extends React.Component {
           alert(
             "Post title or post body field is blank. Please fill in, then click the 'Save Post' button."
           );
-          this.reloadPage();
+          // this.reloadPage();
         }
       );
       // End of if statement to check that username and password fields are not empty
     }
   }
-
   // ---------------------------------------------------------------- //
 
   // Take user login details and create JWT token, then call "handleAuth" function to authenticate user
@@ -199,7 +210,7 @@ class App extends React.Component {
           alert(
             "Please enter your username and password, then click 'Login' again."
           );
-          this.reloadPage();
+          // this.reloadPage();
         }
       );
       // End of if statement to check that username and password fields are not empty
@@ -242,12 +253,18 @@ class App extends React.Component {
                 loggedIn: true,
                 currentUser: result.currentUser,
                 authMessage: result.message,
+                adminStatus: result.adminStatus,
                 username: null,
                 password: null,
               },
               () => {
                 console.log(
-                  "handleAuth has run. Welcome, " + this.state.currentUser
+                  "handleAuth has run. Welcome, " +
+                    this.state.currentUser +
+                    "! Admin status is: " +
+                    this.state.adminStatus +
+                    "Auth messages says: " +
+                    this.state.authMessage
                 );
 
                 this.reloadPage();
@@ -268,7 +285,7 @@ class App extends React.Component {
       alert("Incorrect login details. Please try again.");
       console.log("Invalid token. Not logged in.");
 
-      this.reloadPage();
+      // this.reloadPage();
     }
     // End of handleauth function
   }
@@ -277,11 +294,18 @@ class App extends React.Component {
     this.setState(
       {
         loggedIn: false,
+        authMessage: null,
+        message: null,
+        token: null,
         username: null,
         password: null,
         currentUser: null,
+        adminStatus: null,
       },
-      () => console.log("User logged out.")
+      () => {
+        console.log("User logged out.");
+        return <Home />;
+      }
     );
   }
 
@@ -315,7 +339,7 @@ class App extends React.Component {
                     this.state.username +
                     ", registered. Please log in."
                 );
-                this.reloadPage();
+                // this.reloadPage();
               }
             );
           },
@@ -335,7 +359,7 @@ class App extends React.Component {
           alert(
             "Please enter your new username and password, then click 'Register' again."
           );
-          this.reloadPage();
+          // this.reloadPage();
         }
       );
       // End of if statement to check that state variables "username" and "password" are not null
@@ -366,39 +390,38 @@ class App extends React.Component {
   }
   // --------------------------------------------------------- //
 
-  // Retrieve blog posts from db
-  getPosts() {
-    console.log("Get posts has run");
-    fetch("/getposts")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState(
-            {
-              isLoaded: true,
-              titlesArray: result.titles,
-              postsArray: result.posts,
-              idArray: result.ids,
-              authorArray: result.authors,
-            }
-            // () => {
-            //   console.log("Posts say: " + this.state.postsArray);
-            //   console.log("titles say: " + this.state.titlesArray);
-            //   console.log("ids say: " + this.state.idArray);
-            //   console.log("authors say: " + this.state.authorArray);
-            // }
-          );
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
+  // Retrieve blog posts from db - This function is called from child component "GetPosts.js"
+  loadPosts(
+    getIsLoaded,
+    getTitlesArray,
+    getPostsArray,
+    getIdArray,
+    getAuthorArray,
+    getErrorMsg
+  ) {
+    this.setState({
+      isLoaded: getIsLoaded,
+      titlesArray: getTitlesArray,
+      postsArray: getPostsArray,
+      idArray: getIdArray,
+      authorArray: getAuthorArray,
+      error: getErrorMsg,
+    });
 
-    // End of Get Posts
+    // End of load Posts
   }
+
+  // // Retrieve login details from db - This function is called from child component "GetLogins.js"
+  // loadLogins(getIsLoaded, getUsersArray, getPwordArray, getAdminStatusArray) {
+  //   this.setState({
+  //     isLoaded: getIsLoaded,
+  //     usersArray: getUsersArray,
+  //     pwordArray: getPwordArray,
+  //     adminStatusArray: getAdminStatusArray,
+  //   });
+
+  //   // End of load Logins
+  // }
 
   // Retrieve login details from db
   getLogins() {
@@ -407,12 +430,16 @@ class App extends React.Component {
       .then((res) => res.json())
       .then(
         (result) => {
-          this.setState({
-            isLoaded: true,
-            usersArray: result.users,
-            pwordArray: result.pwords,
-            adminStatusArray: result.admin,
-          });
+          this.setState(
+            {
+              isLoaded: true,
+              usersArray: result.users,
+              pwordArray: result.pwords,
+              adminStatusArray: result.admin,
+            },
+            () =>
+              console.log("Admin statuses are: " + this.state.adminStatusArray)
+          );
         },
         (error) => {
           this.setState({
@@ -428,73 +455,68 @@ class App extends React.Component {
   // Reloads page
   reloadPage() {
     if (this.state.isLoaded === false) {
-      this.getPosts();
+      // this.loadPosts();
       this.getLogins();
-      console.log("Reload page has run.");
+      console.log("Reload page has run. Logins fetched");
       // End of if statement to check if data has been loaded yet.
     }
-    // // If statement to check if data has been fetched already or not. Won't run twice.
-    // if (this.state.isLoaded === false) {
-    //   fetch("/api")
-    //     .then((res) => res.json())
-    //     .then(
-    //       (result) => {
-    //         this.setState(
-    //           {
-    //             message: result.message,
-    //             isLoaded: true,
-    //           },
-    //           () => {
-    //             console.log("Reload page has run.");
-    //           }
-    //         );
-    //       },
-    //       (error) => {
-    //         this.setState({
-    //           isLoaded: true,
-    //           error,
-    //         });
-    //       }
-    //     );
 
-    //   // End of if statement to check if data has been loaded yet.
-    // }
+    //End of reload page
+  }
+
+  // Check if user is logged in and whether they're admin or not, then create appropriate welcome message
+  createWelcomeMsg(loggedIn, adminStatus, currentUser) {
+    if (loggedIn) {
+      if (adminStatus === true) {
+        return (
+          <div className="loginStatusDiv">
+            <p>Welcome, {currentUser} (admin)!</p>
+            <Button
+              className="logoutButton"
+              variant="primary"
+              type="button"
+              onClick={this.handleLogout}
+            >
+              Logout
+            </Button>
+          </div>
+        );
+      } else {
+        return (
+          <div className="loginStatusDiv">
+            <p>Welcome, {currentUser}!</p>
+            <Button
+              className="logoutButton"
+              variant="primary"
+              type="button"
+              onClick={this.handleLogout}
+            >
+              Logout
+            </Button>
+          </div>
+        );
+      }
+    } else {
+      return (
+        <div className="loginStatusDiv">
+          <p>No active logins.</p>
+        </div>
+      );
+    }
+
+    // End of createWelcomeMsg
   }
 
   // Runs when page is first loaded.
   componentDidMount() {
     if (this.state.isLoaded === false) {
-      this.getPosts();
+      // this.loadPosts();
       this.getLogins();
-      console.log("componentDidMount has run.");
+      console.log("componentDidMount has run. Logins fetched");
       // End of if statement to check if data has been loaded yet.
     }
-    // // If statement to check if data has been fetched already or not. Won't run twice.
-    // if (this.state.isLoaded === false) {
-    //   fetch("/api")
-    //     .then((res) => res.json())
-    //     .then(
-    //       (result) => {
-    //         this.setState(
-    //           {
-    //             message: result.message,
-    //             isLoaded: true,
-    //           },
-    //           () => {
-    //             console.log("componentDidMount has run.");
-    //           }
-    //         );
-    //       },
-    //       (error) => {
-    //         this.setState({
-    //           isLoaded: true,
-    //           error,
-    //         });
-    //       }
-    //     );
 
-    //   // End of if statement to check if data has been loaded yet.
-    // }
+    //End of component did mount
   }
 
   render() {
@@ -508,6 +530,7 @@ class App extends React.Component {
       postsArray,
       idArray,
       authorArray,
+      adminStatus,
     } = this.state;
 
     let loginStatusMsg;
@@ -517,31 +540,20 @@ class App extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      if (this.state.loggedIn) {
-        loginStatusMsg = (
-          <div className="loginStatusDiv">
-            <p>Welcome, {currentUser}!</p>
-            <Button
-              className="logoutButton"
-              variant="primary"
-              type="button"
-              onClick={this.handleLogout}
-            >
-              Logout
-            </Button>
-          </div>
-        );
-      } else {
-        loginStatusMsg = (
-          <div className="loginStatusDiv">
-            <p>No active logins.</p>
-          </div>
-        );
-      }
+      loginStatusMsg = this.createWelcomeMsg(
+        loggedIn,
+        adminStatus,
+        currentUser
+      );
 
       return (
         <div className="app">
           <BrowserRouter>
+            <GetPosts
+              isLoaded={this.state.isLoaded}
+              loadPosts={this.loadPosts}
+            />
+
             <Header loggedIn={loggedIn} />
             <div className="underHeader">
               <div className="breadCrumbs">
@@ -566,11 +578,12 @@ class App extends React.Component {
                   />
                 }
               />
-              titlesArray: [], postsArray: [], idArray: [], authorArray: [],
+
               <Route
                 path="/Login"
                 element={
                   <Login
+                    authMessage={this.state.authMessage}
                     handleLogin={this.handleLogin}
                     handleUsername={this.handleUsername}
                     handlePassword={this.handlePassword}
@@ -587,13 +600,30 @@ class App extends React.Component {
                   />
                 }
               />
+
               <Route
                 path="/CreatePost"
                 element={
                   <CreatePost
+                    authMessage={this.state.authMessage}
                     handleTitle={this.handleTitle}
                     handlePost={this.handlePost}
                     handleSavePost={this.handleSavePost}
+                  />
+                }
+              />
+
+              <Route
+                path="/AdminArea"
+                element={
+                  <AdminArea
+                    authMessage={this.state.authMessage}
+                    titlesArray={this.state.titlesArray}
+                    idArray={this.state.idArray}
+                    postsArray={this.state.postsArray}
+                    authorArray={this.state.authorArray}
+                    handleEditPost={this.handleEditPost}
+                    handleDeletePost={this.handleDeletePost}
                   />
                 }
               />

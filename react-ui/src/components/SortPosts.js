@@ -4,12 +4,11 @@ export function SortPosts(titles, posts, ids, authors) {
   let i;
   let displayPosts = [];
 
-  if (posts.length > 0) {
+  if (posts !== undefined && posts.length > 0) {
     let titlesArray = titles.split(",");
     let postsArray = posts.split("///,");
-
-    let idsArray = ids.split(",");
     let authorsArray = authors.split(",");
+    let idsArray = ids.split(",");
 
     for (i = 0; i <= postsArray.length - 1; i++) {
       displayPosts.push(
@@ -26,7 +25,11 @@ export function SortPosts(titles, posts, ids, authors) {
       );
     }
   } else {
-    displayPosts.push(<div className="redText">No posts yet.</div>);
+    displayPosts.push(
+      <div className="redText" key={1}>
+        No posts yet.
+      </div>
+    );
   }
 
   return displayPosts;

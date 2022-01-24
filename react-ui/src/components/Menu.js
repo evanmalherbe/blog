@@ -8,6 +8,8 @@ React router to only show particular components to the user (i.e. Minesweeper ga
 function Menu(props) {
   let loginLink;
   let createPostLink;
+  let adminAreaLink;
+  let registerLink;
 
   // Only display log in link in menu if there is no user logged in yet
   if (!props.loggedIn) {
@@ -15,6 +17,14 @@ function Menu(props) {
       <li>
         <Link to="/Login" className="menuLink">
           Log in
+        </Link>
+      </li>
+    );
+
+    registerLink = (
+      <li>
+        <Link to="/Register" className="menuLink">
+          Register
         </Link>
       </li>
     );
@@ -29,6 +39,14 @@ function Menu(props) {
         </Link>
       </li>
     );
+
+    adminAreaLink = (
+      <li>
+        <Link to="/AdminArea" className="menuLink">
+          Admin Area
+        </Link>
+      </li>
+    );
   }
 
   return (
@@ -40,12 +58,9 @@ function Menu(props) {
           </Link>
         </li>
         {loginLink}
-        <li>
-          <Link to="/Register" className="menuLink">
-            Register
-          </Link>
-        </li>
+        {registerLink}
         {createPostLink}
+        {adminAreaLink}
       </ul>
     </div>
   );

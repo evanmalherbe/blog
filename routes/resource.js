@@ -8,10 +8,20 @@ module.exports = function (app) {
     try {
       const decoded = jwt.verify(token, "jwt-secret");
 
-      res.send({
-        message: "Success! Token valid.",
-        currentUser: `${decoded.name}`,
-      });
+      // Check if user is an admin
+      if (decoded.admin) {
+        res.send({
+          message: "Success! Token valid",
+          currentUser: `${decoded.name}`,
+          adminStatus: true,
+        });
+      } else {
+        res.send({
+          message: "Success! Token valid.",
+          currentUser: `${decoded.name}`,
+          adminStatus: false,
+        });
+      }
     } catch (err) {
       res.status(401).send({ message: "Invalid token" });
     }

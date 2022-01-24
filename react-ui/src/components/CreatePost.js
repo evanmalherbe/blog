@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Navigate } from "react-router-dom";
+
 // Import React Bootstrap components
 import Button from "react-bootstrap/Button";
 import { Form, FormControl, FormGroup, Row, Col } from "react-bootstrap";
@@ -16,9 +18,13 @@ import "../App.css";
 
 // Function to display rightpanel
 function CreatePost(props) {
-  return (
-    <div className="bodyDiv">
-      <LeftPanel />
+  let showCreatePost;
+
+  // Learned to redirect/Navigate with react router here:
+  // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
+
+  if (props.authMessage === "Success! Token valid.") {
+    showCreatePost = (
       <div className="createPostDiv">
         <h1>Create New Post</h1>
 
@@ -54,7 +60,15 @@ function CreatePost(props) {
           </Row>
         </Form>
       </div>
+    );
+  } else {
+    showCreatePost = <Navigate to="/" />;
+  }
 
+  return (
+    <div className="bodyDiv">
+      <LeftPanel />
+      {showCreatePost}
       <RightPanel />
     </div>
   );

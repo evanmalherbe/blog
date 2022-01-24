@@ -147,6 +147,15 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   margin: 0rem 1rem 0rem 1rem;
 }
 
+.adminArea {
+  display: flex;
+  flex: 3;
+  flex-direction: column;
+  padding: 0rem 1rem;
+  margin: 0rem 1rem 0rem 1rem;
+  /* border: 1px solid red; */
+}
+
 .leftPanel {
   display: flex;
   flex: 1;
@@ -198,6 +207,14 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
 
 .postBody {
   margin-top: 1rem;
+}
+
+.postButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1rem;
+  width: 13rem;
 }
 
 /* --------------------------------------- */
