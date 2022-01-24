@@ -36,7 +36,6 @@ class GetPosts extends React.Component {
                 this.state.idArray,
                 this.state.authorArray
               );
-              console.log("Author array says: " + this.state.authorArray);
             }
           );
         },

@@ -9,11 +9,9 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import Register from "./components/Register";
-// import ReloadPage from "./components/ReloadPage";
 import CreatePost from "./components/CreatePost";
 import AdminArea from "./components/AdminArea";
 import GetPosts from "./components/GetPosts";
-// import GetLogins from "./components/GetLogins";
 
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -58,7 +56,6 @@ class App extends React.Component {
     this.handleAuth = this.handleAuth.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
-    // this.reloadPage = this.reloadPage.bind(this);
     this.reload = this.reload.bind(this);
 
     this.loadPosts = this.loadPosts.bind(this);
@@ -74,7 +71,50 @@ class App extends React.Component {
 
   handleEditPost() {}
 
-  handleDeletePost() {}
+  handleDeletePost(postId) {
+    // Learned how to use window.confirm here:
+    // https://stackoverflow.com/questions/63311845/unexpected-use-of-confirm-no-restricted-globals
+
+    if (
+      window.confirm("Are you sure you want to delete this blog post?") === true
+    ) {
+      fetch("/deletepost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: postId,
+        }),
+      })
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            this.setState(
+              {
+                isLoaded: false,
+              },
+              () => {
+                console.log(
+                  "Post request to delete blog post sent. " + result.message
+                );
+                this.reloadPage();
+              }
+            );
+          },
+          (error) => {
+            this.setState({
+              isLoaded: false,
+              error,
+            });
+          }
+        );
+
+      // End of if statement to confirm if user really wants to delete post
+    }
+
+    // End of handle delete post function
+  }
 
   // Functions to save post title and blog post to state when user types them in to create post form
   handleTitle(event) {
@@ -130,11 +170,11 @@ class App extends React.Component {
               () => {
                 document.forms["createPostForm"].reset();
                 console.log(
-                  "Blog post info sent via post. Reply is " + this.state.message
+                  "Blog post info sent via post. Reply is: " +
+                    this.state.message
                 );
-
-                alert("Blog post saved.");
-                // this.reloadPage();
+                alert("Your blog post has been saved successfully.");
+                this.reloadPage();
               }
             );
           },
@@ -304,7 +344,6 @@ class App extends React.Component {
       },
       () => {
         console.log("User logged out.");
-        return <Home />;
       }
     );
   }
@@ -339,7 +378,7 @@ class App extends React.Component {
                     this.state.username +
                     ", registered. Please log in."
                 );
-                // this.reloadPage();
+                this.reloadPage();
               }
             );
           },
@@ -411,18 +450,6 @@ class App extends React.Component {
     // End of load Posts
   }
 
-  // // Retrieve login details from db - This function is called from child component "GetLogins.js"
-  // loadLogins(getIsLoaded, getUsersArray, getPwordArray, getAdminStatusArray) {
-  //   this.setState({
-  //     isLoaded: getIsLoaded,
-  //     usersArray: getUsersArray,
-  //     pwordArray: getPwordArray,
-  //     adminStatusArray: getAdminStatusArray,
-  //   });
-
-  //   // End of load Logins
-  // }
-
   // Retrieve login details from db
   getLogins() {
     console.log("Get logins has run");
@@ -455,9 +482,9 @@ class App extends React.Component {
   // Reloads page
   reloadPage() {
     if (this.state.isLoaded === false) {
-      // this.loadPosts();
       this.getLogins();
       console.log("Reload page has run. Logins fetched");
+
       // End of if statement to check if data has been loaded yet.
     }
 
@@ -540,6 +567,7 @@ class App extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
+      // Creates appropriate login status message
       loginStatusMsg = this.createWelcomeMsg(
         loggedIn,
         adminStatus,
@@ -639,7 +667,7 @@ class App extends React.Component {
     // End of render
   }
 
-  // End of App
+  // End of App class component
 }
 
 // Export app to be used by other files

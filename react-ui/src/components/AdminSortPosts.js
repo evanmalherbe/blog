@@ -45,7 +45,7 @@ export function AdminSortPosts(
               className="buttons"
               variant="primary"
               type="button"
-              onClick={handleDeletePost}
+              onClick={() => handleDeletePost(idsArray[i])}
             >
               Delete Post
             </Button>

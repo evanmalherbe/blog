@@ -3,6 +3,11 @@ import React from "react";
 // Import Link component to be used as part of React Router to display particular components based on URL
 import { Link } from "react-router-dom";
 
+// Import images
+import lock from "../lockIcon.png";
+import home from "../homeIcon.png";
+import key from "../keyIcon.png";
+
 /* Create function to display dropdown menu to choose page. Changing the page (or URL) will then let us use 
 React router to only show particular components to the user (i.e. Minesweeper game or Help page) */
 function Menu(props) {
@@ -16,6 +21,7 @@ function Menu(props) {
     loginLink = (
       <li>
         <Link to="/Login" className="menuLink">
+          <img src={lock} className="menuIcon" alt="" />
           Log in
         </Link>
       </li>
@@ -24,7 +30,7 @@ function Menu(props) {
     registerLink = (
       <li>
         <Link to="/Register" className="menuLink">
-          Register
+          <img src={key} className="menuIcon" alt="" /> Register
         </Link>
       </li>
     );
@@ -54,6 +60,7 @@ function Menu(props) {
       <ul>
         <li>
           <Link to="/" className="menuLink">
+            <img src={home} className="menuIcon" alt="" />
             Home
           </Link>
         </li>

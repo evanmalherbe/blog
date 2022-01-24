@@ -12,6 +12,11 @@ body {
   border: 1px solid #6f5f5d;
 }
 
+.menuIcon {
+  width: 15px;
+  margin-right: 5px;
+}
+
 .redText {
   color: red;
 }
@@ -23,6 +28,7 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #edf0f5;
 }
 
 /* Header styles */
@@ -35,7 +41,8 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
 .header {
   display: flex;
   flex-direction: row;
-  /* background-color: #282c34; */
+  background-color: #2a6877;
+  color: #f0f1f3;
   height: 4rem;
   display: flex;
   flex-direction: row;
@@ -52,7 +59,6 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
 /* Styling for Menu */
 .menuDiv {
   display: flex;
-
   margin-right: 1rem;
   margin-left: auto;
 }
@@ -65,15 +71,16 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
 .menuDiv li {
   display: inline;
   margin: 0rem 0.5rem;
-  color: blue;
 }
 
 .menuDiv a {
   text-decoration: none;
+  color: #f0f1f3;
 }
 
 .menuDiv a:hover {
   text-decoration: underline;
+  color: #f0f1f3;
 }
 
 /* End of styling for menu ------------------------------*/
@@ -193,6 +200,7 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   margin-bottom: 1rem;
   padding: 0rem 1rem 1rem 1rem;
   border: 1px solid #dedede;
+  background-color: white;
 }
 
 .author {
@@ -226,7 +234,9 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   align-items: center;
   justify-content: center;
   height: 3rem;
-  border-top: 1px solid #dedede;
+  border-top: 1px solid #5e615e;
+  color: #f0f1f3;
+  background-color: #2a6877;
 }
 
 .footer p {

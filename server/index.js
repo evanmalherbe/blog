@@ -44,6 +44,7 @@ if (!isDev && cluster.isMaster) {
   require("../routes/register")(app);
   require("../routes/resource")(app);
   require("../routes/addpost")(app);
+  require("../routes/deletepost")(app);
 
   // Auth details for connecting to db
   const username = "evanmalherbe";

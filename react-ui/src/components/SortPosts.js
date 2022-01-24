@@ -13,9 +13,7 @@ export function SortPosts(titles, posts, ids, authors) {
     for (i = 0; i <= postsArray.length - 1; i++) {
       displayPosts.push(
         <div className="post" key={idsArray[i]}>
-          <div className="author">
-            Author: {authorsArray[i]}, Id: {idsArray[i]}
-          </div>
+          <div className="author">Author: {authorsArray[i]}</div>
           <div className="title">{titlesArray[i]}</div>
 
           {/* Learned to replace character in string here:
