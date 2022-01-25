@@ -74,6 +74,29 @@ exports.findAll = function (req, res) {
   // End of findall function
 };
 
+exports.updatePost = function (req, res) {
+  // Id of blog post to update
+  let query = { _id: req.body.id };
+
+  // Update post with new info
+  Post.findOneAndUpdate(
+    query,
+    // Fields to update from form input
+    {
+      title: req.body.title,
+      post: req.body.post,
+    },
+    { new: true },
+    function (err, doc) {
+      if (err) {
+        console.log("Something wrong when updating post!");
+        res.send({ message: "ERROR: Post Not Updated - " + err });
+      }
+      res.send({ message: "Blog post updated!" });
+    }
+  );
+};
+
 // Delete list item (uses id to delete only one specific item)
 exports.deletePost = function (req, res) {
   Post.findOneAndRemove({ _id: req.body.id }, function (err) {

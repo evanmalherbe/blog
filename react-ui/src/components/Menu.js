@@ -4,9 +4,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // Import images
-import lock from "../lockIcon.png";
-import home from "../homeIcon.png";
-import key from "../keyIcon.png";
+import lock from "../lockGrey.png";
+import home from "../homeGrey.png";
+import key from "../keyGrey.png";
 
 /* Create function to display dropdown menu to choose page. Changing the page (or URL) will then let us use 
 React router to only show particular components to the user (i.e. Minesweeper game or Help page) */
@@ -16,7 +16,7 @@ function Menu(props) {
   let adminAreaLink;
   let registerLink;
 
-  // Only display log in link in menu if there is no user logged in yet
+  // Only display these links in menu if there is no user logged in yet
   if (!props.loggedIn) {
     loginLink = (
       <li>
@@ -36,7 +36,7 @@ function Menu(props) {
     );
   }
 
-  // Only display create post link in menu if a user is logged in
+  // Only display these links in menu if a user is logged in
   if (props.loggedIn) {
     createPostLink = (
       <li>
@@ -45,7 +45,9 @@ function Menu(props) {
         </Link>
       </li>
     );
+  }
 
+  if (props.loggedIn && props.adminStatus) {
     adminAreaLink = (
       <li>
         <Link to="/AdminArea" className="menuLink">

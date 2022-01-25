@@ -12,9 +12,10 @@ import Register from "./components/Register";
 import CreatePost from "./components/CreatePost";
 import AdminArea from "./components/AdminArea";
 import GetPosts from "./components/GetPosts";
+import EditPost from "./components/EditPost";
 
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Import bootstrap styles
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -42,11 +43,17 @@ class App extends React.Component {
       postsArray: [],
       idArray: [],
       authorArray: [],
+      postId: null,
+      postAuthor: null,
       postTitle: null,
       postBody: null,
       usersArray: [],
       pwordArray: [],
       adminStatusArray: [],
+      editPostSubmitted: false,
+      redirect: null,
+      admin: null,
+      selectedUser: null,
     };
 
     // Binding to make "this" work correctly
@@ -56,7 +63,6 @@ class App extends React.Component {
     this.handleAuth = this.handleAuth.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
-    this.reload = this.reload.bind(this);
 
     this.loadPosts = this.loadPosts.bind(this);
     this.getLogins = this.getLogins.bind(this);
@@ -65,11 +71,71 @@ class App extends React.Component {
     this.handleSavePost = this.handleSavePost.bind(this);
     this.handleEditPost = this.handleEditPost.bind(this);
     this.handleDeletePost = this.handleDeletePost.bind(this);
-
+    this.callEditPost = this.callEditPost.bind(this);
     this.createWelcomeMsg = this.createWelcomeMsg.bind(this);
+    this.updateSelectedUser = this.updateSelectedUser.bind(this);
+    //this.willRedirectToEditPost = this.willRedirectToEditPost.bind(this);
   }
 
-  handleEditPost() {}
+  updateSelectedUser(user) {
+    this.setState({ selectedUser: user }, () =>
+      console.log("selected user is now: " + this.state.selectedUser)
+    );
+  }
+
+  callEditPost(postId, postTitle, postBody, postAuthor) {
+    let redirectUrl = "/EditPost";
+    this.setState(
+      {
+        postId: postId,
+        postTitle: postTitle,
+        postBody: postBody,
+        postAuthor: postAuthor,
+        redirect: redirectUrl,
+      },
+      () => {
+        console.log(
+          "Updated post info saved to state. Redirect to EditPost component."
+        );
+      }
+    );
+  }
+
+  handleEditPost(postId, postTitle, postBody) {
+    fetch("/updatepost", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: postId,
+        title: postTitle,
+        post: postBody,
+      }),
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState(
+            {
+              isLoaded: false,
+            },
+            () => {
+              console.log(
+                "Post request to update blog post sent. " + result.message
+              );
+              this.reloadPage();
+            }
+          );
+        },
+        (error) => {
+          this.setState({
+            isLoaded: false,
+            error,
+          });
+        }
+      );
+  }
 
   handleDeletePost(postId) {
     // Learned how to use window.confirm here:
@@ -116,7 +182,7 @@ class App extends React.Component {
     // End of handle delete post function
   }
 
-  // Functions to save post title and blog post to state when user types them in to create post form
+  // Functions to save post title and blog post to state when user types them into "create post" form
   handleTitle(event) {
     let value = event.target.value;
     let title = value.trim();
@@ -194,7 +260,7 @@ class App extends React.Component {
           alert(
             "Post title or post body field is blank. Please fill in, then click the 'Save Post' button."
           );
-          // this.reloadPage();
+          this.reloadPage();
         }
       );
       // End of if statement to check that username and password fields are not empty
@@ -225,10 +291,14 @@ class App extends React.Component {
             this.setState(
               {
                 token: result.message,
+                admin: result.admin,
               },
               () => {
                 console.log(
-                  "Login details sent via post. Token is " + this.state.token
+                  "Login details sent via post. Token is " +
+                    this.state.token +
+                    ". Admin Status is: " +
+                    this.state.admin
                 );
                 this.handleAuth();
               }
@@ -250,27 +320,13 @@ class App extends React.Component {
           alert(
             "Please enter your username and password, then click 'Login' again."
           );
-          // this.reloadPage();
+          this.reloadPage();
         }
       );
       // End of if statement to check that username and password fields are not empty
     }
 
     // End of handlelogin function
-  }
-
-  // Used to get state info from ReloadPage component
-  reload(error, isLoaded, message) {
-    this.setState(
-      {
-        message: message,
-        isLoaded: isLoaded,
-        error: error,
-      },
-      () => {
-        console.log("Reload has run.");
-      }
-    );
   }
 
   /* Takes token created in "handleLogin" function and authenticates user */
@@ -303,7 +359,7 @@ class App extends React.Component {
                     this.state.currentUser +
                     "! Admin status is: " +
                     this.state.adminStatus +
-                    "Auth messages says: " +
+                    ". Auth message says: " +
                     this.state.authMessage
                 );
 
@@ -325,7 +381,7 @@ class App extends React.Component {
       alert("Incorrect login details. Please try again.");
       console.log("Invalid token. Not logged in.");
 
-      // this.reloadPage();
+      this.reloadPage();
     }
     // End of handleauth function
   }
@@ -398,11 +454,13 @@ class App extends React.Component {
           alert(
             "Please enter your new username and password, then click 'Register' again."
           );
-          // this.reloadPage();
+          this.reloadPage();
         }
       );
+
       // End of if statement to check that state variables "username" and "password" are not null
     }
+
     // End of handleregister function
   }
 
@@ -494,10 +552,16 @@ class App extends React.Component {
   // Check if user is logged in and whether they're admin or not, then create appropriate welcome message
   createWelcomeMsg(loggedIn, adminStatus, currentUser) {
     if (loggedIn) {
+      // Learned to capitalise first letter of a string here:
+      // https://flaviocopes.com/how-to-uppercase-first-letter-javascript/
+
+      const name = currentUser;
+      const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
+
       if (adminStatus === true) {
         return (
           <div className="loginStatusDiv">
-            <p>Welcome, {currentUser} (admin)!</p>
+            <p>Welcome, {nameCapitalised} (admin)!</p>
             <Button
               className="logoutButton"
               variant="primary"
@@ -511,7 +575,7 @@ class App extends React.Component {
       } else {
         return (
           <div className="loginStatusDiv">
-            <p>Welcome, {currentUser}!</p>
+            <p>Welcome, {nameCapitalised}!</p>
             <Button
               className="logoutButton"
               variant="primary"
@@ -534,10 +598,15 @@ class App extends React.Component {
     // End of createWelcomeMsg
   }
 
+  willRedirectToEditPost() {
+    if (this.state.editPostSubmitted) {
+      return <Navigate to="/EditPost" />;
+    }
+  }
+
   // Runs when page is first loaded.
   componentDidMount() {
     if (this.state.isLoaded === false) {
-      // this.loadPosts();
       this.getLogins();
       console.log("componentDidMount has run. Logins fetched");
       // End of if statement to check if data has been loaded yet.
@@ -556,11 +625,19 @@ class App extends React.Component {
       titlesArray,
       postsArray,
       idArray,
+      usersArray,
       authorArray,
       adminStatus,
+      authMessage,
+      postId,
+      postAuthor,
+      postTitle,
+      postBody,
+      selectedUser,
     } = this.state;
 
     let loginStatusMsg;
+    let willRedirect;
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -574,6 +651,10 @@ class App extends React.Component {
         currentUser
       );
 
+      if (this.state.redirect) {
+        willRedirect = <Navigate to={this.state.redirect} />;
+      }
+
       return (
         <div className="app">
           <BrowserRouter>
@@ -582,7 +663,9 @@ class App extends React.Component {
               loadPosts={this.loadPosts}
             />
 
-            <Header loggedIn={loggedIn} />
+            {willRedirect}
+
+            <Header loggedIn={loggedIn} adminStatus={adminStatus} />
             <div className="underHeader">
               <div className="breadCrumbs">
                 <p>Home - Post</p>
@@ -598,20 +681,22 @@ class App extends React.Component {
                 path="/"
                 element={
                   <Home
+                    updateSelectedUser={this.updateSelectedUser}
+                    selectedUser={selectedUser}
                     titlesArray={titlesArray}
                     idArray={idArray}
                     postsArray={postsArray}
                     authorArray={authorArray}
                     message={message}
+                    usersArray={usersArray}
                   />
                 }
               />
-
               <Route
                 path="/Login"
                 element={
                   <Login
-                    authMessage={this.state.authMessage}
+                    authMessage={authMessage}
                     handleLogin={this.handleLogin}
                     handleUsername={this.handleUsername}
                     handlePassword={this.handlePassword}
@@ -628,15 +713,29 @@ class App extends React.Component {
                   />
                 }
               />
-
               <Route
                 path="/CreatePost"
                 element={
                   <CreatePost
-                    authMessage={this.state.authMessage}
+                    authMessage={authMessage}
                     handleTitle={this.handleTitle}
                     handlePost={this.handlePost}
                     handleSavePost={this.handleSavePost}
+                  />
+                }
+              />
+              <Route
+                path="/EditPost"
+                element={
+                  <EditPost
+                    authMsg={authMessage}
+                    id={postId}
+                    title={postTitle}
+                    post={postBody}
+                    author={postAuthor}
+                    handleTitle={this.handleTitle}
+                    handlePost={this.handlePost}
+                    handleEditPost={this.handleEditPost}
                   />
                 }
               />
@@ -645,13 +744,17 @@ class App extends React.Component {
                 path="/AdminArea"
                 element={
                   <AdminArea
-                    authMessage={this.state.authMessage}
-                    titlesArray={this.state.titlesArray}
-                    idArray={this.state.idArray}
-                    postsArray={this.state.postsArray}
-                    authorArray={this.state.authorArray}
+                    authMessage={authMessage}
+                    adminStatus={adminStatus}
+                    titlesArray={titlesArray}
+                    idArray={idArray}
+                    postsArray={postsArray}
+                    authorArray={authorArray}
+                    handleTitle={this.handleTitle}
+                    handlePost={this.handlePost}
                     handleEditPost={this.handleEditPost}
                     handleDeletePost={this.handleDeletePost}
+                    callEditPost={this.callEditPost}
                   />
                 }
               />

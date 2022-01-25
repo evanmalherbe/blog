@@ -14,12 +14,13 @@ module.exports = function (app) {
     let usersArray = users.split(",");
     let pwordsArray = pwords.split(",");
     let adminArray = admin.split(",");
-    let i;
 
     // For loop to check if user login details match with any logins already stored in db
-    for (i = 0; i <= usersArray.length - 1; i++) {
+    for (let i = 0; i <= usersArray.length - 1; i++) {
       if (usr === usersArray[i] && pwd === pwordsArray[i]) {
-        if (adminArray[i] === true) {
+        console.log(i + ". Admin status array says: " + adminArray[i]);
+
+        if (adminArray[i] === "true") {
           payload = {
             name: usr,
             admin: true,

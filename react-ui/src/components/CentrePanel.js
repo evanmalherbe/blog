@@ -10,12 +10,21 @@ function CentrePanel(props) {
   let posts = props.postsArray;
   let ids = props.idArray;
   let authors = props.authorArray;
+  let selectedUser = props.selectedUser;
 
-  let displayPosts = SortPosts(titles, posts, ids, authors);
+  let displayPosts = SortPosts(titles, posts, ids, authors, selectedUser);
+  let whosePosts;
 
+  if (selectedUser === null) {
+    whosePosts = "All posts";
+  } else {
+    const name = selectedUser;
+    const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
+    whosePosts = `${nameCapitalised}'s posts`;
+  }
   return (
     <div className="centerPanel">
-      <h2>Blog Posts</h2>
+      <h2>{whosePosts}</h2>
       {displayPosts}
     </div>
   );

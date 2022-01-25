@@ -12,8 +12,12 @@ import LeftPanel from "./LeftPanel";
 function Home(props) {
   return (
     <div className="bodyDiv">
-      <LeftPanel />
+      <LeftPanel
+        usersArray={props.usersArray}
+        updateSelectedUser={props.updateSelectedUser}
+      />
       <CentrePanel
+        selectedUser={props.selectedUser}
         titlesArray={props.titlesArray}
         idArray={props.idArray}
         postsArray={props.postsArray}

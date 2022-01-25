@@ -11,7 +11,7 @@ module.exports = function (app) {
       // Check if user is an admin
       if (decoded.admin) {
         res.send({
-          message: "Success! Token valid",
+          message: "Success! Token valid.",
           currentUser: `${decoded.name}`,
           adminStatus: true,
         });

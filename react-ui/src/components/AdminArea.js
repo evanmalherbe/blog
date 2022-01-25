@@ -1,6 +1,5 @@
 import React from "react";
 // import { AdminSortPosts } from "./AdminSortPosts";
-
 import { Navigate } from "react-router-dom";
 
 // Import React Bootstrap components
@@ -15,25 +14,29 @@ import "../App.css";
 
 // Function to display Centre Panel
 function AdminArea(props) {
+  // Make variable names shorter
+
   let titles = props.titlesArray;
   let posts = props.postsArray;
   let ids = props.idArray;
   let authors = props.authorArray;
-  let handleEditPost = props.handleEditPost;
+  let callEditPost = props.callEditPost;
   let handleDeletePost = props.handleDeletePost;
 
   let displayPosts = [];
 
+  // If there are posts, display them, else display "No posts" message
   if (posts.length > 0) {
+    // Create arrays from db data by splitting at commas
     let titlesArray = titles.split(",");
-    let postsArray = posts.split("///,");
-
     let idsArray = ids.split(",");
-    console.log("ids array is: " + idsArray);
     let authorsArray = authors.split(",");
 
+    // Posts are delimited by /// - as I was having issues with commas in the actual post content
+    let postsArray = posts.split("///,");
+
+    // Loop through posts and create divs for each post with buttons to delete and edit
     for (let i = 0; i <= postsArray.length - 1; i++) {
-      console.log("for loop: " + i);
       displayPosts.push(
         <div className="post" key={idsArray[i]}>
           <div className="author">
@@ -49,7 +52,14 @@ function AdminArea(props) {
               className="buttons"
               variant="primary"
               type="button"
-              onClick={handleEditPost}
+              onClick={() =>
+                callEditPost(
+                  idsArray[i],
+                  titlesArray[i],
+                  postsArray[i],
+                  authorsArray[i]
+                )
+              }
             >
               Edit Post
             </Button>
@@ -66,15 +76,18 @@ function AdminArea(props) {
       );
     }
   } else {
+    // Display message if no posts are saved yet
     displayPosts.push(<div className="redText">No posts yet.</div>);
   }
 
+  // Create variable to display admin area or not depending on whether user is logged in
   let showAdminArea;
 
   // Learned to redirect/Navigate with react router here:
   // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
-  if (props.authMessage === "Success! Token valid.") {
+  // if user logged in, show admin area
+  if (props.authMessage === "Success! Token valid." && props.adminStatus) {
     showAdminArea = (
       <div className="adminArea">
         <h2>Admin Area</h2>
@@ -83,6 +96,7 @@ function AdminArea(props) {
       </div>
     );
   } else {
+    // Else redirect to home page
     showAdminArea = <Navigate to="/" />;
   }
 
