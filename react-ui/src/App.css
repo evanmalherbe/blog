@@ -48,8 +48,9 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid #dedede;
+  /* border-bottom: 1px solid #dedede; */
   padding-top: 0.5rem;
+  box-shadow: 0px 0px 5px grey;
 }
 
 .logoAndHeading {
@@ -187,7 +188,7 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   padding: 0;
 }
 
-.users {
+.authorButtons {
   margin-top: 0.5rem;
 }
 
@@ -213,14 +214,15 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
 
 /* Blog post styles  */
 .post {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   padding: 0rem 1rem 0.3rem 1rem;
-  border: 1px solid #dedede;
+  /* border: 1px solid #dedede; */
   background-color: white;
 }
 
 .author {
+  margin-top: 0.3rem;
   text-align: right;
   font-size: 0.7rem;
 }
@@ -261,10 +263,10 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   justify-content: center;
   height: 3rem;
   width: 100%;
-  border-top: 1px solid #5e615e;
+  /* border-top: 1px solid #5e615e; */
   color: #f0f1f3;
   background-color: #2a6877;
-
+  box-shadow: 0px 0px 5px grey;
   position: absolute;
   bottom: 0;
 }

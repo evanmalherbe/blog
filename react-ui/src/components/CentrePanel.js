@@ -32,9 +32,10 @@ function CentrePanel(props) {
     whosePosts = `${nameCapitalised}'s posts`;
   }
   return (
-    <div className="centerPanel">
+    <div className="centerPanel" id="top">
       <h2>{whosePosts}</h2>
       {displayPosts}
+      <a href="#top">Back to top</a>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import CreatePost from "./components/CreatePost";
 import AdminArea from "./components/AdminArea";
 import GetPosts from "./components/GetPosts";
 import EditPost from "./components/EditPost";
+import DeletePost from "./components/DeletePost";
 
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -51,7 +52,6 @@ class App extends React.Component {
       pwordArray: [],
       adminStatusArray: [],
       editPostSubmitted: false,
-      redirect: null,
       admin: null,
       selectedUser: null,
       dateCreatedArray: [],
@@ -84,18 +84,18 @@ class App extends React.Component {
   }
 
   callEditPost(postId, postTitle, postBody, postAuthor) {
-    let redirectUrl = "/EditPost";
+    //let redirectUrl = "/EditPost";
     this.setState(
       {
         postId: postId,
         postTitle: postTitle,
         postBody: postBody,
         postAuthor: postAuthor,
-        redirect: redirectUrl,
       },
       () => {
         console.log(
-          "Updated post info saved to state. Redirect to EditPost component."
+          "Updated post info saved to state. Post title is: " +
+            this.state.postTitle
         );
       }
     );
@@ -137,47 +137,60 @@ class App extends React.Component {
       );
   }
 
-  handleDeletePost(postId) {
-    // Learned how to use window.confirm here:
-    // https://stackoverflow.com/questions/63311845/unexpected-use-of-confirm-no-restricted-globals
+  handleDeletePost(id) {
+    console.log("Got to handle delete post");
 
-    if (
-      window.confirm("Are you sure you want to delete this blog post?") === true
-    ) {
-      fetch("/deletepost", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: postId,
-        }),
-      })
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            this.setState(
-              {
-                isLoaded: false,
-              },
-              () => {
-                console.log(
-                  "Post request to delete blog post sent. " + result.message
-                );
-                this.reloadPage();
-              }
-            );
-          },
-          (error) => {
-            this.setState({
-              isLoaded: false,
-              error,
-            });
-          }
-        );
+    this.setState(
+      {
+        postID: id,
+      },
+      () =>
+        console.log("Post id saved to state. Post id is: " + this.state.postId)
+    );
 
-      // End of if statement to confirm if user really wants to delete post
-    }
+    // let callDeletePost = <Navigate to="/DeletePost" />;
+    // return callDeletePost;
+
+    // // Learned how to use window.confirm here:
+    // // https://stackoverflow.com/questions/63311845/unexpected-use-of-confirm-no-restricted-globals
+
+    // if (
+    //   window.confirm("Are you sure you want to delete this blog post?") === true
+    // ) {
+    //   fetch("/deletepost", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       id: postId,
+    //     }),
+    //   })
+    //     .then((res) => res.json())
+    //     .then(
+    //       (result) => {
+    //         this.setState(
+    //           {
+    //             isLoaded: false,
+    //           },
+    //           () => {
+    //             console.log(
+    //               "Post request to delete blog post sent. " + result.message
+    //             );
+    //             this.reloadPage();
+    //           }
+    //         );
+    //       },
+    //       (error) => {
+    //         this.setState({
+    //           isLoaded: false,
+    //           error,
+    //         });
+    //       }
+    //     );
+
+    //   // End of if statement to confirm if user really wants to delete post
+    // }
 
     // End of handle delete post function
   }
@@ -640,7 +653,6 @@ class App extends React.Component {
     } = this.state;
 
     let loginStatusMsg;
-    let willRedirect;
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -654,10 +666,6 @@ class App extends React.Component {
         currentUser
       );
 
-      if (this.state.redirect) {
-        willRedirect = <Navigate to={this.state.redirect} />;
-      }
-
       return (
         <div className="app">
           <BrowserRouter>
@@ -665,8 +673,6 @@ class App extends React.Component {
               isLoaded={this.state.isLoaded}
               loadPosts={this.loadPosts}
             />
-
-            {willRedirect}
 
             <Header loggedIn={loggedIn} adminStatus={adminStatus} />
             <div className="underHeader">
@@ -679,6 +685,11 @@ class App extends React.Component {
               {loginStatusMsg}
             </div>
             <Routes>
+              <Route
+                path="/DeletePost"
+                element={<DeletePost postId={postId} />}
+              />
+
               <Route
                 exact={true}
                 path="/"
@@ -728,6 +739,7 @@ class App extends React.Component {
                     handleTitle={this.handleTitle}
                     handlePost={this.handlePost}
                     handleSavePost={this.handleSavePost}
+                    createPostActive={true}
                   />
                 }
               />
@@ -752,12 +764,16 @@ class App extends React.Component {
                 path="/AdminArea"
                 element={
                   <AdminArea
+                    updateSelectedUser={this.updateSelectedUser}
+                    usersArray={usersArray}
+                    selectedUser={selectedUser}
                     authMessage={authMessage}
                     adminStatus={adminStatus}
                     titlesArray={titlesArray}
                     idArray={idArray}
                     postsArray={postsArray}
                     authorArray={authorArray}
+                    dateCreatedArray={dateCreatedArray}
                     handleTitle={this.handleTitle}
                     handlePost={this.handlePost}
                     handleEditPost={this.handleEditPost}

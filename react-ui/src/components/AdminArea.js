@@ -20,8 +20,10 @@ function AdminArea(props) {
   let posts = props.postsArray;
   let ids = props.idArray;
   let authors = props.authorArray;
+  let dateCreated = props.dateCreatedArray;
   let callEditPost = props.callEditPost;
   let handleDeletePost = props.handleDeletePost;
+  let selectedUser = props.selectedUser;
 
   let displayPosts = [];
 
@@ -31,49 +33,92 @@ function AdminArea(props) {
     let titlesArray = titles.split(",");
     let idsArray = ids.split(",");
     let authorsArray = authors.split(",");
+    let dateCreatedArray = dateCreated.split(",");
 
     // Posts are delimited by /// - as I was having issues with commas in the actual post content
     let postsArray = posts.split("///,");
 
     // Loop through posts and create divs for each post with buttons to delete and edit
     for (let i = 0; i <= postsArray.length - 1; i++) {
-      displayPosts.push(
-        <div className="post" key={idsArray[i]}>
-          <div className="author">
-            Author: {authorsArray[i]}, Id: {idsArray[i]}
-          </div>
-          <div className="title">{titlesArray[i]}</div>
+      if (selectedUser === null) {
+        displayPosts.push(
+          <div className="post" key={idsArray[i]}>
+            <div className="author">
+              Author: {authorsArray[i]}, Id: {idsArray[i]}
+            </div>
+            <div className="title">{titlesArray[i]}</div>
 
-          {/* Learned to replace character in string here:
+            {/* Learned to replace character in string here:
           https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/ */}
-          <div className="postBody">{postsArray[i].replace("///", "")}</div>
-          <div className="postButtons">
-            <Button
-              className="buttons"
-              variant="primary"
-              type="button"
-              onClick={() =>
-                callEditPost(
-                  idsArray[i],
-                  titlesArray[i],
-                  postsArray[i],
-                  authorsArray[i]
-                )
-              }
-            >
-              Edit Post
-            </Button>
-            <Button
-              className="buttons"
-              variant="primary"
-              type="button"
-              onClick={() => handleDeletePost(idsArray[i])}
-            >
-              Delete Post
-            </Button>
+            <div className="postBody">{postsArray[i].replace("///", "")}</div>
+            <div className="postButtons">
+              <Button
+                className="buttons"
+                variant="primary"
+                type="button"
+                onClick={() =>
+                  callEditPost(
+                    idsArray[i],
+                    titlesArray[i],
+                    postsArray[i],
+                    authorsArray[i]
+                  )
+                }
+              >
+                Edit Post
+              </Button>
+              <Button
+                className="buttons"
+                variant="primary"
+                type="button"
+                onClick={() => handleDeletePost(idsArray[i])}
+              >
+                Delete Post
+              </Button>
+            </div>
+            <div className="date"> Date Created: {dateCreatedArray[i]}</div>
           </div>
-        </div>
-      );
+        );
+      } else if (authorsArray[i] === selectedUser) {
+        displayPosts.push(
+          <div className="post" key={idsArray[i]}>
+            <div className="author">
+              Author: {authorsArray[i]}, Id: {idsArray[i]}
+            </div>
+            <div className="title">{titlesArray[i]}</div>
+
+            {/* Learned to replace character in string here:
+          https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/ */}
+            <div className="postBody">{postsArray[i].replace("///", "")}</div>
+            <div className="postButtons">
+              <Button
+                className="buttons"
+                variant="primary"
+                type="button"
+                onClick={() =>
+                  callEditPost(
+                    idsArray[i],
+                    titlesArray[i],
+                    postsArray[i],
+                    authorsArray[i]
+                  )
+                }
+              >
+                Edit Post
+              </Button>
+              <Button
+                className="buttons"
+                variant="primary"
+                type="button"
+                onClick={() => handleDeletePost(idsArray[i])}
+              >
+                Delete Post
+              </Button>
+            </div>
+            <div className="date"> Date Created: {dateCreatedArray[i]}</div>
+          </div>
+        );
+      }
     }
   } else {
     // Display message if no posts are saved yet
@@ -89,10 +134,12 @@ function AdminArea(props) {
   // if user logged in, show admin area
   if (props.authMessage === "Success! Token valid." && props.adminStatus) {
     showAdminArea = (
-      <div className="adminArea">
+      <div className="adminArea" id="top">
         <h2>Admin Area</h2>
         <p>Edit or delete author's posts here.</p>
         {displayPosts}
+        <a href="#top">Back to top</a>
+        <br />
       </div>
     );
   } else {
@@ -102,7 +149,10 @@ function AdminArea(props) {
 
   return (
     <div className="bodyDiv">
-      <LeftPanel />
+      <LeftPanel
+        usersArray={props.usersArray}
+        updateSelectedUser={props.updateSelectedUser}
+      />
       {showAdminArea}
       <RightPanel />
     </div>

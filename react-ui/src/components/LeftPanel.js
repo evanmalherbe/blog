@@ -1,5 +1,11 @@
 import React from "react";
 
+// Import React Bootstrap components
+import Button from "react-bootstrap/Button";
+
+// Import bootstrap styles
+import "bootstrap/dist/css/bootstrap.min.css";
+
 // Import custom stylesheet
 import "../App.css";
 
@@ -7,19 +13,21 @@ import "../App.css";
 function LeftPanel(props) {
   let displayUsers = [];
   let users = props.usersArray;
+  let createPostActive = props.createPostActive;
 
   if (users !== undefined && users.length > 0) {
     let usersArray = users.split(",");
 
     displayUsers.push(
-      <button
+      <Button
         type="button"
-        className="users"
+        className="authorButtons"
+        variant="secondary"
         onClick={() => props.updateSelectedUser(null)}
         key={0}
       >
         All Posts
-      </button>
+      </Button>
     );
 
     for (let i = 0; i <= usersArray.length - 1; i++) {
@@ -27,20 +35,29 @@ function LeftPanel(props) {
       const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
 
       displayUsers.push(
-        <button
+        <Button
           type="button"
-          className="users"
+          className="authorButtons"
+          variant="secondary"
           onClick={() => props.updateSelectedUser(usersArray[i])}
           key={i + 1}
         >
           {nameCapitalised}
-        </button>
+        </Button>
       );
     }
   } else {
     displayUsers.push(
       <div className="redText" key={1}>
         No posts yet.
+      </div>
+    );
+  }
+
+  if (createPostActive === true) {
+    displayUsers = (
+      <div className="redText" key={1}>
+        N/A
       </div>
     );
   }

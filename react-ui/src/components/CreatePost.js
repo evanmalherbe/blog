@@ -67,7 +67,7 @@ function CreatePost(props) {
 
   return (
     <div className="bodyDiv">
-      <LeftPanel />
+      <LeftPanel createPostActive={props.createPostActive} />
       {showCreatePost}
       <RightPanel />
     </div>
