@@ -1,6 +1,13 @@
 import React from "react";
 
-export function SortPosts(titles, posts, ids, authors, selectedUser) {
+export function SortPosts(
+  titles,
+  posts,
+  ids,
+  authors,
+  selectedUser,
+  dateCreated
+) {
   let i;
   let displayPosts = [];
 
@@ -9,28 +16,35 @@ export function SortPosts(titles, posts, ids, authors, selectedUser) {
     let postsArray = posts.split("///,");
     let authorsArray = authors.split(",");
     let idsArray = ids.split(",");
+    let dateCreatedArray = dateCreated.split(",");
 
     for (i = 0; i <= postsArray.length - 1; i++) {
+      // Capitalise author names
+      const name = authorsArray[i];
+      const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
+
       if (selectedUser === null) {
         displayPosts.push(
           <div className="post" key={idsArray[i]}>
-            <div className="author">Author: {authorsArray[i]}</div>
+            <div className="author">Author: {nameCapitalised}</div>
             <div className="title">{titlesArray[i]}</div>
 
             {/* Learned to replace character in string here:
           https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/ */}
             <div className="postBody">{postsArray[i].replace("///", "")}</div>
+            <div className="date"> Date Created: {dateCreatedArray[i]}</div>
           </div>
         );
       } else if (authorsArray[i] === selectedUser) {
         displayPosts.push(
           <div className="post" key={idsArray[i]}>
-            <div className="author">Author: {authorsArray[i]}</div>
+            <div className="author">Author: {nameCapitalised}</div>
             <div className="title">{titlesArray[i]}</div>
 
             {/* Learned to replace character in string here:
           https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/ */}
             <div className="postBody">{postsArray[i].replace("///", "")}</div>
+            <div className="date"> Date Created: {dateCreatedArray[i]}</div>
           </div>
         );
       }

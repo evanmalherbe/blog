@@ -9,6 +9,7 @@ exports.create = function (req, res) {
     author: req.body.author,
     title: req.body.title,
     post: req.body.post,
+    datecreated: req.body.datecreated,
   });
 
   // Save new blog post to collection
@@ -39,6 +40,8 @@ exports.findAll = function (req, res) {
       let postsArray = [];
       let postIdArray = [];
       let postAuthorArray = [];
+      let dateCreatedArray = [];
+      let message = "Blog posts retrieved successfully.";
 
       /* Learned to create array from mongoDB output here: 
       https://stackoverflow.com/questions/38997210/create-array-of-items-from-mongodb-node-js */
@@ -59,12 +62,22 @@ exports.findAll = function (req, res) {
         postIdArray.push(result._id);
       });
 
+      post.forEach(function (result) {
+        if (result.datecreated === null || result.datecreated === undefined) {
+          dateCreatedArray.push("");
+        } else {
+          dateCreatedArray.push(result.datecreated);
+        }
+      });
+
       // Send arrays to frontend
       res.json({
+        message: message,
         titles: `${titlesArray}`,
         posts: `${postsArray}`,
         ids: `${postIdArray}`,
         authors: `${postAuthorArray}`,
+        datecreated: `${dateCreatedArray}`,
       });
 
       // End of if statement

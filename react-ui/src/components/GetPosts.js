@@ -11,7 +11,9 @@ class GetPosts extends React.Component {
       postsArray: [],
       idArray: [],
       authorArray: [],
-      errorMsg: null,
+      error: null,
+      dateCreatedArray: [],
+      message: null,
     };
   }
 
@@ -27,14 +29,18 @@ class GetPosts extends React.Component {
               postsArray: result.posts,
               idArray: result.ids,
               authorArray: result.authors,
+              dateCreatedArray: result.datecreated,
+              message: result.message,
             },
             () => {
+              console.log("Db says: " + this.state.message);
               this.props.loadPosts(
                 this.state.isLoaded,
                 this.state.titlesArray,
                 this.state.postsArray,
                 this.state.idArray,
-                this.state.authorArray
+                this.state.authorArray,
+                this.state.dateCreatedArray
               );
             }
           );

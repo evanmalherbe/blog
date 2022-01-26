@@ -23,6 +23,7 @@ function Home(props) {
         postsArray={props.postsArray}
         authorArray={props.authorArray}
         message={props.message}
+        dateCreatedArray={props.dateCreatedArray}
       />
       <RightPanel />
     </div>

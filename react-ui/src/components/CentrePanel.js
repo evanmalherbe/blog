@@ -11,8 +11,17 @@ function CentrePanel(props) {
   let ids = props.idArray;
   let authors = props.authorArray;
   let selectedUser = props.selectedUser;
+  let dateCreated = props.dateCreatedArray;
 
-  let displayPosts = SortPosts(titles, posts, ids, authors, selectedUser);
+  let displayPosts = SortPosts(
+    titles,
+    posts,
+    ids,
+    authors,
+    selectedUser,
+    dateCreated
+  );
+
   let whosePosts;
 
   if (selectedUser === null) {

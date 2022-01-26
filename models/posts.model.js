@@ -15,6 +15,14 @@ let postsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  datecreated: {
+    type: String,
+    required: false,
+  },
+  datemodified: {
+    type: String,
+    required: false,
+  },
 });
 
 // module.exports makes the model available outside of your module

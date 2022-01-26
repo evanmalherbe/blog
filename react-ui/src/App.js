@@ -54,6 +54,7 @@ class App extends React.Component {
       redirect: null,
       admin: null,
       selectedUser: null,
+      dateCreatedArray: [],
     };
 
     // Binding to make "this" work correctly
@@ -74,7 +75,6 @@ class App extends React.Component {
     this.callEditPost = this.callEditPost.bind(this);
     this.createWelcomeMsg = this.createWelcomeMsg.bind(this);
     this.updateSelectedUser = this.updateSelectedUser.bind(this);
-    //this.willRedirectToEditPost = this.willRedirectToEditPost.bind(this);
   }
 
   updateSelectedUser(user) {
@@ -214,6 +214,16 @@ class App extends React.Component {
       // Add "///" to end of post to help separate posts later (commas in post body where making it difficult to separate posts into an array, so this is what I came up with)
       let finalPost = this.state.postBody + "///";
 
+      // Learned how to add a time stamp here:
+      // https://stackoverflow.com/questions/9756120/how-do-i-get-a-utc-timestamp-in-javascript
+
+      let date = new Date().toString();
+
+      // Learned how to remove words from a string here:
+      // https://stackoverflow.com/questions/10398931/how-to-remove-text-from-a-string
+
+      date = date.replace(" (South Africa Standard Time)", "");
+
       fetch("/addpost", {
         method: "POST",
         headers: {
@@ -224,6 +234,7 @@ class App extends React.Component {
           author: this.state.currentUser,
           title: this.state.postTitle,
           post: finalPost,
+          datecreated: date,
         }),
       })
         .then((res) => res.json())
@@ -397,6 +408,7 @@ class App extends React.Component {
         password: null,
         currentUser: null,
         adminStatus: null,
+        selectedUser: null,
       },
       () => {
         console.log("User logged out.");
@@ -494,7 +506,7 @@ class App extends React.Component {
     getPostsArray,
     getIdArray,
     getAuthorArray,
-    getErrorMsg
+    getDateCreatedArray
   ) {
     this.setState({
       isLoaded: getIsLoaded,
@@ -502,7 +514,7 @@ class App extends React.Component {
       postsArray: getPostsArray,
       idArray: getIdArray,
       authorArray: getAuthorArray,
-      error: getErrorMsg,
+      dateCreatedArray: getDateCreatedArray,
     });
 
     // End of load Posts
@@ -515,16 +527,12 @@ class App extends React.Component {
       .then((res) => res.json())
       .then(
         (result) => {
-          this.setState(
-            {
-              isLoaded: true,
-              usersArray: result.users,
-              pwordArray: result.pwords,
-              adminStatusArray: result.admin,
-            },
-            () =>
-              console.log("Admin statuses are: " + this.state.adminStatusArray)
-          );
+          this.setState({
+            isLoaded: true,
+            usersArray: result.users,
+            pwordArray: result.pwords,
+            adminStatusArray: result.admin,
+          });
         },
         (error) => {
           this.setState({
@@ -598,12 +606,6 @@ class App extends React.Component {
     // End of createWelcomeMsg
   }
 
-  willRedirectToEditPost() {
-    if (this.state.editPostSubmitted) {
-      return <Navigate to="/EditPost" />;
-    }
-  }
-
   // Runs when page is first loaded.
   componentDidMount() {
     if (this.state.isLoaded === false) {
@@ -627,6 +629,7 @@ class App extends React.Component {
       idArray,
       usersArray,
       authorArray,
+      dateCreatedArray,
       adminStatus,
       authMessage,
       postId,
@@ -689,9 +692,11 @@ class App extends React.Component {
                     authorArray={authorArray}
                     message={message}
                     usersArray={usersArray}
+                    dateCreatedArray={dateCreatedArray}
                   />
                 }
               />
+
               <Route
                 path="/Login"
                 element={
@@ -703,6 +708,7 @@ class App extends React.Component {
                   />
                 }
               />
+
               <Route
                 path="/Register"
                 element={
@@ -713,6 +719,7 @@ class App extends React.Component {
                   />
                 }
               />
+
               <Route
                 path="/CreatePost"
                 element={
@@ -724,6 +731,7 @@ class App extends React.Component {
                   />
                 }
               />
+
               <Route
                 path="/EditPost"
                 element={
