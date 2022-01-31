@@ -24,7 +24,6 @@ function AdminArea(props) {
   let callEditPost = props.callEditPost;
   let handleDeletePost = props.handleDeletePost;
   let selectedUser = props.selectedUser;
-
   let displayPosts = [];
 
   // If there are posts, display them, else display "No posts" message
@@ -154,6 +153,7 @@ function AdminArea(props) {
         updateSelectedUser={props.updateSelectedUser}
       />
       {showAdminArea}
+
       <RightPanel />
     </div>
   );

@@ -17,19 +17,28 @@ import LeftPanel from "./LeftPanel";
 import "../App.css";
 
 // Function to display edit post form
-function EditPost(props) {
+function EditPost(
+  authMsg,
+  id,
+  title,
+  post,
+  author,
+  handleTitle,
+  handlePost,
+  handleEditPost
+) {
   let showEditPost;
 
   // Learned to redirect/Navigate with react router here:
   // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
-  if (props.authMsg === "Success! Token valid.") {
+  if (authMsg === "Success! Token valid.") {
     showEditPost = (
       <div className="EditPostDiv">
         <h1>Edit Post</h1>
 
         <p>
-          Post Author: <b>{props.author}</b>
+          Post Author: <b>{author}</b>
         </p>
         <Form id="editPostForm" autoComplete="off" className="editPostForm">
           <FormGroup className="mb-3">
@@ -37,8 +46,8 @@ function EditPost(props) {
             <FormControl
               type="text"
               name="title"
-              placeholder={props.title}
-              onChange={props.handleTitle}
+              placeholder={title}
+              onChange={handleTitle}
             />{" "}
           </FormGroup>
           <FormGroup className="mb-3">
@@ -46,8 +55,8 @@ function EditPost(props) {
               as="textarea"
               rows={5}
               name="post"
-              placeholder={props.post}
-              onChange={props.handlePost}
+              placeholder={post}
+              onChange={handlePost}
             />{" "}
           </FormGroup>
           <Row>
@@ -56,9 +65,7 @@ function EditPost(props) {
                 className="buttons"
                 variant="primary"
                 type="button"
-                onClick={() =>
-                  props.handleEditPost(props.id, props.title, props.post)
-                }
+                onClick={() => handleEditPost(id)}
               >
                 Update Post
               </Button>

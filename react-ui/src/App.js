@@ -15,8 +15,10 @@ import GetPosts from "./components/GetPosts";
 import EditPost from "./components/EditPost";
 import DeletePost from "./components/DeletePost";
 
+import GetPosts2 from "./components/GetPosts2";
+
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Import bootstrap styles
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -55,6 +57,7 @@ class App extends React.Component {
       admin: null,
       selectedUser: null,
       dateCreatedArray: [],
+      redirect: null,
     };
 
     // Binding to make "this" work correctly
@@ -65,6 +68,7 @@ class App extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
 
+    this.getPosts = this.getPosts.bind(this);
     this.loadPosts = this.loadPosts.bind(this);
     this.getLogins = this.getLogins.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -75,8 +79,33 @@ class App extends React.Component {
     this.callEditPost = this.callEditPost.bind(this);
     this.createWelcomeMsg = this.createWelcomeMsg.bind(this);
     this.updateSelectedUser = this.updateSelectedUser.bind(this);
+    //this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
   }
 
+  // // Handles logging in with Google account when user clicks button on login page
+  // handleGoogleLogin = async (googleData) => {
+  //   const res = await fetch("/api/v1/auth/google", {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       token: googleData.tokenId,
+  //     }),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   const data = await res.json();
+  //   this.setState(
+  //     {
+  //       data: data,
+  //     },
+  //     () => {
+  //       console.log("Post request to log in with Google. " + data);
+  //     }
+  //   );
+  // };
+
+  /* Runs when user clicks on a particular blog author's name in the left panel to display only that author's
+   posts */
   updateSelectedUser(user) {
     this.setState({ selectedUser: user }, () =>
       console.log("selected user is now: " + this.state.selectedUser)
@@ -84,7 +113,7 @@ class App extends React.Component {
   }
 
   callEditPost(postId, postTitle, postBody, postAuthor) {
-    //let redirectUrl = "/EditPost";
+    // let redirectUrl = "/EditPost";
     this.setState(
       {
         postId: postId,
@@ -97,11 +126,23 @@ class App extends React.Component {
           "Updated post info saved to state. Post title is: " +
             this.state.postTitle
         );
+        return EditPost(
+          this.state.authMessage,
+          this.state.postId,
+          this.state.postTitle,
+          this.state.postBody,
+          this.state.postAuthor,
+          this.handleTitle,
+          this.handlePost,
+          this.handleEditPost
+        );
       }
     );
   }
 
-  handleEditPost(postId, postTitle, postBody) {
+  // Runs when user has edited/updated their blog post on the Admin area page and hits the Update button
+  // Saves updated title and post to database
+  handleEditPost(postId) {
     fetch("/updatepost", {
       method: "POST",
       headers: {
@@ -109,8 +150,8 @@ class App extends React.Component {
       },
       body: JSON.stringify({
         id: postId,
-        title: postTitle,
-        post: postBody,
+        title: this.state.postTitle,
+        post: this.state.postBody,
       }),
     })
       .then((res) => res.json())
@@ -137,60 +178,48 @@ class App extends React.Component {
       );
   }
 
-  handleDeletePost(id) {
-    console.log("Got to handle delete post");
+  // Runs when user clicks delete button for a post on the Admin area page. Removes post from db
+  handleDeletePost(postId) {
+    // Learned how to use window.confirm here:
+    // https://stackoverflow.com/questions/63311845/unexpected-use-of-confirm-no-restricted-globals
 
-    this.setState(
-      {
-        postID: id,
-      },
-      () =>
-        console.log("Post id saved to state. Post id is: " + this.state.postId)
-    );
+    if (
+      window.confirm("Are you sure you want to delete this blog post?") === true
+    ) {
+      fetch("/deletepost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: postId,
+        }),
+      })
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            this.setState(
+              {
+                isLoaded: false,
+              },
+              () => {
+                console.log(
+                  "Post request to delete blog post sent. " + result.message
+                );
+                this.reloadPage();
+              }
+            );
+          },
+          (error) => {
+            this.setState({
+              isLoaded: false,
+              error,
+            });
+          }
+        );
 
-    // let callDeletePost = <Navigate to="/DeletePost" />;
-    // return callDeletePost;
-
-    // // Learned how to use window.confirm here:
-    // // https://stackoverflow.com/questions/63311845/unexpected-use-of-confirm-no-restricted-globals
-
-    // if (
-    //   window.confirm("Are you sure you want to delete this blog post?") === true
-    // ) {
-    //   fetch("/deletepost", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       id: postId,
-    //     }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then(
-    //       (result) => {
-    //         this.setState(
-    //           {
-    //             isLoaded: false,
-    //           },
-    //           () => {
-    //             console.log(
-    //               "Post request to delete blog post sent. " + result.message
-    //             );
-    //             this.reloadPage();
-    //           }
-    //         );
-    //       },
-    //       (error) => {
-    //         this.setState({
-    //           isLoaded: false,
-    //           error,
-    //         });
-    //       }
-    //     );
-
-    //   // End of if statement to confirm if user really wants to delete post
-    // }
+      // End of if statement to confirm if user really wants to delete post
+    }
 
     // End of handle delete post function
   }
@@ -222,6 +251,9 @@ class App extends React.Component {
     );
   }
 
+  // ----------------------------------------------------------- //
+
+  // Saves new blog post to database, along with date created timestamp
   handleSavePost(event) {
     if (this.state.postTitle !== null || this.state.postBody !== null) {
       // Add "///" to end of post to help separate posts later (commas in post body where making it difficult to separate posts into an array, so this is what I came up with)
@@ -290,7 +322,6 @@ class App extends React.Component {
       // End of if statement to check that username and password fields are not empty
     }
   }
-  // ---------------------------------------------------------------- //
 
   // Take user login details and create JWT token, then call "handleAuth" function to authenticate user
   handleLogin(event) {
@@ -386,7 +417,6 @@ class App extends React.Component {
                     ". Auth message says: " +
                     this.state.authMessage
                 );
-
                 this.reloadPage();
               }
             );
@@ -398,6 +428,8 @@ class App extends React.Component {
           }
         );
     } else {
+      // Runs if user fills in invalid login details or leaves one of the fields blank
+
       /* Learned to clear/reset form here:
       https://stackoverflow.com/questions/3786694/how-to-reset-clear-form-through-javascript */
 
@@ -410,6 +442,7 @@ class App extends React.Component {
     // End of handleauth function
   }
 
+  // Sets variables to default null state when user clicks the logout button
   handleLogout(event) {
     this.setState(
       {
@@ -429,8 +462,7 @@ class App extends React.Component {
     );
   }
 
-  /* Register new user. Saves their login details to db and makes it so they can only access their own to do 
-  list */
+  /* Register new user. Saves their login details to db and lets them create their own blog posts */
   handleRegister(event) {
     if (this.state.username !== null && this.state.password !== null) {
       fetch("/register", {
@@ -470,6 +502,7 @@ class App extends React.Component {
           }
         );
     } else {
+      // Runs if user submits form with blank username or password field
       this.setState(
         {
           isLoaded: false,
@@ -489,7 +522,7 @@ class App extends React.Component {
     // End of handleregister function
   }
 
-  // Functions to save username and password to state when user types them in to login form in header
+  // Functions to save username and password to state when user types them in to login form
   handleUsername(event) {
     let value = event.target.value;
     let user = value.trim();
@@ -533,6 +566,41 @@ class App extends React.Component {
     // End of load Posts
   }
 
+  // Gets posts from getposts2 component which uses react hooks
+  getPosts() {
+    const {
+      getIsLoaded,
+      getTitlesArray,
+      getPostsArray,
+      getIdArray,
+      getAuthorArray,
+      getDateCreatedArray,
+      getError,
+      getMessage,
+    } = GetPosts2("/getposts");
+
+    if (!getIsLoaded) {
+      console.log("Loading..");
+    } else {
+      this.setState(
+        {
+          isLoaded: getIsLoaded,
+          titlesArray: getTitlesArray,
+          postsArray: getPostsArray,
+          idArray: getIdArray,
+          authorArray: getAuthorArray,
+          dateCreatedArray: getDateCreatedArray,
+          error: getError,
+          message: getMessage,
+        },
+        () =>
+          console.log(
+            "Posts loaded. Titles array says: " + this.state.titlesArray
+          )
+      );
+    }
+  }
+
   // Retrieve login details from db
   getLogins() {
     console.log("Get logins has run");
@@ -562,6 +630,7 @@ class App extends React.Component {
   reloadPage() {
     if (this.state.isLoaded === false) {
       this.getLogins();
+      // this.getPosts();
       console.log("Reload page has run. Logins fetched");
 
       // End of if statement to check if data has been loaded yet.
@@ -623,8 +692,14 @@ class App extends React.Component {
   componentDidMount() {
     if (this.state.isLoaded === false) {
       this.getLogins();
+      // this.getPosts();
+
       console.log("componentDidMount has run. Logins fetched");
       // End of if statement to check if data has been loaded yet.
+
+      require("react-dom");
+      window.React2 = require("react");
+      console.log(window.React1 === window.React2);
     }
 
     //End of component did mount
@@ -716,6 +791,7 @@ class App extends React.Component {
                     handleLogin={this.handleLogin}
                     handleUsername={this.handleUsername}
                     handlePassword={this.handlePassword}
+                    handleGoogleLogin={this.handleGoogleLogin}
                   />
                 }
               />

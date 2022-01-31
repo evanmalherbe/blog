@@ -2,6 +2,8 @@ import React from "react";
 
 import { Navigate } from "react-router-dom";
 
+import GoogleLogin from "react-google-login";
+
 // Import React Bootstrap components
 import Button from "react-bootstrap/Button";
 import { Form, FormControl, FormGroup, Row, Col } from "react-bootstrap";
@@ -55,6 +57,15 @@ function Login(props) {
               >
                 Login
               </Button>
+            </Col>{" "}
+            <Col sm={9}>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Log in with Google"
+                onSuccess={props.handleGoogleLogin}
+                onFailure={props.handleGoogleLogin}
+                cookiePolicy={"single_host_origin"}
+              />
             </Col>
           </Row>
         </Form>
