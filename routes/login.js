@@ -3,6 +3,7 @@ module.exports = function (app) {
   const jwt = require("jsonwebtoken");
 
   app.post("/login", (req, res) => {
+    console.log("Got to backend of login");
     // Declare variables from req.body
     const usr = req.body.username;
     const pwd = req.body.password;

@@ -17,28 +17,24 @@ import LeftPanel from "./LeftPanel";
 import "../App.css";
 
 // Function to display edit post form
-function EditPost(
-  authMsg,
-  id,
-  title,
-  post,
-  author,
-  handleTitle,
-  handlePost,
-  handleEditPost
-) {
-  let showEditPost;
+function EditPost(props) {
+  let showEditPostForm;
+
+  console.log("Edit post received, author: " + props.author);
 
   // Learned to redirect/Navigate with react router here:
   // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
-  if (authMsg === "Success! Token valid.") {
-    showEditPost = (
-      <div className="EditPostDiv">
+  if (
+    props.authMsg === "Success! Token valid." &&
+    props.showEditPost === true
+  ) {
+    showEditPostForm = (
+      <div className="editPostDiv">
         <h1>Edit Post</h1>
 
         <p>
-          Post Author: <b>{author}</b>
+          Post Author: <b>{props.author}</b>
         </p>
         <Form id="editPostForm" autoComplete="off" className="editPostForm">
           <FormGroup className="mb-3">
@@ -46,8 +42,8 @@ function EditPost(
             <FormControl
               type="text"
               name="title"
-              placeholder={title}
-              onChange={handleTitle}
+              defaultValue={props.title}
+              onChange={props.handleTitle}
             />{" "}
           </FormGroup>
           <FormGroup className="mb-3">
@@ -55,8 +51,8 @@ function EditPost(
               as="textarea"
               rows={5}
               name="post"
-              placeholder={post}
-              onChange={handlePost}
+              defaultValue={props.post}
+              onChange={props.handlePost}
             />{" "}
           </FormGroup>
           <Row>
@@ -65,7 +61,7 @@ function EditPost(
                 className="buttons"
                 variant="primary"
                 type="button"
-                onClick={() => handleEditPost(id)}
+                onClick={() => props.handleEditPost(props.id)}
               >
                 Update Post
               </Button>
@@ -75,13 +71,13 @@ function EditPost(
       </div>
     );
   } else {
-    showEditPost = <Navigate to="/" />;
+    showEditPostForm = <Navigate to="/" />;
   }
 
   return (
     <div className="bodyDiv">
       <LeftPanel />
-      {showEditPost}
+      {showEditPostForm}
       <RightPanel />
     </div>
   );

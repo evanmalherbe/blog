@@ -1,8 +1,5 @@
 import React from "react";
 
-// Import React Bootstrap components
-import Button from "react-bootstrap/Button";
-
 // Import components
 import Header from "./components/Header";
 import Home from "./components/Home";
@@ -14,11 +11,18 @@ import AdminArea from "./components/AdminArea";
 import GetPosts from "./components/GetPosts";
 import EditPost from "./components/EditPost";
 import DeletePost from "./components/DeletePost";
+import CreateWelcome from "./components/CreateWelcome";
+//import FetchHandleLogin from "./components/FetchHandleLogin";
+import FetchLogin from "./components/FetchLogin";
 
-import GetPosts2 from "./components/GetPosts2";
+//import HashPassword from "./components/HashPassword";
+//import GetPosts2 from "./components/GetPosts2";
+
+// Import bcrypt
+import bcrypt from "bcryptjs";
 
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Import bootstrap styles
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -38,6 +42,7 @@ class App extends React.Component {
       error: null,
       username: null,
       password: null,
+      hashedPassword: null,
       loggedIn: false,
       token: null,
       currentUser: null,
@@ -57,7 +62,8 @@ class App extends React.Component {
       admin: null,
       selectedUser: null,
       dateCreatedArray: [],
-      redirect: null,
+      dateModifiedArray: [],
+      showEditPost: false,
     };
 
     // Binding to make "this" work correctly
@@ -68,7 +74,8 @@ class App extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
 
-    this.getPosts = this.getPosts.bind(this);
+    //this.getPosts = this.getPosts.bind(this);
+    // this.loadLogins = this.loadLogins.bind(this);
     this.loadPosts = this.loadPosts.bind(this);
     this.getLogins = this.getLogins.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -76,9 +83,13 @@ class App extends React.Component {
     this.handleSavePost = this.handleSavePost.bind(this);
     this.handleEditPost = this.handleEditPost.bind(this);
     this.handleDeletePost = this.handleDeletePost.bind(this);
-    this.callEditPost = this.callEditPost.bind(this);
-    this.createWelcomeMsg = this.createWelcomeMsg.bind(this);
+    //this.callEditPost = this.callEditPost.bind(this);
+    //this.createWelcomeMsg = this.createWelcomeMsg.bind(this);
     this.updateSelectedUser = this.updateSelectedUser.bind(this);
+    this.fetchRegister = this.fetchRegister.bind(this);
+    this.fetchSavePost = this.fetchSavePost.bind(this);
+    this.toggleEditVar = this.toggleEditVar.bind(this);
+
     //this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
   }
 
@@ -104,6 +115,25 @@ class App extends React.Component {
   //   );
   // };
 
+  toggleEditVar(id, author, title, post) {
+    this.setState(
+      {
+        showEditPost: true,
+        postId: id,
+        postAuthor: author,
+        postTitle: title,
+        postBody: post,
+      },
+      () =>
+        console.log(
+          "Show edit post is set to: " +
+            this.state.showEditPost +
+            ", and post author is: " +
+            this.state.postAuthor
+        )
+    );
+  }
+
   /* Runs when user clicks on a particular blog author's name in the left panel to display only that author's
    posts */
   updateSelectedUser(user) {
@@ -112,37 +142,50 @@ class App extends React.Component {
     );
   }
 
-  callEditPost(postId, postTitle, postBody, postAuthor) {
-    // let redirectUrl = "/EditPost";
-    this.setState(
-      {
-        postId: postId,
-        postTitle: postTitle,
-        postBody: postBody,
-        postAuthor: postAuthor,
-      },
-      () => {
-        console.log(
-          "Updated post info saved to state. Post title is: " +
-            this.state.postTitle
-        );
-        return EditPost(
-          this.state.authMessage,
-          this.state.postId,
-          this.state.postTitle,
-          this.state.postBody,
-          this.state.postAuthor,
-          this.handleTitle,
-          this.handlePost,
-          this.handleEditPost
-        );
-      }
-    );
-  }
+  // callEditPost(postId, postTitle, postBody, postAuthor) {
+  //   // let redirectUrl = "/EditPost";
+  //   this.setState(
+  //     {
+  //       postId: postId,
+  //       postTitle: postTitle,
+  //       postBody: postBody,
+  //       postAuthor: postAuthor,
+  //     },
+  //     () => {
+  //       console.log(
+  //         "Updated post info saved to state. Post title is: " +
+  //           this.state.postTitle
+  //       );
+  //       EditPost(
+  //         this.state.authMessage,
+  //         this.state.postId,
+  //         this.state.postTitle,
+  //         this.state.postBody,
+  //         this.state.postAuthor,
+  //         this.handleTitle,
+  //         this.handlePost,
+  //         this.handleEditPost
+  //       );
+  //     }
+  //   );
+  // }
 
   // Runs when user has edited/updated their blog post on the Admin area page and hits the Update button
   // Saves updated title and post to database
   handleEditPost(postId) {
+    // Add "///" to end of post to help separate posts later (commas in post body where making it difficult to separate posts into an array, so this is what I came up with)
+    let finalPost = this.state.postBody + "///";
+
+    // Learned how to add a time stamp here:
+    // https://stackoverflow.com/questions/9756120/how-do-i-get-a-utc-timestamp-in-javascript
+
+    let dateModified = new Date().toString();
+
+    // Learned how to remove words from a string here:
+    // https://stackoverflow.com/questions/10398931/how-to-remove-text-from-a-string
+
+    dateModified = dateModified.replace(" (South Africa Standard Time)", "");
+
     fetch("/updatepost", {
       method: "POST",
       headers: {
@@ -151,7 +194,8 @@ class App extends React.Component {
       body: JSON.stringify({
         id: postId,
         title: this.state.postTitle,
-        post: this.state.postBody,
+        post: finalPost,
+        dateMod: dateModified,
       }),
     })
       .then((res) => res.json())
@@ -160,6 +204,7 @@ class App extends React.Component {
           this.setState(
             {
               isLoaded: false,
+              showEditPost: false,
             },
             () => {
               console.log(
@@ -253,6 +298,45 @@ class App extends React.Component {
 
   // ----------------------------------------------------------- //
 
+  fetchSavePost(finalPost, date) {
+    fetch("/addpost", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        author: this.state.currentUser,
+        title: this.state.postTitle,
+        post: finalPost,
+        datecreated: date,
+      }),
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState(
+            {
+              message: result.message,
+            },
+            () => {
+              document.forms["createPostForm"].reset();
+              console.log(
+                "Blog post info sent via post. Reply is: " + this.state.message
+              );
+              alert("Your blog post has been saved successfully.");
+              this.reloadPage();
+            }
+          );
+        },
+        (error) => {
+          this.setState({
+            error,
+          });
+        }
+      );
+  }
+
   // Saves new blog post to database, along with date created timestamp
   handleSavePost(event) {
     if (this.state.postTitle !== null || this.state.postBody !== null) {
@@ -269,43 +353,7 @@ class App extends React.Component {
 
       date = date.replace(" (South Africa Standard Time)", "");
 
-      fetch("/addpost", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          author: this.state.currentUser,
-          title: this.state.postTitle,
-          post: finalPost,
-          datecreated: date,
-        }),
-      })
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            this.setState(
-              {
-                message: result.message,
-              },
-              () => {
-                document.forms["createPostForm"].reset();
-                console.log(
-                  "Blog post info sent via post. Reply is: " +
-                    this.state.message
-                );
-                alert("Your blog post has been saved successfully.");
-                this.reloadPage();
-              }
-            );
-          },
-          (error) => {
-            this.setState({
-              error,
-            });
-          }
-        );
+      this.fetchSavePost(finalPost, date);
     } else {
       this.setState(
         {
@@ -326,6 +374,11 @@ class App extends React.Component {
   // Take user login details and create JWT token, then call "handleAuth" function to authenticate user
   handleLogin(event) {
     if (this.state.username !== null && this.state.password !== null) {
+      console.log("Got to handle login. Username is: " + this.state.username);
+
+      //return <Navigate to="/FetchLogin" />;
+      //FetchHandleLogin();
+
       fetch("/login", {
         method: "POST",
         headers: {
@@ -346,16 +399,12 @@ class App extends React.Component {
             this.setState(
               {
                 token: result.message,
-                admin: result.admin,
               },
               () => {
                 console.log(
-                  "Login details sent via post. Token is " +
-                    this.state.token +
-                    ". Admin Status is: " +
-                    this.state.admin
+                  "Login details sent via post. Token is " + this.state.token
                 );
-                this.handleAuth();
+                this.handleAuth(this.state.token);
               }
             );
           },
@@ -385,8 +434,7 @@ class App extends React.Component {
   }
 
   /* Takes token created in "handleLogin" function and authenticates user */
-  handleAuth() {
-    let token = this.state.token;
+  handleAuth(token) {
     if (token !== undefined && token !== "Incorrect login!" && token !== null) {
       fetch("/resource", {
         method: "GET",
@@ -455,6 +503,7 @@ class App extends React.Component {
         currentUser: null,
         adminStatus: null,
         selectedUser: null,
+        showEditPost: false,
       },
       () => {
         console.log("User logged out.");
@@ -462,45 +511,69 @@ class App extends React.Component {
     );
   }
 
-  /* Register new user. Saves their login details to db and lets them create their own blog posts */
-  handleRegister(event) {
-    if (this.state.username !== null && this.state.password !== null) {
-      fetch("/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+  fetchRegister() {
+    fetch("/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-        body: JSON.stringify({
-          username: this.state.username,
-          password: this.state.password,
-          admin: false,
-        }),
-      })
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            this.setState(
-              {
-                isLoaded: false,
-              },
-              () => {
-                console.log("Registration details sent via post.");
-                alert(
-                  "New user, " +
-                    this.state.username +
-                    ", registered. Please log in."
-                );
-                this.reloadPage();
-              }
-            );
-          },
-          (error) => {
-            this.setState({
-              error,
-            });
-          }
-        );
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.hashedPassword,
+        admin: false,
+      }),
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState(
+            {
+              isLoaded: false,
+            },
+            () => {
+              console.log("Registration details sent via post.");
+              alert(
+                "New user, " +
+                  this.state.username +
+                  ", registered. Please log in."
+              );
+              this.reloadPage();
+            }
+          );
+        },
+        (error) => {
+          this.setState({
+            error,
+          });
+        }
+      );
+  }
+
+  /* Register new user. Saves their login details to db and lets them create their own blog posts */
+  handleRegister() {
+    if (this.state.username !== null || this.state.password !== null) {
+      console.log("Before call");
+
+      const saltRounds = 10;
+      let hashedPwd;
+
+      bcrypt.hash(this.state.password, saltRounds, (err, hash) => {
+        hashedPwd = hash;
+
+        let test = (hashedPwd) => {
+          console.log("Hashed pwd is: " + hashedPwd);
+          this.setState(
+            {
+              hashedPassword: hashedPwd,
+            },
+            () => {
+              this.fetchRegister();
+            }
+          );
+        };
+        test(hashedPwd);
+      });
     } else {
       // Runs if user submits form with blank username or password field
       this.setState(
@@ -543,7 +616,30 @@ class App extends React.Component {
       password: pwd,
     });
   }
+
   // --------------------------------------------------------- //
+
+  // // Retrieve user logins from db - This function is called from child component "GetLogins.js"
+  // loadLogins(
+  //   getIsLoaded,
+  //   getUsersArray,
+  //   getPwordArray,
+  //   getAdminStatusArray,
+  //   getMessage
+  // ) {
+  //   this.setState(
+  //     {
+  //       isLoaded: getIsLoaded,
+  //       UsersArray: getUsersArray,
+  //       pwordArray: getPwordArray,
+  //       adminStatusArray: getAdminStatusArray,
+  //       message: getMessage,
+  //     },
+  //     () => console.log("Message from db is: " + this.state.message)
+  //   );
+
+  //   // End of load logins
+  // }
 
   // Retrieve blog posts from db - This function is called from child component "GetPosts.js"
   loadPosts(
@@ -552,7 +648,8 @@ class App extends React.Component {
     getPostsArray,
     getIdArray,
     getAuthorArray,
-    getDateCreatedArray
+    getDateCreatedArray,
+    getDateModifiedArray
   ) {
     this.setState({
       isLoaded: getIsLoaded,
@@ -561,59 +658,43 @@ class App extends React.Component {
       idArray: getIdArray,
       authorArray: getAuthorArray,
       dateCreatedArray: getDateCreatedArray,
+      dateModifiedArray: getDateModifiedArray,
     });
 
     // End of load Posts
   }
 
-  // Gets posts from getposts2 component which uses react hooks
-  getPosts() {
-    const {
-      getIsLoaded,
-      getTitlesArray,
-      getPostsArray,
-      getIdArray,
-      getAuthorArray,
-      getDateCreatedArray,
-      getError,
-      getMessage,
-    } = GetPosts2("/getposts");
+  // Reloads page
+  reloadPage() {
+    if (this.state.isLoaded === false) {
+      this.getLogins();
+      // this.getPosts();
+      console.log("Reload page has run.");
 
-    if (!getIsLoaded) {
-      console.log("Loading..");
-    } else {
-      this.setState(
-        {
-          isLoaded: getIsLoaded,
-          titlesArray: getTitlesArray,
-          postsArray: getPostsArray,
-          idArray: getIdArray,
-          authorArray: getAuthorArray,
-          dateCreatedArray: getDateCreatedArray,
-          error: getError,
-          message: getMessage,
-        },
-        () =>
-          console.log(
-            "Posts loaded. Titles array says: " + this.state.titlesArray
-          )
-      );
+      // End of if statement to check if data has been loaded yet.
     }
+
+    //End of reload page
   }
 
-  // Retrieve login details from db
+  // Retrieve user login details from database
   getLogins() {
-    console.log("Get logins has run");
     fetch("/getlogins")
       .then((res) => res.json())
       .then(
         (result) => {
-          this.setState({
-            isLoaded: true,
-            usersArray: result.users,
-            pwordArray: result.pwords,
-            adminStatusArray: result.admin,
-          });
+          this.setState(
+            {
+              isLoaded: true,
+              usersArray: result.users,
+              pwordArray: result.pwords,
+              adminStatusArray: result.admin,
+              message: result.message,
+            },
+            () => {
+              console.log("Db says: " + this.state.message);
+            }
+          );
         },
         (error) => {
           this.setState({
@@ -622,84 +703,16 @@ class App extends React.Component {
           });
         }
       );
-
-    // End of Get logins
-  }
-
-  // Reloads page
-  reloadPage() {
-    if (this.state.isLoaded === false) {
-      this.getLogins();
-      // this.getPosts();
-      console.log("Reload page has run. Logins fetched");
-
-      // End of if statement to check if data has been loaded yet.
-    }
-
-    //End of reload page
-  }
-
-  // Check if user is logged in and whether they're admin or not, then create appropriate welcome message
-  createWelcomeMsg(loggedIn, adminStatus, currentUser) {
-    if (loggedIn) {
-      // Learned to capitalise first letter of a string here:
-      // https://flaviocopes.com/how-to-uppercase-first-letter-javascript/
-
-      const name = currentUser;
-      const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
-
-      if (adminStatus === true) {
-        return (
-          <div className="loginStatusDiv">
-            <p>Welcome, {nameCapitalised} (admin)!</p>
-            <Button
-              className="logoutButton"
-              variant="primary"
-              type="button"
-              onClick={this.handleLogout}
-            >
-              Logout
-            </Button>
-          </div>
-        );
-      } else {
-        return (
-          <div className="loginStatusDiv">
-            <p>Welcome, {nameCapitalised}!</p>
-            <Button
-              className="logoutButton"
-              variant="primary"
-              type="button"
-              onClick={this.handleLogout}
-            >
-              Logout
-            </Button>
-          </div>
-        );
-      }
-    } else {
-      return (
-        <div className="loginStatusDiv">
-          <p>No active logins.</p>
-        </div>
-      );
-    }
-
-    // End of createWelcomeMsg
   }
 
   // Runs when page is first loaded.
   componentDidMount() {
     if (this.state.isLoaded === false) {
       this.getLogins();
-      // this.getPosts();
+      //this.getPosts();
 
-      console.log("componentDidMount has run. Logins fetched");
+      console.log("componentDidMount has run.");
       // End of if statement to check if data has been loaded yet.
-
-      require("react-dom");
-      window.React2 = require("react");
-      console.log(window.React1 === window.React2);
     }
 
     //End of component did mount
@@ -709,6 +722,8 @@ class App extends React.Component {
     const {
       error,
       isLoaded,
+      username,
+      password,
       message,
       currentUser,
       loggedIn,
@@ -718,6 +733,9 @@ class App extends React.Component {
       usersArray,
       authorArray,
       dateCreatedArray,
+      dateModifiedArray,
+      adminStatusArray,
+      pwordArray,
       adminStatus,
       authMessage,
       postId,
@@ -725,6 +743,7 @@ class App extends React.Component {
       postTitle,
       postBody,
       selectedUser,
+      showEditPost,
     } = this.state;
 
     let loginStatusMsg;
@@ -734,11 +753,12 @@ class App extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      // Creates appropriate login status message
-      loginStatusMsg = this.createWelcomeMsg(
+      // Calls CreateWelcome component to create appropriate login status message
+      loginStatusMsg = CreateWelcome(
         loggedIn,
         adminStatus,
-        currentUser
+        currentUser,
+        this.handleLogout
       );
 
       return (
@@ -779,6 +799,7 @@ class App extends React.Component {
                     message={message}
                     usersArray={usersArray}
                     dateCreatedArray={dateCreatedArray}
+                    dateModifiedArray={dateModifiedArray}
                   />
                 }
               />
@@ -832,6 +853,7 @@ class App extends React.Component {
                     handleTitle={this.handleTitle}
                     handlePost={this.handlePost}
                     handleEditPost={this.handleEditPost}
+                    showEditPost={showEditPost}
                   />
                 }
               />
@@ -854,7 +876,22 @@ class App extends React.Component {
                     handlePost={this.handlePost}
                     handleEditPost={this.handleEditPost}
                     handleDeletePost={this.handleDeletePost}
-                    callEditPost={this.callEditPost}
+                    toggleEditVar={this.toggleEditVar}
+                    showEditPost={showEditPost}
+                  />
+                }
+              />
+
+              <Route
+                path="/FetchLogin"
+                element={
+                  <FetchLogin
+                    username={username}
+                    password={password}
+                    usersArray={usersArray}
+                    pwordArray={pwordArray}
+                    adminStatusArray={adminStatusArray}
+                    handleAuth={this.handleAuth}
                   />
                 }
               />

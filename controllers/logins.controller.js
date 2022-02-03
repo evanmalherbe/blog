@@ -36,6 +36,7 @@ exports.findAll = function (req, res) {
       let usernames = [];
       let passwords = [];
       let adminStatus = [];
+      let msg = "Logins retrieved successfully.";
 
       /* Learned to create array from mongoDB output here: 
       https://stackoverflow.com/questions/38997210/create-array-of-items-from-mongodb-node-js */
@@ -57,6 +58,7 @@ exports.findAll = function (req, res) {
         users: `${usernames}`,
         pwords: `${passwords}`,
         admin: `${adminStatus}`,
+        message: `${msg}`,
       });
     }
   });

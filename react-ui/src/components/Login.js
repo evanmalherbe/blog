@@ -53,19 +53,19 @@ function Login(props) {
                 className="buttons"
                 variant="primary"
                 type="button"
-                onClick={props.handleLogin}
+                onClick={() => props.handleLogin()}
               >
                 Login
               </Button>
             </Col>{" "}
             <Col sm={9}>
-              <GoogleLogin
+              {/* <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Log in with Google"
                 onSuccess={props.handleGoogleLogin}
                 onFailure={props.handleGoogleLogin}
                 cookiePolicy={"single_host_origin"}
-              />
+              /> */}
             </Col>
           </Row>
         </Form>

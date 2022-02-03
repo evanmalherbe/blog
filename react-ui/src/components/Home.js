@@ -24,6 +24,7 @@ function Home(props) {
         authorArray={props.authorArray}
         message={props.message}
         dateCreatedArray={props.dateCreatedArray}
+        dateModifiedArray={props.dateModifiedArray}
       />
       <RightPanel />
     </div>

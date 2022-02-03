@@ -6,7 +6,8 @@ export function SortPosts(
   ids,
   authors,
   selectedUser,
-  dateCreated
+  dateCreated,
+  dateModified
 ) {
   let i;
   let displayPosts = [];
@@ -17,6 +18,7 @@ export function SortPosts(
     let authorsArray = authors.split(",");
     let idsArray = ids.split(",");
     let dateCreatedArray = dateCreated.split(",");
+    let dateModifiedArray = dateModified.split(",");
 
     for (i = 0; i <= postsArray.length - 1; i++) {
       // Capitalise author names
@@ -32,7 +34,11 @@ export function SortPosts(
             {/* Learned to replace character in string here:
           https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/ */}
             <div className="postBody">{postsArray[i].replace("///", "")}</div>
-            <div className="date"> Date Created: {dateCreatedArray[i]}</div>
+            <div className="date">
+              {" "}
+              Date Created: {dateCreatedArray[i]} Date Modified:{" "}
+              {dateModifiedArray[i]}
+            </div>
           </div>
         );
       } else if (authorsArray[i] === selectedUser) {
@@ -44,7 +50,11 @@ export function SortPosts(
             {/* Learned to replace character in string here:
           https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/ */}
             <div className="postBody">{postsArray[i].replace("///", "")}</div>
-            <div className="date"> Date Created: {dateCreatedArray[i]}</div>
+            <div className="date">
+              {" "}
+              Date Created: {dateCreatedArray[i]} Date Modified:{" "}
+              {dateModifiedArray[i]}
+            </div>
           </div>
         );
       }

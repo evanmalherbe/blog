@@ -41,6 +41,7 @@ exports.findAll = function (req, res) {
       let postIdArray = [];
       let postAuthorArray = [];
       let dateCreatedArray = [];
+      let dateModifiedArray = [];
       let message = "Blog posts retrieved successfully.";
 
       /* Learned to create array from mongoDB output here: 
@@ -70,14 +71,24 @@ exports.findAll = function (req, res) {
         }
       });
 
-      // Send arrays to frontend
+      post.forEach(function (result) {
+        if (result.datemodified === null || result.datemodified === undefined) {
+          dateModifiedArray.push("n/a");
+        } else {
+          dateModifiedArray.push(result.datemodified);
+        }
+      });
+
+      //console.log("Date modified array says: " + dateModifiedArray);
+
       res.json({
-        message: message,
+        message: `${message}`,
         titles: `${titlesArray}`,
         posts: `${postsArray}`,
         ids: `${postIdArray}`,
         authors: `${postAuthorArray}`,
         datecreated: `${dateCreatedArray}`,
+        datemodified: `${dateModifiedArray}`,
       });
 
       // End of if statement
@@ -98,6 +109,7 @@ exports.updatePost = function (req, res) {
     {
       title: req.body.title,
       post: req.body.post,
+      datemodified: req.body.dateMod,
     },
     { new: true },
     function (err, doc) {
