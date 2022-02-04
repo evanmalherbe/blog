@@ -19,6 +19,7 @@ function AdminArea(props) {
   let ids = props.idArray;
   let authors = props.authorArray;
   let dateCreated = props.dateCreatedArray;
+  let dateModified = props.dateModifiedArray;
   let handleDeletePost = props.handleDeletePost;
   let selectedUser = props.selectedUser;
   let displayPosts = [];
@@ -38,6 +39,7 @@ function AdminArea(props) {
       let idsArray = ids.split(",");
       let authorsArray = authors.split(",");
       let dateCreatedArray = dateCreated.split(",");
+      let dateModifiedArray = dateModified.split(",");
 
       // Posts are delimited by /// - as I was having issues with commas in the actual post content
       let postsArray = posts.split("///,");
@@ -51,7 +53,8 @@ function AdminArea(props) {
         titlesArray,
         toggleEditVar,
         handleDeletePost,
-        dateCreatedArray
+        dateCreatedArray,
+        dateModifiedArray
       );
     } else {
       // Display message if no posts are saved yet

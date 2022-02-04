@@ -12,17 +12,12 @@ import GetPosts from "./components/GetPosts";
 import EditPost from "./components/EditPost";
 import DeletePost from "./components/DeletePost";
 import CreateWelcome from "./components/CreateWelcome";
+import ScrollToTop from "./components/ScrollToTop";
 //import FetchHandleLogin from "./components/FetchHandleLogin";
 import FetchLogin from "./components/FetchLogin";
 
-//import HashPassword from "./components/HashPassword";
-//import GetPosts2 from "./components/GetPosts2";
-
-// Import bcrypt
-import bcrypt from "bcryptjs";
-
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Import bootstrap styles
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -64,6 +59,10 @@ class App extends React.Component {
       dateCreatedArray: [],
       dateModifiedArray: [],
       showEditPost: false,
+      showGoogleRegButton: false,
+      showGoogleLogin: false,
+      justRegistered: false,
+      editCanceled: false,
     };
 
     // Binding to make "this" work correctly
@@ -89,31 +88,83 @@ class App extends React.Component {
     this.fetchRegister = this.fetchRegister.bind(this);
     this.fetchSavePost = this.fetchSavePost.bind(this);
     this.toggleEditVar = this.toggleEditVar.bind(this);
-
-    //this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
+    this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
+    this.handleGoogleRegister = this.handleGoogleRegister.bind(this);
+    this.toggleGoogleRegButton = this.toggleGoogleRegButton.bind(this);
+    this.toggleGoogleLoginButton = this.toggleGoogleLoginButton.bind(this);
+    this.handleCancelEdit = this.handleCancelEdit.bind(this);
   }
 
-  // // Handles logging in with Google account when user clicks button on login page
-  // handleGoogleLogin = async (googleData) => {
-  //   const res = await fetch("/api/v1/auth/google", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       token: googleData.tokenId,
-  //     }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   const data = await res.json();
-  //   this.setState(
-  //     {
-  //       data: data,
-  //     },
-  //     () => {
-  //       console.log("Post request to log in with Google. " + data);
-  //     }
-  //   );
-  // };
+  // Runs when user clicks the cancel button on the edit post page. Returns to Admin area.
+  handleCancelEdit() {
+    this.setState(
+      {
+        showEditPost: false,
+        editCanceled: true,
+        postId: null,
+        postAuthor: null,
+        postTitle: null,
+        postBody: null,
+        authMessage: "Success! Token valid.",
+        adminStatus: true,
+      },
+      () => {}
+    );
+  }
+
+  // Handles registering with Google account when user clicks button on register page
+  handleGoogleRegister(gUsername, googleId) {
+    this.setState(
+      {
+        username: gUsername,
+        password: googleId,
+        showGoogleRegButton: false,
+        justRegistered: true,
+      },
+      () => {
+        this.handleRegister();
+      }
+    );
+  }
+
+  // Handles logging in with Google account when user clicks button on login page
+  handleGoogleLogin(gUsername, googleId) {
+    this.setState(
+      {
+        username: gUsername,
+        password: googleId,
+        showGoogleLogin: false,
+        justRegistered: false,
+      },
+      () => {
+        this.handleLogin();
+      }
+    );
+  }
+
+  toggleGoogleLoginButton() {
+    this.setState(
+      {
+        showGoogleLogin: true,
+      },
+      () =>
+        console.log(
+          "Show Google login button is set to: " + this.state.showGoogleLogin
+        )
+    );
+  }
+
+  toggleGoogleRegButton() {
+    this.setState(
+      {
+        showGoogleRegButton: true,
+      },
+      () =>
+        console.log(
+          "Show Google reg button is set to: " + this.state.showGoogleRegButton
+        )
+    );
+  }
 
   toggleEditVar(id, author, title, post) {
     this.setState(
@@ -141,34 +192,6 @@ class App extends React.Component {
       console.log("selected user is now: " + this.state.selectedUser)
     );
   }
-
-  // callEditPost(postId, postTitle, postBody, postAuthor) {
-  //   // let redirectUrl = "/EditPost";
-  //   this.setState(
-  //     {
-  //       postId: postId,
-  //       postTitle: postTitle,
-  //       postBody: postBody,
-  //       postAuthor: postAuthor,
-  //     },
-  //     () => {
-  //       console.log(
-  //         "Updated post info saved to state. Post title is: " +
-  //           this.state.postTitle
-  //       );
-  //       EditPost(
-  //         this.state.authMessage,
-  //         this.state.postId,
-  //         this.state.postTitle,
-  //         this.state.postBody,
-  //         this.state.postAuthor,
-  //         this.handleTitle,
-  //         this.handlePost,
-  //         this.handleEditPost
-  //       );
-  //     }
-  //   );
-  // }
 
   // Runs when user has edited/updated their blog post on the Admin area page and hits the Update button
   // Saves updated title and post to database
@@ -376,9 +399,6 @@ class App extends React.Component {
     if (this.state.username !== null && this.state.password !== null) {
       console.log("Got to handle login. Username is: " + this.state.username);
 
-      //return <Navigate to="/FetchLogin" />;
-      //FetchHandleLogin();
-
       fetch("/login", {
         method: "POST",
         headers: {
@@ -504,6 +524,8 @@ class App extends React.Component {
         adminStatus: null,
         selectedUser: null,
         showEditPost: false,
+        showGoogleRegButton: false,
+        showGoogleLogin: false,
       },
       () => {
         console.log("User logged out.");
@@ -520,7 +542,7 @@ class App extends React.Component {
 
       body: JSON.stringify({
         username: this.state.username,
-        password: this.state.hashedPassword,
+        password: this.state.password,
         admin: false,
       }),
     })
@@ -553,27 +575,7 @@ class App extends React.Component {
   /* Register new user. Saves their login details to db and lets them create their own blog posts */
   handleRegister() {
     if (this.state.username !== null || this.state.password !== null) {
-      console.log("Before call");
-
-      const saltRounds = 10;
-      let hashedPwd;
-
-      bcrypt.hash(this.state.password, saltRounds, (err, hash) => {
-        hashedPwd = hash;
-
-        let test = (hashedPwd) => {
-          console.log("Hashed pwd is: " + hashedPwd);
-          this.setState(
-            {
-              hashedPassword: hashedPwd,
-            },
-            () => {
-              this.fetchRegister();
-            }
-          );
-        };
-        test(hashedPwd);
-      });
+      this.fetchRegister();
     } else {
       // Runs if user submits form with blank username or password field
       this.setState(
@@ -744,6 +746,10 @@ class App extends React.Component {
       postBody,
       selectedUser,
       showEditPost,
+      showGoogleRegButton,
+      showGoogleLogin,
+      justRegistered,
+      editCanceled,
     } = this.state;
 
     let loginStatusMsg;
@@ -764,6 +770,7 @@ class App extends React.Component {
       return (
         <div className="app">
           <BrowserRouter>
+            <ScrollToTop />
             <GetPosts
               isLoaded={this.state.isLoaded}
               loadPosts={this.loadPosts}
@@ -813,6 +820,8 @@ class App extends React.Component {
                     handleUsername={this.handleUsername}
                     handlePassword={this.handlePassword}
                     handleGoogleLogin={this.handleGoogleLogin}
+                    toggleGoogleLoginButton={this.toggleGoogleLoginButton}
+                    showGoogleLogin={showGoogleLogin}
                   />
                 }
               />
@@ -824,6 +833,10 @@ class App extends React.Component {
                     handleUsername={this.handleUsername}
                     handlePassword={this.handlePassword}
                     handleRegister={this.handleRegister}
+                    handleGoogleRegister={this.handleGoogleRegister}
+                    toggleGoogleRegButton={this.toggleGoogleRegButton}
+                    showGoogleRegButton={showGoogleRegButton}
+                    justRegistered={justRegistered}
                   />
                 }
               />
@@ -853,7 +866,9 @@ class App extends React.Component {
                     handleTitle={this.handleTitle}
                     handlePost={this.handlePost}
                     handleEditPost={this.handleEditPost}
+                    handleCancelEdit={this.handleCancelEdit}
                     showEditPost={showEditPost}
+                    editCanceled={editCanceled}
                   />
                 }
               />
@@ -872,6 +887,7 @@ class App extends React.Component {
                     postsArray={postsArray}
                     authorArray={authorArray}
                     dateCreatedArray={dateCreatedArray}
+                    dateModifiedArray={dateModifiedArray}
                     handleTitle={this.handleTitle}
                     handlePost={this.handlePost}
                     handleEditPost={this.handleEditPost}

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Navigate } from "react-router-dom";
+
 // Import React Bootstrap components
 import Button from "react-bootstrap/Button";
 import { Form, FormControl, FormGroup, Row, Col } from "react-bootstrap";
@@ -10,46 +12,69 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // Import custom stylesheet
 import "../App.css";
 
+import GoogleRegButton from "./GoogleRegButton";
+
 // Function to display rightpanel
 function Register(props) {
-  return (
-    <div className="registerDiv">
-      <h1>Register</h1>
-      {/* Learned how to turn autocomplete off here: 
+  let showButton;
+
+  if (props.showGoogleRegButton === true) {
+    showButton = (
+      <GoogleRegButton handleGoogleRegister={props.handleGoogleRegister} />
+    );
+  } else if (props.justRegistered === true) {
+    showButton = <Navigate to="/Login" />;
+  } else {
+    showButton = (
+      <div className="registerDiv">
+        <h1>Register</h1>
+        {/* Learned how to turn autocomplete off here: 
       https://reactgo.com/react-turn-off-autocomplete/ */}
-      <Form id="registerForm" autoComplete="off" className="registerForm">
-        <FormGroup className="mb-3">
-          {" "}
-          <FormControl
-            type="text"
-            name="toAdd"
-            placeholder="Enter username"
-            onChange={props.handleUsername}
-          />{" "}
-        </FormGroup>
-        <FormGroup className="mb-3">
-          <FormControl
-            type="text"
-            name="toAdd"
-            placeholder="Enter password"
-            onChange={props.handlePassword}
-          />{" "}
-        </FormGroup>
-        <Row>
-          <Col sm={3}>
-            <Button
-              className="buttons"
-              variant="primary"
-              type="button"
-              onClick={props.handleRegister}
-            >
-              Register
-            </Button>
-          </Col>
-        </Row>
-      </Form>
-    </div>
-  );
+        <Form id="registerForm" autoComplete="off" className="registerForm">
+          <FormGroup className="mb-3">
+            {" "}
+            <FormControl
+              type="text"
+              name="toAdd"
+              placeholder="Enter username"
+              onChange={props.handleUsername}
+            />{" "}
+          </FormGroup>
+          <FormGroup className="mb-3">
+            <FormControl
+              type="text"
+              name="toAdd"
+              placeholder="Enter password"
+              onChange={props.handlePassword}
+            />{" "}
+          </FormGroup>
+          <Row>
+            <Col sm={3}>
+              <Button
+                className="buttons"
+                variant="primary"
+                type="button"
+                onClick={props.handleRegister}
+              >
+                Register
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                className="buttons"
+                variant="primary"
+                type="button"
+                onClick={() => props.toggleGoogleRegButton()}
+              >
+                Register with Google
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+    );
+  }
+  return <div>{showButton}</div>;
 }
 
 // Export component to be used in other files

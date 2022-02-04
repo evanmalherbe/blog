@@ -21,6 +21,10 @@ body {
   color: red;
 }
 
+.hide {
+  display: none;
+}
+
 /* Main container "app" */
 /* Learned how to push footer to bottom of page here: 
 https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
@@ -120,7 +124,7 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   margin-right: 1rem;
 }
 
-/* Elements of main part of page */
+/* Elements on main part of page */
 .bodyDiv {
   display: flex;
   flex-direction: row;
@@ -243,11 +247,26 @@ https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 1rem;
+
   width: 13rem;
 }
 
-.date {
+.bothTimeStamps {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.dateCreated {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding: 0;
+  font-size: 0.7rem;
+  text-align: right;
+}
+
+.dateModified {
   margin-top: 0.5rem;
   margin-bottom: 0;
   padding: 0;

@@ -66,10 +66,22 @@ function EditPost(props) {
                 Update Post
               </Button>
             </Col>
+            <Col>
+              <Button
+                className="buttons"
+                variant="primary"
+                type="button"
+                onClick={() => props.handleCancelEdit()}
+              >
+                Cancel
+              </Button>
+            </Col>
           </Row>
         </Form>
       </div>
     );
+  } else if (props.editCanceled === true) {
+    showEditPostForm = <Navigate to="/AdminArea/#top" />;
   } else {
     showEditPostForm = <Navigate to="/" />;
   }

@@ -28,32 +28,45 @@ export function SortPosts(
       if (selectedUser === null) {
         displayPosts.push(
           <div className="post" key={idsArray[i]}>
-            <div className="author">Author: {nameCapitalised}</div>
+            <div className="author">
+              <b>Author:</b> {nameCapitalised}
+            </div>
             <div className="title">{titlesArray[i]}</div>
 
             {/* Learned to replace character in string here:
           https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/ */}
             <div className="postBody">{postsArray[i].replace("///", "")}</div>
-            <div className="date">
-              {" "}
-              Date Created: {dateCreatedArray[i]} Date Modified:{" "}
-              {dateModifiedArray[i]}
+            <div className="bothTimeStamps">
+              <div className="dateCreated">
+                {" "}
+                <b>Date Created:</b> &nbsp;{dateCreatedArray[i]}
+              </div>
+              <div className="dateModified">
+                <b>Date Modified:</b>&nbsp;
+                {dateModifiedArray[i]}
+              </div>
             </div>
           </div>
         );
       } else if (authorsArray[i] === selectedUser) {
         displayPosts.push(
           <div className="post" key={idsArray[i]}>
-            <div className="author">Author: {nameCapitalised}</div>
+            <div className="author">
+              <b>Author:</b> {nameCapitalised}
+            </div>
             <div className="title">{titlesArray[i]}</div>
 
             {/* Learned to replace character in string here:
           https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/ */}
             <div className="postBody">{postsArray[i].replace("///", "")}</div>
-            <div className="date">
-              {" "}
-              Date Created: {dateCreatedArray[i]} Date Modified:{" "}
-              {dateModifiedArray[i]}
+            <div className="bothTimeStamps">
+              <div className="dateCreated">
+                {" "}
+                <b>Date Created:</b>&nbsp; {dateCreatedArray[i]}
+              </div>
+              <div className="dateModified">
+                <b>Date Modified:</b> &nbsp;{dateModifiedArray[i]}
+              </div>
             </div>
           </div>
         );

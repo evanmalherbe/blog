@@ -11,17 +11,22 @@ export function SortAdminPage(
   titlesArray,
   toggleEditVar,
   handleDeletePost,
-  dateCreatedArray
+  dateCreatedArray,
+  dateModifiedArray
 ) {
   let displayPosts = [];
 
   // Loop through posts and create divs for each post with buttons to delete and edit
   for (let i = 0; i <= postsArray.length - 1; i++) {
+    // Capitalise author names
+    const name = authorsArray[i];
+    const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
+
     if (selectedUser === null) {
       displayPosts.push(
         <div className="post" key={idsArray[i]}>
           <div className="author">
-            Author: {authorsArray[i]}, Id: {idsArray[i]}
+            <b>Author:</b> {nameCapitalised}
           </div>
           <div className="title">{titlesArray[i]}</div>
 
@@ -53,14 +58,23 @@ export function SortAdminPage(
               Delete Post
             </Button>
           </div>
-          <div className="date"> Date Created: {dateCreatedArray[i]}</div>
+          <div className="bothTimeStamps">
+            <div className="dateCreated">
+              {" "}
+              <b>Date Created:</b> &nbsp;{dateCreatedArray[i]}
+            </div>
+            <div className="dateModified">
+              <b>Date Modified:</b>&nbsp;
+              {dateModifiedArray[i]}
+            </div>
+          </div>
         </div>
       );
     } else if (authorsArray[i] === selectedUser) {
       displayPosts.push(
         <div className="post" key={idsArray[i]}>
           <div className="author">
-            Author: {authorsArray[i]}, Id: {idsArray[i]}
+            <b>Author:</b> {nameCapitalised}
           </div>
           <div className="title">{titlesArray[i]}</div>
 
@@ -92,7 +106,16 @@ export function SortAdminPage(
               Delete Post
             </Button>
           </div>
-          <div className="date"> Date Created: {dateCreatedArray[i]}</div>
+          <div className="bothTimeStamps">
+            <div className="dateCreated">
+              {" "}
+              <b>Date Created:</b> &nbsp;{dateCreatedArray[i]}
+            </div>
+            <div className="dateModified">
+              <b>Date Modified:</b>&nbsp;
+              {dateModifiedArray[i]}
+            </div>
+          </div>
         </div>
       );
     }

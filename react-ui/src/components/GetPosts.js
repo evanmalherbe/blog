@@ -36,9 +36,7 @@ class GetPosts extends React.Component {
             },
             () => {
               console.log("Db says: " + this.state.message);
-              console.log(
-                "Date modified array says: " + this.state.dateModifiedArray
-              );
+
               this.props.loadPosts(
                 this.state.isLoaded,
                 this.state.titlesArray,
