@@ -15,7 +15,7 @@ function Header(props) {
     <header className="header">
       <div className="logoAndHeading">
         <img src={logo} className="logo" alt="logo" />
-        <h1>Blog</h1>
+        <h1>Hyperion Blog</h1>
       </div>
       <Menu loggedIn={props.loggedIn} adminStatus={props.adminStatus} />
     </header>

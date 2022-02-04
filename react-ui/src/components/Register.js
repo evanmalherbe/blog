@@ -13,16 +13,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 
 import GoogleRegButton from "./GoogleRegButton";
+import FacebookRegButton from "./FacebookRegButton";
 
 // Function to display rightpanel
 function Register(props) {
   let showButton;
 
-  if (props.showGoogleRegButton === true) {
-    showButton = (
-      <GoogleRegButton handleGoogleRegister={props.handleGoogleRegister} />
-    );
-  } else if (props.justRegistered === true) {
+  if (props.justRegistered === true) {
     showButton = <Navigate to="/Login" />;
   } else {
     showButton = (
@@ -48,8 +45,8 @@ function Register(props) {
               onChange={props.handlePassword}
             />{" "}
           </FormGroup>
-          <Row>
-            <Col sm={3}>
+          <Row className="mb-3">
+            <Col>
               <Button
                 className="buttons"
                 variant="primary"
@@ -59,15 +56,19 @@ function Register(props) {
                 Register
               </Button>
             </Col>
+          </Row>
+          <Row className="mb-3">
             <Col>
-              <Button
-                className="buttons"
-                variant="primary"
-                type="button"
-                onClick={() => props.toggleGoogleRegButton()}
-              >
-                Register with Google
-              </Button>
+              <GoogleRegButton
+                handleGoogleRegister={props.handleGoogleRegister}
+              />
+            </Col>
+          </Row>
+          <Row className="mb-3">
+            <Col>
+              <FacebookRegButton
+                handleFacebookRegister={props.handleFacebookRegister}
+              />
             </Col>
           </Row>
         </Form>

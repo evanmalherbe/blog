@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // Import custom stylesheet
 import "../App.css";
 import GoogleLoginButton from "./GoogleLoginButton";
+import FacebookLoginButton from "./FacebookLoginButton";
 
 // Function to display rightpanel
 function Login(props) {
@@ -22,10 +23,6 @@ function Login(props) {
 
   if (props.authMessage === "Success! Token valid.") {
     showLoginPage = <Navigate to="/CreatePost" />;
-  } else if (props.showGoogleLogin === true) {
-    showLoginPage = (
-      <GoogleLoginButton handleGoogleLogin={props.handleGoogleLogin} />
-    );
   } else {
     showLoginPage = (
       <div className="loginDiv">
@@ -50,8 +47,8 @@ function Login(props) {
               onChange={props.handlePassword}
             />{" "}
           </FormGroup>
-          <Row>
-            <Col sm={3}>
+          <Row className="mb-3">
+            <Col>
               <Button
                 className="buttons"
                 variant="primary"
@@ -61,15 +58,17 @@ function Login(props) {
                 Login
               </Button>
             </Col>{" "}
-            <Col sm={9}>
-              <Button
-                className="buttons"
-                variant="primary"
-                type="button"
-                onClick={() => props.toggleGoogleLoginButton()}
-              >
-                Login with Google
-              </Button>
+          </Row>
+          <Row className="mb-3">
+            <Col>
+              <GoogleLoginButton handleGoogleLogin={props.handleGoogleLogin} />
+            </Col>
+          </Row>
+          <Row className="mb-3">
+            <Col>
+              <FacebookLoginButton
+                handleFacebookLogin={props.handleFacebookLogin}
+              />{" "}
             </Col>
           </Row>
         </Form>

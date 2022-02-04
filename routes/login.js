@@ -3,7 +3,6 @@ module.exports = function (app) {
   const jwt = require("jsonwebtoken");
 
   app.post("/login", (req, res) => {
-    console.log("Got to backend of login");
     // Declare variables from req.body
     const usr = req.body.username;
     const pwd = req.body.password;
@@ -19,8 +18,6 @@ module.exports = function (app) {
     // For loop to check if user login details match with any logins already stored in db
     for (let i = 0; i <= usersArray.length - 1; i++) {
       if (usr === usersArray[i] && pwd === pwordsArray[i]) {
-        console.log(i + ". Admin status array says: " + adminArray[i]);
-
         if (adminArray[i] === "true") {
           payload = {
             name: usr,

@@ -81,7 +81,7 @@ function EditPost(props) {
       </div>
     );
   } else if (props.editCanceled === true) {
-    showEditPostForm = <Navigate to="/AdminArea/#top" />;
+    showEditPostForm = <Navigate to="/AdminArea" />;
   } else {
     showEditPostForm = <Navigate to="/" />;
   }

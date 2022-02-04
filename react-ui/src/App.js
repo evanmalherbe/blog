@@ -13,6 +13,7 @@ import EditPost from "./components/EditPost";
 import DeletePost from "./components/DeletePost";
 import CreateWelcome from "./components/CreateWelcome";
 import ScrollToTop from "./components/ScrollToTop";
+//import Breadcrumbs from "./components/BreadCrumbs";
 //import FetchHandleLogin from "./components/FetchHandleLogin";
 import FetchLogin from "./components/FetchLogin";
 
@@ -59,8 +60,6 @@ class App extends React.Component {
       dateCreatedArray: [],
       dateModifiedArray: [],
       showEditPost: false,
-      showGoogleRegButton: false,
-      showGoogleLogin: false,
       justRegistered: false,
       editCanceled: false,
     };
@@ -90,8 +89,8 @@ class App extends React.Component {
     this.toggleEditVar = this.toggleEditVar.bind(this);
     this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
     this.handleGoogleRegister = this.handleGoogleRegister.bind(this);
-    this.toggleGoogleRegButton = this.toggleGoogleRegButton.bind(this);
-    this.toggleGoogleLoginButton = this.toggleGoogleLoginButton.bind(this);
+    this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
+    this.handleFacebookRegister = this.handleFacebookRegister.bind(this);
     this.handleCancelEdit = this.handleCancelEdit.bind(this);
   }
 
@@ -113,12 +112,39 @@ class App extends React.Component {
   }
 
   // Handles registering with Google account when user clicks button on register page
+  handleFacebookRegister(fUsername, fbId) {
+    this.setState(
+      {
+        username: fUsername,
+        password: fbId,
+        justRegistered: true,
+      },
+      () => {
+        this.handleRegister();
+      }
+    );
+  }
+
+  // Handles logging in with Google account when user clicks button on login page
+  handleFacebookLogin(fUsername, fbId) {
+    this.setState(
+      {
+        username: fUsername,
+        password: fbId,
+        justRegistered: false,
+      },
+      () => {
+        this.handleLogin();
+      }
+    );
+  }
+
+  // Handles registering with Google account when user clicks button on register page
   handleGoogleRegister(gUsername, googleId) {
     this.setState(
       {
         username: gUsername,
         password: googleId,
-        showGoogleRegButton: false,
         justRegistered: true,
       },
       () => {
@@ -133,7 +159,6 @@ class App extends React.Component {
       {
         username: gUsername,
         password: googleId,
-        showGoogleLogin: false,
         justRegistered: false,
       },
       () => {
@@ -142,30 +167,8 @@ class App extends React.Component {
     );
   }
 
-  toggleGoogleLoginButton() {
-    this.setState(
-      {
-        showGoogleLogin: true,
-      },
-      () =>
-        console.log(
-          "Show Google login button is set to: " + this.state.showGoogleLogin
-        )
-    );
-  }
-
-  toggleGoogleRegButton() {
-    this.setState(
-      {
-        showGoogleRegButton: true,
-      },
-      () =>
-        console.log(
-          "Show Google reg button is set to: " + this.state.showGoogleRegButton
-        )
-    );
-  }
-
+  // Toggles a variable to either show the edit post form or not, depending on whether the user clicked the
+  // "Edit post" button
   toggleEditVar(id, author, title, post) {
     this.setState(
       {
@@ -746,8 +749,6 @@ class App extends React.Component {
       postBody,
       selectedUser,
       showEditPost,
-      showGoogleRegButton,
-      showGoogleLogin,
       justRegistered,
       editCanceled,
     } = this.state;
@@ -778,9 +779,9 @@ class App extends React.Component {
 
             <Header loggedIn={loggedIn} adminStatus={adminStatus} />
             <div className="underHeader">
-              <div className="breadCrumbs">
-                <p>Home - Post</p>
-              </div>
+              {/* <div className="breadCrumbs">
+                <Breadcrumbs />
+              </div> */}
 
               {/* Display login status message. Contents differ according to whether user is logged in or 
               not */}
@@ -820,8 +821,7 @@ class App extends React.Component {
                     handleUsername={this.handleUsername}
                     handlePassword={this.handlePassword}
                     handleGoogleLogin={this.handleGoogleLogin}
-                    toggleGoogleLoginButton={this.toggleGoogleLoginButton}
-                    showGoogleLogin={showGoogleLogin}
+                    handleFacebookLogin={this.handleFacebookLogin}
                   />
                 }
               />
@@ -834,8 +834,7 @@ class App extends React.Component {
                     handlePassword={this.handlePassword}
                     handleRegister={this.handleRegister}
                     handleGoogleRegister={this.handleGoogleRegister}
-                    toggleGoogleRegButton={this.toggleGoogleRegButton}
-                    showGoogleRegButton={showGoogleRegButton}
+                    handleFacebookRegister={this.handleFacebookRegister}
                     justRegistered={justRegistered}
                   />
                 }

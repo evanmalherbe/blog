@@ -21,8 +21,8 @@ function LeftPanel(props) {
     displayUsers.push(
       <Button
         type="button"
-        variant="default"
-        style={{ color: "white", background: "#2a6877", marginTop: "0.5rem" }}
+        variant="secondary"
+        className="mb-1"
         onClick={() => props.updateSelectedUser(null)}
         key={0}
       >
@@ -37,8 +37,9 @@ function LeftPanel(props) {
       displayUsers.push(
         <Button
           type="button"
-          variant="default"
-          style={{ color: "white", background: "#2a6877", marginTop: "0.5rem" }}
+          variant="secondary"
+          className="mb-1"
+          // style={{ color: "white", background: "#2a6877", marginTop: "0.5rem" }}
           onClick={() => props.updateSelectedUser(usersArray[i])}
           key={i + 1}
         >

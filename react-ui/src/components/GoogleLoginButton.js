@@ -11,7 +11,6 @@ function GoogleLoginButton(props) {
   const clientId =
     "814875559791-253acrmfifcppvudqmbq3790gi63k7sv.apps.googleusercontent.com";
 
-  // console.log("Id is: " + clientId);
   const onSuccess = (res) => {
     console.log("Login Success: currentUser:", res.profileObj.name);
 
@@ -21,11 +20,11 @@ function GoogleLoginButton(props) {
 
   const onFailure = (res) => {
     console.log("Login failed: res:", res);
-    alert(`Failed to login.`);
+    //alert(`Failed to login.`);
   };
 
   return (
-    <div className="hide">
+    <div>
       {" "}
       <GoogleLogin
         clientId={clientId}
@@ -34,7 +33,6 @@ function GoogleLoginButton(props) {
         onFailure={onFailure}
         cookiePolicy={"single_host_origin"}
         style={{ marginTop: "100px" }}
-        isSignedIn={true}
       />
     </div>
   );
