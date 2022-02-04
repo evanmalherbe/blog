@@ -65,7 +65,8 @@ https://mongoosejs.com/docs/connections.html */
   // Initial connection to db and error handling if initial connection fails
   mongoose
     .connect(
-      `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbname}?retryWrites=true&w=majority`
+      process.env.MONGODB_URI ||
+        `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbname}?retryWrites=true&w=majority`
     )
     .catch((error) =>
       console.log("Failed initial connection to db. Error is: " + error)
