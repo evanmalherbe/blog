@@ -106,7 +106,6 @@ class App extends React.Component {
         postTitle: null,
         postBody: null,
         authMessage: "Success! Token valid.",
-        adminStatus: true,
       },
       () => {}
     );

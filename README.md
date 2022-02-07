@@ -218,50 +218,70 @@ Figure 9
 
 ### Edit Blog Post
 
-### Delete Blog Post
-
-### Log Out
-
-To log out of the website, just click on the "Logout" button next to your name at the top right part of the page. See figure 10 below.
+1. To edit one of your blog posts, click on the "Modify Posts" link at the top right side of the page. See figure 10 below.
 
 ![figure 10](screenshots/screenshot10.png)
 Figure 10
 
-### For Admin Users
-
-1. There is only one admin user by default. This user has the rights to edit and delete any other user's blog posts. Once the admin user has logged in (as explained in the "Log In" section above), they will see the word "(admin)" next to their username at the top right hand side of the page. See figure 11 below.
+2. You will now see all your posts and each post will have a "Edit Post" and "Delete Post" buttons underneath them. To edit a specific post, click on the "Edit Post" button for that particular post. See figure 11 below.
 
 ![figure 11](screenshots/screenshot11.png)
 Figure 11
 
-2. To edit or delete another user's post, first click on the "Admin Area" link at the top right of the page. See figure 12 below.
+3. You will then be able to change the title and/or the main body of the post. When you have made your changes, click on the "Update Post" button to save the changes. If you do not want to save your changes and you would rather just cancel, click the "Cancel" button. See figure 12 below.
 
 ![figure 12](screenshots/screenshot12.png)
 Figure 12
 
-3. You will then see all the other user's blog posts as you could on the "Home" page. However, now you will notice that each post has an "Edit post" and a "Delete post" button underneath it. See figure 13 below.
+### Delete Blog Post
+
+1. To delete one of your blog posts, click on the "Delete Post" button underneath the post you would like to remove. You will be asked if you are sure you want to delete the post. Click the "Ok" button to delete it or click "Cancel" if you no longer want to delete the post. See figure 13 below.
 
 ![figure 13](screenshots/screenshot13.png)
 Figure 13
 
-4. To choose a post, either scroll down the page to the specific user's post that you would like to edit/delete, or click on the name of the user in the left hand side "Authors" section to see only that user's posts.
+### Log Out
+
+To log out of the website, just click on the "Logout" button next to your name at the top right part of the page. See figure 14 below.
 
 ![figure 14](screenshots/screenshot14.png)
 Figure 14
 
-### Edit Blog Post (admin)
+### For Admin Users
 
-1. To edit a user's post, click on the "Edit Post" button at the bottom of the post you want to edit/update. You will then be able to change the title and/or the main body of the post. When you have made your changes, click on the "Update Post" button to save the changes. If you do not want to save your changes and you would rather just cancel, click the "Cancel" button. See figure 14 below.
+1. There is only one admin user by default. This user has the rights to edit and delete any other user's blog posts. Once the admin user has logged in (as explained in the "Log In" section above), they will see the word "(admin)" next to their username at the top right hand side of the page. See figure 15 below.
 
 ![figure 15](screenshots/screenshot15.png)
 Figure 15
 
-### Delete Blog Post (admin)
-
-1. To delete a user's blog post, click on the "Delete Post" button under the post you want to remove. You will be asked if you are sure. Click "Ok" to delete the post, or "Cancel" to go back without deleting it. See figure 15 below.
+2. To edit or delete another user's post, first click on the "Admin Area" link at the top right of the page. See figure 16 below.
 
 ![figure 16](screenshots/screenshot16.png)
 Figure 16
+
+3. You will then see all the other user's blog posts as you could on the "Home" page. However, now you will notice that each post has an "Edit post" and a "Delete post" button underneath it. See figure 17 below.
+
+![figure 17](screenshots/screenshot17.png)
+Figure 17
+
+4. To choose a post, either scroll down the page to the specific user's post that you would like to edit/delete, or click on the name of the user in the left hand side "Authors" section to see only that user's posts. See figure 18 below.
+
+![figure 18](screenshots/screenshot18.png)
+Figure 18
+
+### Edit Blog Post (admin)
+
+1. To edit a user's post, click on the "Edit Post" button at the bottom of the post you want to edit/update. You will then be able to change the title and/or the main body of the post. When you have made your changes, click on the "Update Post" button to save the changes. If you do not want to save your changes and you would rather just cancel, click the "Cancel" button. See figure 19 below.
+
+![figure 19](screenshots/screenshot19.png)
+Figure 19
+
+### Delete Blog Post (admin)
+
+1. To delete a user's blog post, click on the "Delete Post" button under the post you want to remove. You will be asked if you are sure. Click "Ok" to delete the post, or "Cancel" to go back without deleting it. See figure 20 below.
+
+![figure 20](screenshots/screenshot20.png)
+Figure 20
 
 ## Credits
 
