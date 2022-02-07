@@ -33,6 +33,13 @@ if (!isDev && cluster.isMaster) {
   // Set path to .env file
   dotenv.config({ path: ".env" });
 
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "react-ui/build")));
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, "react-ui", "build", "index.html"));
+    });
+  }
+
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
 
