@@ -15,6 +15,7 @@ function Menu(props) {
   let createPostLink;
   let adminAreaLink;
   let registerLink;
+  let modifyPostsLink;
 
   // Only display these links in menu if there is no user logged in yet
   if (!props.loggedIn) {
@@ -47,6 +48,16 @@ function Menu(props) {
     );
   }
 
+  if (props.loggedIn && !props.adminStatus) {
+    modifyPostsLink = (
+      <li>
+        <Link to="/ModifyPosts" className="menuLink">
+          Modify Posts
+        </Link>
+      </li>
+    );
+  }
+
   if (props.loggedIn && props.adminStatus) {
     adminAreaLink = (
       <li>
@@ -69,6 +80,7 @@ function Menu(props) {
         {loginLink}
         {registerLink}
         {createPostLink}
+        {modifyPostsLink}
         {adminAreaLink}
       </ul>
     </div>

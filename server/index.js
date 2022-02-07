@@ -5,6 +5,7 @@ const numCPUs = require("os").cpus().length;
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const helmet = require("helmet");
 
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3001;
@@ -26,6 +27,9 @@ if (!isDev && cluster.isMaster) {
 } else {
   const app = express();
 
+  // Use Helmet middleware to improve security
+  app.use(helmet());
+
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
@@ -33,15 +37,15 @@ if (!isDev && cluster.isMaster) {
   // Set path to .env file
   dotenv.config({ path: ".env" });
 
-  if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "react-ui/build")));
-    app.get("*", (req, res) => {
-      res.sendFile(path.resolve(__dirname, "react-ui", "build", "index.html"));
-    });
-  }
+  // if (process.env.NODE_ENV === "production") {
+  //   app.use(express.static(path.join(__dirname, "react-ui/build")));
+  //   app.get("*", (req, res) => {
+  //     res.sendFile(path.resolve(__dirname, "react-ui", "build", "index.html"));
+  //   });
+  // }
 
-  // // Priority serve any static files.
-  // app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
+  // Priority serve any static files.
+  app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
 
   //Import routes
   require("../routes/api")(app);

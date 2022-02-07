@@ -1,8 +1,10 @@
-# HyperionDev Full Stack Web Development Bootcamp - Level 3 - Task 11 - Next.js app - Jokes
+# HyperionDev Full Stack Web Development Bootcamp - Level 3 - Task 15 - Final Capstone project - Blog
 
 ## Description
 
-This app uses Next.js to serve up a few jokes from a simple jokes api. It fetches new jokes each time it is loaded. When you click on a joke, it takes you to another page which reveals the punchline.
+This app is a simple blog that has a React front end and Express backend. It uses a MongoDb database to store the blog posts and allows the user to log in with 3 different methods (username and password, Facebook or Google). It also has an admin area that an admin can use to delete other users posts or edit them.
+
+The app has been deployed with Heroku and can be accessed at this URL: [https://hyperionblog.herokuapp.com/](https://hyperionblog.herokuapp.com/).
 
 ## Table of Contents
 
@@ -11,6 +13,7 @@ This app uses Next.js to serve up a few jokes from a simple jokes api. It fetche
 - [Installation](#installation)
 - [System Architecture](#system-architecture)
 - [System Requirements Specification](#system-requirements-specification)
+- [Security](#security)
 - [Usage](#usage)
 - [Credits](#credits)
 
@@ -20,37 +23,37 @@ These were the instructions I was given to guide me in this task:
 
 **Follow these steps:**
 
-- Create a new project using Next.js. This should be a dynamic website that is created using data retrieved from an API. You can use a simple API of your choice. Here are a few suggestions:
-  - Musixmatch API
-  - The Star Wars API
-  - Spotify API
-
-The web app should contain at least two pages: an index page and a page that displays details about the topic that the user selects on the index page. For example, if you create your app using the Star Wars API you could
-display all the films (e.g. https://swapi.dev/api/films) on the index page and all the details about the specific film selected by the user on the details page (e.g. https://swapi.dev/api/films/1).
-
-- Be sure that your website is attractively styled and that you share a layout component.
+- Create a full-stack web application that meets ALL the criteria listed previously for this Capstone Project.
+- Deploy your app. Add the link to your deployed application to the readme.md file of your project.
+- Push all the work that you have generated for this project (including the design documentation that you generated in the first part of the project) to GitHub.
 
 ## Technologies
 
 This project uses:
 
 - HTML
-- Styled JSX
+- CSS
 - Javascript
-- Next.js
 - Node
 - React
+- React Bootstrap
 - Express
+- MongoDB
+- JSON Web Tokens (JWT)
 
 ## Installation
 
 To run this project, do the following:
 
-1. Copy the project files to a directory called 'jokes' on your local machine.
-2. Navigate to this directory from the command line interface. E.g. cd c:/jokes.
-3. In the command line interface type 'npm install'.
-4. Once it has finished installing, type 'npm run dev'.
-5. Open [http://localhost:3000](http://localhost:3000) to view the project in your web browser.
+1. Copy the project files to a directory called 'blog' on your local machine.
+2. Navigate to this directory from the command line interface. E.g. cd c:/blog. This is the backend of the application.
+3. In the command line interface, type 'npm install'.
+4. Once it has finished installing, type 'npm start'.
+5. Now navigate to the "/react-ui" directory inside "blog". E.g. cd c:/blog/react-ui.
+6. In the command line interface, once again type 'npm install'.
+7. Once it has finished installing, type 'npm start'.
+8. You have now started both the backend and frontend servers.
+9. Open [http://localhost:3000](http://localhost:3000) to view the project in your web browser.
 
 ## System Architecture
 
@@ -138,37 +141,128 @@ This app will be built using the "Create react app" starter kit created by Faceb
 
 This app will use MongoDB as a database, which is a huge advantage for performance, as there is no need for downtime when upgrading or scaling the database up. This is because Mongo uses a NoSQL database structure.
 
-#### Security
-
-1. Only users that have been authenticated with a valid JSON Web Token (JWT) will be permitted to modify blog posts, and they will only ever be able to modify their own posts. Only the single Admin user will have rights to modify any user's blog articles and to remove users from the system.
-
-2. User's passwords will be encrypted before they are stored in the Mongo database, so there will be no risk of them being intercepted in plain text while they are being sent to the database.
-
-3. "Helmet" Express middleware will be used by the Express backend to further tighten up security.
-
 #### Implementation Requirements
 
 1. This app should be completely web browser based.
 2. It must be created using the MERN stack (MongoDB, Express, React and Node).
 3. It must have a detailed help file that a user can easily find.
 
+## Security
+
+1. Only users that have been authenticated with a valid JSON Web Token (JWT) will be permitted to modify blog posts, and they will only ever be able to modify their own posts. Only the single Admin user will have rights to modify any user's blog articles and to remove users from the system.
+
+2. User's passwords will be encrypted before they are stored in the Mongo database, so there will be no risk of them being intercepted in plain text while they are being sent to the database.
+
+3. "Helmet" Express middleware will be used by the Express backend to further tighten up security. See [https://www.npmjs.com/package/helmet](https://www.npmjs.com/package/helmet) for details.
+
 ## Usage
 
-1. Once you open the project in your browser [http://localhost:3000](http://localhost:3000), you will see a list of 5 jokes (these are the first part of a two part joke). See figure 1 below.
+### For Non-admin Users
 
-![figure 1](public/static/images/screenshot1.png)
+1. Once you open the project in your browser [http://localhost:3000](http://localhost:3000), you will see the home page of the blog. See figure 1 below.
+
+![figure 1](screenshots/screenshot1.png)
 Figure 1
 
-2. Click on any of the jokes to be taken to another page, where the punchline of the joke will be revealed. See figure 2 below.
+2. Scroll down the page to read any existing blog posts from other users, or click on the name of a specific blog author on the left side of the page to only see posts created by that author. See figure 2 below.
 
-![figure 2](public/static/images/screenshot2.png)
+![figure 2](screenshots/screenshot2.png)
 Figure 2
 
-3. Click the "Home" link at the top right corner of the page to return to the home page, where you can select a different joke. See figure 3 below.
+### Register
 
-![figure 3](public/static/images/screenshot3.png)
+3. If you would like to "register" or "sign up" to create your own blog posts on the site, click the "Register" link at the top right corner of the page. See figure 3 below.
+
+![figure 3](screenshots/screenshot3.png)
 Figure 3
+
+4. You will be taken to a page where you can choose to register in one of 3 ways (your preference):
+
+- Choose a new username and password for yourself OR...
+- Click the "Register with Google" button to register with your Google/Gmail login details OR...
+- Click the "Register with Facebook" button to use your Facebook login details.
+
+See figure 4 below.
+
+![figure 4](screenshots/screenshot4.png)
+Figure 4
+
+5. If you choose option 2 or 3, another little window will open and ask you to enter your Google or Facebook login details, before bringing you back to the blog register page.
+
+### Log in
+
+6. Once you have registered, you can click on the "Login" link on the top right hand side of the page. See figure 5 below.
+
+![figure 5](screenshots/screenshot5.png)
+Figure 5
+
+7. You can now log in with the same method you chose to register with. For example, if you chose to register with Google, you should click the "Login with Google" button to log in.
+
+![figure 6](screenshots/screenshot6.png)
+Figure 6
+
+### Create Blog Post
+
+8. Once you have logged in, you will be able to create your very own blog post. Simply type in an appropriate title for your post (step 1), type your actual blog post or article (step 2) and then click the "Save Post" button at the bottom when you are happy with it (step 3). See figure 7 below.
+
+![figure 7](screenshots/screenshot7.png)
+Figure 7
+
+9. To view the post that you just created, click on the "Home" link at the top right hand side of the page and then click on your name button under "Authors" on the left side of the page. See figures 8 and 9 below.
+
+![figure 8](screenshots/screenshot8.png)
+Figure 8
+
+![figure 9](screenshots/screenshot9.png)
+Figure 9
+
+### Edit Blog Post
+
+### Delete Blog Post
+
+### Log Out
+
+To log out of the website, just click on the "Logout" button next to your name at the top right part of the page. See figure 10 below.
+
+![figure 10](screenshots/screenshot10.png)
+Figure 10
+
+### For Admin Users
+
+1. There is only one admin user by default. This user has the rights to edit and delete any other user's blog posts. Once the admin user has logged in (as explained in the "Log In" section above), they will see the word "(admin)" next to their username at the top right hand side of the page. See figure 11 below.
+
+![figure 11](screenshots/screenshot11.png)
+Figure 11
+
+2. To edit or delete another user's post, first click on the "Admin Area" link at the top right of the page. See figure 12 below.
+
+![figure 12](screenshots/screenshot12.png)
+Figure 12
+
+3. You will then see all the other user's blog posts as you could on the "Home" page. However, now you will notice that each post has an "Edit post" and a "Delete post" button underneath it. See figure 13 below.
+
+![figure 13](screenshots/screenshot13.png)
+Figure 13
+
+4. To choose a post, either scroll down the page to the specific user's post that you would like to edit/delete, or click on the name of the user in the left hand side "Authors" section to see only that user's posts.
+
+![figure 14](screenshots/screenshot14.png)
+Figure 14
+
+### Edit Blog Post (admin)
+
+1. To edit a user's post, click on the "Edit Post" button at the bottom of the post you want to edit/update. You will then be able to change the title and/or the main body of the post. When you have made your changes, click on the "Update Post" button to save the changes. If you do not want to save your changes and you would rather just cancel, click the "Cancel" button. See figure 14 below.
+
+![figure 15](screenshots/screenshot15.png)
+Figure 15
+
+### Delete Blog Post (admin)
+
+1. To delete a user's blog post, click on the "Delete Post" button under the post you want to remove. You will be asked if you are sure. Click "Ok" to delete the post, or "Cancel" to go back without deleting it. See figure 15 below.
+
+![figure 16](screenshots/screenshot16.png)
+Figure 16
 
 ## Credits
 
-This project was created by Evan Malherbe as part of a task for HyperioDev Full Stack Development Bootcamp - December 2021 [GitHub profile](https://github.com/evanmalherbe)
+This project was created by Evan Malherbe as part of a task for HyperioDev Full Stack Development Bootcamp - February 2022 [GitHub profile](https://github.com/evanmalherbe)

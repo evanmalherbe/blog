@@ -16,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop";
 //import Breadcrumbs from "./components/BreadCrumbs";
 //import FetchHandleLogin from "./components/FetchHandleLogin";
 import FetchLogin from "./components/FetchLogin";
+import ModifyPosts from "./components/ModifyPosts";
 
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -849,6 +850,28 @@ class App extends React.Component {
                     handlePost={this.handlePost}
                     handleSavePost={this.handleSavePost}
                     createPostActive={true}
+                  />
+                }
+              />
+
+              <Route
+                path="/ModifyPosts"
+                element={
+                  <ModifyPosts
+                    currentUser={currentUser}
+                    authMessage={authMessage}
+                    titlesArray={titlesArray}
+                    idArray={idArray}
+                    postsArray={postsArray}
+                    authorArray={authorArray}
+                    dateCreatedArray={dateCreatedArray}
+                    dateModifiedArray={dateModifiedArray}
+                    handleTitle={this.handleTitle}
+                    handlePost={this.handlePost}
+                    handleEditPost={this.handleEditPost}
+                    handleDeletePost={this.handleDeletePost}
+                    toggleEditVar={this.toggleEditVar}
+                    showEditPost={showEditPost}
                   />
                 }
               />
