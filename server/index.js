@@ -40,8 +40,8 @@ if (!isDev && cluster.isMaster) {
     });
   }
 
-  // Priority serve any static files.
-  app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
+  // // Priority serve any static files.
+  // app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
 
   //Import routes
   require("../routes/api")(app);
