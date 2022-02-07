@@ -196,7 +196,7 @@ Figure 4
 ![figure 5](screenshots/screenshot5.png)
 Figure 5
 
-7. You can now log in with the same method you chose to register with. For example, if you chose to register with Google, you should click the "Login with Google" button to log in.
+7. You can now log in with the same method you chose to register with. For example, if you chose to register with Google, you should click the "Login with Google" button to log in. See figure 6 below.
 
 ![figure 6](screenshots/screenshot6.png)
 Figure 6
