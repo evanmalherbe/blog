@@ -15,6 +15,8 @@ let postsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+
+  // date created and date modified not required/mandatory fields
   datecreated: {
     type: String,
     required: false,

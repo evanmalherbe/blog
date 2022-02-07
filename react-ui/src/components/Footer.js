@@ -3,7 +3,7 @@ import React from "react";
 // Import custom stylesheet
 import "../App.css";
 
-// Function to display rightpanel
+// Function to display footer for page
 function Footer(props) {
   return (
     <div className="footer">

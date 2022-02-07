@@ -8,9 +8,9 @@ import lock from "../lockGrey.png";
 import home from "../homeGrey.png";
 import key from "../keyGrey.png";
 
-/* Create function to display dropdown menu to choose page. Changing the page (or URL) will then let us use 
-React router to only show particular components to the user (i.e. Minesweeper game or Help page) */
+// Create function to display menu links in header
 function Menu(props) {
+  // Declare variables
   let loginLink;
   let createPostLink;
   let adminAreaLink;
@@ -48,6 +48,7 @@ function Menu(props) {
     );
   }
 
+  // only display these links if user is logged in, but not an admin
   if (props.loggedIn && !props.adminStatus) {
     modifyPostsLink = (
       <li>
@@ -58,6 +59,7 @@ function Menu(props) {
     );
   }
 
+  // Only display this link if user is logged in and is an admin
   if (props.loggedIn && props.adminStatus) {
     adminAreaLink = (
       <li>
@@ -68,6 +70,7 @@ function Menu(props) {
     );
   }
 
+  // Return / display menu of links
   return (
     <div className="menuDiv">
       <ul>

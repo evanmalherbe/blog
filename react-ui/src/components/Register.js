@@ -12,15 +12,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // Import custom stylesheet
 import "../App.css";
 
+// import components
 import GoogleRegButton from "./GoogleRegButton";
 import FacebookRegButton from "./FacebookRegButton";
 
-// Function to display rightpanel
+// Function to display register page
 function Register(props) {
   let showButton;
 
+  // If user has just registered, redirect straight to login page
   if (props.justRegistered === true) {
     showButton = <Navigate to="/Login" />;
+
+    // If user has not yet registered, display register page/form
   } else {
     showButton = (
       <div className="registerDiv">
@@ -75,6 +79,8 @@ function Register(props) {
       </div>
     );
   }
+
+  // Return/ display form
   return <div>{showButton}</div>;
 }
 

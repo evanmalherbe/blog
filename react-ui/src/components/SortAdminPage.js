@@ -3,6 +3,7 @@ import React from "react";
 // Import React Bootstrap components
 import Button from "react-bootstrap/Button";
 
+// Function to determine how to display admin page
 export function SortAdminPage(
   postsArray,
   selectedUser,
@@ -22,6 +23,8 @@ export function SortAdminPage(
     const name = authorsArray[i];
     const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
 
+    // If user has not clicked on a particular blog author's name on the left side of the page yet,
+    // show all posts with edit and delete buttons underneath
     if (selectedUser === null) {
       displayPosts.push(
         <div className="post" key={idsArray[i]}>
@@ -70,6 +73,8 @@ export function SortAdminPage(
           </div>
         </div>
       );
+
+      // If user has clicked on a particular blog author's name, only display that author's posts
     } else if (authorsArray[i] === selectedUser) {
       displayPosts.push(
         <div className="post" key={idsArray[i]}>
@@ -121,6 +126,7 @@ export function SortAdminPage(
     }
   }
 
+  // Display message if there are no posts to display
   if (displayPosts.length === 0) {
     displayPosts.push(
       <div className="redText" key={1}>
@@ -129,5 +135,6 @@ export function SortAdminPage(
     );
   }
 
+  // Return array of divs for each post to be used by admin area component
   return displayPosts;
 }

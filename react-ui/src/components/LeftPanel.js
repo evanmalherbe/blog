@@ -9,12 +9,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // Import custom stylesheet
 import "../App.css";
 
-// Function to display rightpanel
+// Function to display left panel of page. Shows buttons for each blog author, so user can select to
+// only see a particular author's posts, or all author's posts
 function LeftPanel(props) {
   let displayUsers = [];
   let users = props.usersArray;
   let createPostActive = props.createPostActive;
 
+  // Populate array with button if users array has items in it
   if (users !== undefined && users.length > 0) {
     let usersArray = users.split(",");
 
@@ -30,7 +32,10 @@ function LeftPanel(props) {
       </Button>
     );
 
+    // Loop to populate buttons with authors names. User clicks author's name to only see that person's
+    // blog posts
     for (let i = 0; i <= usersArray.length - 1; i++) {
+      // Capitalise blog author's names
       const name = usersArray[i];
       const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -39,7 +44,7 @@ function LeftPanel(props) {
           type="button"
           variant="secondary"
           className="mb-1"
-          // style={{ color: "white", background: "#2a6877", marginTop: "0.5rem" }}
+          // When user clicks, it updates the selected user name variable
           onClick={() => props.updateSelectedUser(usersArray[i])}
           key={i + 1}
         >
@@ -47,6 +52,8 @@ function LeftPanel(props) {
         </Button>
       );
     }
+
+    // display message if tere are no users to display
   } else {
     displayUsers.push(
       <div className="redText" key={1}>
@@ -55,6 +62,7 @@ function LeftPanel(props) {
     );
   }
 
+  // If the logged in user is on the "Create post" page, just display "n/a"
   if (createPostActive === true) {
     displayUsers = (
       <div className="redText" key={1}>
@@ -63,6 +71,7 @@ function LeftPanel(props) {
     );
   }
 
+  // Return / display left panel
   return (
     <div className="leftPanel">
       <h4>Authors</h4>

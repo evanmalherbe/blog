@@ -20,11 +20,10 @@ import "../App.css";
 function EditPost(props) {
   let showEditPostForm;
 
-  console.log("Edit post received, author: " + props.author);
-
   // Learned to redirect/Navigate with react router here:
   // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
+  // Show edit post form if user is logged in and has clicked the edit post button
   if (
     props.authMsg === "Success! Token valid." &&
     props.showEditPost === true
@@ -80,12 +79,16 @@ function EditPost(props) {
         </Form>
       </div>
     );
+    // Go back to admin area if user clicked the button to "cancel" the edit
   } else if (props.editCanceled === true) {
     showEditPostForm = <Navigate to="/AdminArea" />;
+
+    // Redirect home if user is not logged in and hasn't clicked the edit post button
   } else {
     showEditPostForm = <Navigate to="/" />;
   }
 
+  // Return/ display page
   return (
     <div className="bodyDiv">
       <LeftPanel />

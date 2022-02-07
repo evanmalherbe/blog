@@ -8,21 +8,25 @@ import { refreshTokenSetup } from "../Utils/refreshToken";
 // https://dev.to/sivaneshs/add-google-login-to-your-react-apps-in-10-mins-4del
 
 function GoogleLoginButton(props) {
+  // Google client id
   const clientId =
     "814875559791-253acrmfifcppvudqmbq3790gi63k7sv.apps.googleusercontent.com";
 
+  // Run this on successful google login
   const onSuccess = (res) => {
     console.log("Login Success: currentUser:", res.profileObj.name);
 
     refreshTokenSetup(res);
+    // Send google username and id to app.js to be used to log user in
     props.handleGoogleLogin(res.profileObj.name, res.profileObj.googleId);
   };
 
+  // Console log message on failure to log in
   const onFailure = (res) => {
     console.log("Login failed: res:", res);
-    //alert(`Failed to login.`);
   };
 
+  // Display Google login button
   return (
     <div>
       {" "}
@@ -38,4 +42,5 @@ function GoogleLoginButton(props) {
   );
 }
 
+// Export component to be used by other files
 export default GoogleLoginButton;

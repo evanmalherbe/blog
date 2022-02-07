@@ -16,18 +16,20 @@ import LeftPanel from "./LeftPanel";
 // Import custom stylesheet
 import "../App.css";
 
-// Function to display rightpanel
+// Function to display create post page
 function CreatePost(props) {
   let showCreatePost;
 
   // Learned to redirect/Navigate with react router here:
   // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
+  // If statement to only show create post page if user has been authenticated, else go back to home page
   if (props.authMessage === "Success! Token valid.") {
     showCreatePost = (
       <div className="createPostDiv">
         <h1>Create New Post</h1>
 
+        {/* Form to create/save new blog post.  */}
         <Form id="createPostForm" autoComplete="off" className="createPostForm">
           <FormGroup className="mb-3">
             {" "}
@@ -61,10 +63,13 @@ function CreatePost(props) {
         </Form>
       </div>
     );
+
+    // If not logged in, redirect to home page
   } else {
     showCreatePost = <Navigate to="/" />;
   }
 
+  // Return/display create post page
   return (
     <div className="bodyDiv">
       <LeftPanel createPostActive={props.createPostActive} />

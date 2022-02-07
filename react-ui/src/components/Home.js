@@ -8,7 +8,8 @@ import RightPanel from "./RightPanel";
 import CentrePanel from "./CentrePanel";
 import LeftPanel from "./LeftPanel";
 
-// Function to display rightpanel
+// Function to display home page with posts from all blog authors. What centre panel displays is
+// determined by who is logged in and which menu link user has clicked
 function Home(props) {
   return (
     <div className="bodyDiv">

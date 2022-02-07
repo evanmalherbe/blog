@@ -14,4 +14,5 @@ function ScrollToTop() {
   return null;
 }
 
+// Export component to be used by other files
 export default ScrollToTop;

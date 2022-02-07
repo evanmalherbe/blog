@@ -26,7 +26,7 @@ exports.create = function (req, res) {
   });
 };
 
-// Retrieve all blog posts
+// Retrieve all blog posts from db
 exports.findAll = function (req, res) {
   Post.find({}, function (err, post) {
     if (err) {
@@ -35,7 +35,7 @@ exports.findAll = function (req, res) {
         .status(500)
         .send({ message: "Some error occurred while retrieving blog posts." });
     } else {
-      // Process result by pushing items to an array - separate arrays for blog titles, blog posts, blog authors and post id's
+      // Process result by pushing items to an array - separate arrays for blog titles, blog posts, blog authors, post id's, date created and date modified
       let titlesArray = [];
       let postsArray = [];
       let postIdArray = [];
@@ -63,6 +63,8 @@ exports.findAll = function (req, res) {
         postIdArray.push(result._id);
       });
 
+      // if statement to check if there is a date created or date modified document, since they are not
+      //required as per the model
       post.forEach(function (result) {
         if (result.datecreated === null || result.datecreated === undefined) {
           dateCreatedArray.push("");
@@ -79,8 +81,7 @@ exports.findAll = function (req, res) {
         }
       });
 
-      //console.log("Date modified array says: " + dateModifiedArray);
-
+      // Send data to front end
       res.json({
         message: `${message}`,
         titles: `${titlesArray}`,
@@ -98,6 +99,7 @@ exports.findAll = function (req, res) {
   // End of findall function
 };
 
+// Update/edit post
 exports.updatePost = function (req, res) {
   // Id of blog post to update
   let query = { _id: req.body.id };
@@ -109,6 +111,7 @@ exports.updatePost = function (req, res) {
     {
       title: req.body.title,
       post: req.body.post,
+      // Add date modified
       datemodified: req.body.dateMod,
     },
     { new: true },

@@ -15,7 +15,7 @@ import CreateWelcome from "./components/CreateWelcome";
 import ScrollToTop from "./components/ScrollToTop";
 //import Breadcrumbs from "./components/BreadCrumbs";
 //import FetchHandleLogin from "./components/FetchHandleLogin";
-import FetchLogin from "./components/FetchLogin";
+//import FetchLogin from "./components/FetchLogin";
 import ModifyPosts from "./components/ModifyPosts";
 
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
@@ -529,6 +529,7 @@ class App extends React.Component {
         showEditPost: false,
         showGoogleRegButton: false,
         showGoogleLogin: false,
+        justRegistered: false,
       },
       () => {
         console.log("User logged out.");
@@ -555,6 +556,7 @@ class App extends React.Component {
           this.setState(
             {
               isLoaded: false,
+              justRegistered: true,
             },
             () => {
               console.log("Registration details sent via post.");
@@ -727,8 +729,6 @@ class App extends React.Component {
     const {
       error,
       isLoaded,
-      username,
-      password,
       message,
       currentUser,
       loggedIn,
@@ -739,8 +739,6 @@ class App extends React.Component {
       authorArray,
       dateCreatedArray,
       dateModifiedArray,
-      adminStatusArray,
-      pwordArray,
       adminStatus,
       authMessage,
       postId,
@@ -919,7 +917,7 @@ class App extends React.Component {
                 }
               />
 
-              <Route
+              {/* <Route
                 path="/FetchLogin"
                 element={
                   <FetchLogin
@@ -931,7 +929,7 @@ class App extends React.Component {
                     handleAuth={this.handleAuth}
                   />
                 }
-              />
+              /> */}
             </Routes>
           </BrowserRouter>
           <Footer />

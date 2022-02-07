@@ -11,24 +11,30 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 // Import custom stylesheet
 import "../App.css";
+
+// Import components
 import GoogleLoginButton from "./GoogleLoginButton";
 import FacebookLoginButton from "./FacebookLoginButton";
 
-// Function to display rightpanel
+// Function to display login page
 function Login(props) {
   let showLoginPage;
 
   // Learned to redirect/Navigate with react router here:
   // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
+  // If user has successfully logged in, display create new post page
   if (props.authMessage === "Success! Token valid.") {
     showLoginPage = <Navigate to="/CreatePost" />;
+
+    // If user not yet logged in, display login page/form
   } else {
     showLoginPage = (
       <div className="loginDiv">
         <h1>Log in</h1>
         {/* Learned how to turn autocomplete off here: 
       https://reactgo.com/react-turn-off-autocomplete/ */}
+
         <Form id="loginForm" autoComplete="off" className="loginForm">
           <FormGroup className="mb-3">
             {" "}
@@ -76,6 +82,7 @@ function Login(props) {
     );
   }
 
+  // return . display login page
   return <div>{showLoginPage}</div>;
 }
 

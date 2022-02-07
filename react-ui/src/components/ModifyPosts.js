@@ -5,13 +5,12 @@ import { Navigate } from "react-router-dom";
 // Import components
 import RightPanel from "./RightPanel";
 import LeftPanel from "./LeftPanel";
-
 import { SortModifyPosts } from "./SortModifyPosts";
 
 // Import custom stylesheet
 import "../App.css";
 
-// Function to display Centre Panel
+// Function to display modify posts page (equivalent to admin area page, but for non-admin users)
 function ModifyPosts(props) {
   // Make variable names shorter
   let titles = props.titlesArray;
@@ -29,8 +28,11 @@ function ModifyPosts(props) {
   // Create variable to display admin area or not depending on whether user is logged in
   let showModifyArea;
 
+  // Redirect to edit post page if user has clicked the edit post button
   if (showEditPost === true) {
     showModifyArea = <Navigate to="/EditPost" />;
+
+    // If user has not clicked edit post button yet...
   } else {
     // If there are posts, display them, else display "No posts" message
     if (posts.length > 0) {
@@ -64,7 +66,7 @@ function ModifyPosts(props) {
     // Learned to redirect/Navigate with react router here:
     // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
-    // if user logged in, show admin area
+    // if user logged in, show page to modify posts (edit or delete)
     if (props.authMessage === "Success! Token valid.") {
       showModifyArea = (
         <div className="adminArea" id="top">
@@ -76,6 +78,8 @@ function ModifyPosts(props) {
           <br />
         </div>
       );
+
+      // If user not logged in, redirect to home
     } else {
       // Else redirect to home page
       showModifyArea = <Navigate to="/" />;
@@ -84,6 +88,7 @@ function ModifyPosts(props) {
     // End of first if statement to show page or redirect to edit post page
   }
 
+  // Return / display page
   return (
     <div className="bodyDiv">
       <LeftPanel

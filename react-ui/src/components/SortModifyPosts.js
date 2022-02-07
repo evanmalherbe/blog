@@ -3,6 +3,7 @@ import React from "react";
 // Import React Bootstrap components
 import Button from "react-bootstrap/Button";
 
+// Function to determine how to display "modify posts" page
 export function SortModifyPosts(
   postsArray,
   currentUser,
@@ -22,6 +23,7 @@ export function SortModifyPosts(
     const name = authorsArray[i];
     const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
 
+    // Only display blog posts created by currently logged in author, along with edit and delete buttons
     if (authorsArray[i] === currentUser) {
       displayPosts.push(
         <div className="post" key={idsArray[i]}>
@@ -73,6 +75,7 @@ export function SortModifyPosts(
     }
   }
 
+  // Display message if no posts have been created by the logged in author yet
   if (displayPosts.length === 0) {
     displayPosts.push(
       <div className="redText" key={1}>
@@ -81,5 +84,6 @@ export function SortModifyPosts(
     );
   }
 
+  // Return array of divs for each post to be used by "Modify posts" component
   return displayPosts;
 }

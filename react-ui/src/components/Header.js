@@ -17,6 +17,8 @@ function Header(props) {
         <img src={logo} className="logo" alt="logo" />
         <h1>Hyperion Blog</h1>
       </div>
+
+      {/* Displays menu links */}
       <Menu loggedIn={props.loggedIn} adminStatus={props.adminStatus} />
     </header>
   );

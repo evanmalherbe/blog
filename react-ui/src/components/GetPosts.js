@@ -18,11 +18,14 @@ class GetPosts extends React.Component {
     };
   }
 
+  // Component did mount function runs once only
   componentDidMount() {
+    // Fetch posts from db
     fetch("/getposts")
       .then((res) => res.json())
       .then(
         (result) => {
+          // Save post info to state
           this.setState(
             {
               isLoaded: true,
@@ -37,6 +40,7 @@ class GetPosts extends React.Component {
             () => {
               console.log("Db says: " + this.state.message);
 
+              // Send post info to function in app.js (lifting state up)
               this.props.loadPosts(
                 this.state.isLoaded,
                 this.state.titlesArray,
@@ -59,9 +63,11 @@ class GetPosts extends React.Component {
     // End of componentdidmount
   }
 
+  // Nothing to return
   render() {
     return "";
   }
 }
 
+// Export component to be used by other files
 export default GetPosts;

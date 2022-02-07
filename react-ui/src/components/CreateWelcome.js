@@ -6,16 +6,19 @@ import Button from "react-bootstrap/Button";
 // Import custom stylesheet
 import "../App.css";
 
-// Function to display rightpanel
+// Function to create welcome message for logged in user
 function CreateWelcome(loggedIn, adminStatus, currentUser, handleLogout) {
+  // Create welcome message if user logged in, else say no user is currently logged in
   if (loggedIn) {
     console.log("CreateWelcome has run.");
+
     // Learned to capitalise first letter of a string here:
     // https://flaviocopes.com/how-to-uppercase-first-letter-javascript/
-
     const name = currentUser;
     const nameCapitalised = name.charAt(0).toUpperCase() + name.slice(1);
 
+    // Display username (admin) if user has admin rights, else just show normal welcome
+    // Message includes logout button next to it
     if (adminStatus === true) {
       return (
         <div className="loginStatusDiv">
@@ -45,6 +48,8 @@ function CreateWelcome(loggedIn, adminStatus, currentUser, handleLogout) {
         </div>
       );
     }
+
+    // Show message if no user is logged in
   } else {
     return (
       <div className="loginStatusDiv">

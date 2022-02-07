@@ -7,7 +7,7 @@ import pc from "../pc.jpg";
 // Import custom stylesheet
 import "../App.css";
 
-// Function to display rightpanel
+// Function to display rightpanel with decorative images
 function RightPanel(props) {
   return (
     <div className="rightPanel">

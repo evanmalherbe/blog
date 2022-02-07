@@ -1,17 +1,15 @@
 import React from "react";
-// import { AdminSortPosts } from "./AdminSortPosts";
 import { Navigate } from "react-router-dom";
 
 // Import components
 import RightPanel from "./RightPanel";
 import LeftPanel from "./LeftPanel";
-
 import { SortAdminPage } from "./SortAdminPage";
 
 // Import custom stylesheet
 import "../App.css";
 
-// Function to display Centre Panel
+// Function to display Admin area
 function AdminArea(props) {
   // Make variable names shorter
   let titles = props.titlesArray;
@@ -26,25 +24,31 @@ function AdminArea(props) {
   let toggleEditVar = props.toggleEditVar;
   let showEditPost = props.showEditPost;
   let adminStatus = props.adminStatus;
-  // Create variable to display admin area or not depending on whether user is logged in
+  // Create variable to display admin area or not depending on whether user is logged in and has admin
+  // rights
   let showAdminArea;
 
+  // If user has clicked on "Edit post" button, go to edit post page
   if (showEditPost === true && adminStatus === true) {
     showAdminArea = <Navigate to="/EditPost" />;
+
+    // If user has not clicked to edit a post, add all posts from array to "displayposts" variable,
+    // to be displayed on page
   } else {
     // If there are posts, display them, else display "No posts" message
     if (posts.length > 0) {
-      // Create arrays from db data by splitting at commas
+      // Create arrays from db data by delimiting at commas
       let titlesArray = titles.split(",");
       let idsArray = ids.split(",");
       let authorsArray = authors.split(",");
       let dateCreatedArray = dateCreated.split(",");
       let dateModifiedArray = dateModified.split(",");
 
-      // Posts are delimited by /// - as I was having issues with commas in the actual post content
+      // Posts are delimited by /// - as I was having issues with there being commas in the actual post
+      // content
       let postsArray = posts.split("///,");
 
-      // Call external function to determine how the page displays
+      // Call external function to arrange/determine how the page displays
       displayPosts = SortAdminPage(
         postsArray,
         selectedUser,
@@ -64,7 +68,7 @@ function AdminArea(props) {
     // Learned to redirect/Navigate with react router here:
     // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
-    // if user logged in, show admin area
+    // if user logged in and he is an admin, show admin area
     if (
       props.authMessage === "Success! Token valid." &&
       props.adminStatus === true
@@ -93,6 +97,7 @@ function AdminArea(props) {
         usersArray={props.usersArray}
         updateSelectedUser={props.updateSelectedUser}
       />
+
       {showAdminArea}
 
       <RightPanel />
