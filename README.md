@@ -43,17 +43,45 @@ This project uses:
 
 ## Installation
 
-To run this project, do the following:
+To run this project, you will first need to modify the MongoDB URI (Uniform Resource Indicator) to point to your own Mongo database. If you are new to MongoDB, visit this link to create your own free database cluster - [https://docs.atlas.mongodb.com/getting-started/](https://docs.atlas.mongodb.com/getting-started/), then follow the steps below.
 
-1. Copy the project files to a directory called 'blog' on your local machine.
-2. Navigate to this directory from the command line interface. E.g. cd c:/blog. This is the backend of the application.
-3. In the command line interface, type 'npm install'.
-4. Once it has finished installing, type 'npm start'.
-5. Now navigate to the "/react-ui" directory inside "blog". E.g. cd c:/blog/react-ui.
-6. In the command line interface, once again type 'npm install'.
-7. Once it has finished installing, type 'npm start'.
-8. You have now started both the backend and frontend servers.
-9. Open [http://localhost:3000](http://localhost:3000) to view the project in your web browser.
+1. Log into your MongoDB account [https://account.mongodb.com/account/login](https://account.mongodb.com/account/login).
+
+2. Click on the "Connect" button. See figure 21 below.
+
+![figure 21](screenshots/screenshot21.png)
+Figure 21
+
+3. Click on the "Connect your application" button. See figure 22 below.
+
+![figure 22](screenshots/screenshot22.png)
+Figure 22
+
+4. Copy the connection string to your clipboard (perhaps save it in a text editor so you don't lose it). This is the database URI that we will need, in order to point the application to your database. See figure 23 below.
+
+![figure 23](screenshots/screenshot23.png)
+Figure 23
+
+5. Copy the project files of this app to a directory called 'blog' on your local machine.
+6. Navigate to this directory from the command line interface. E.g. cd c:/blog. This is the backend of the application.
+7. Open the "server/index.js" file of this app using any text editor and scroll down to the part show in figure 24 below.
+
+![figure 24](screenshots/screenshot24.png)
+Figure 24
+
+6. Refer to your connection string from step 4 above and replace the username (1), password (2), cluster (3) and dbname (4) in the code of "index.js" with the correct details from your own connection string as indicated in figure 25 below. For example, if your database username is "bobhope", then you will change the line at number 1 in the figure below to `const username = "bobhope";`.
+
+![figure 25](screenshots/screenshot25.png)
+Figure 25
+
+7. Save the changes to the "index.js" file.
+8. In the command line interface, type 'npm install'.
+9. Once it has finished installing, type 'npm start'.
+10. Now navigate to the "/react-ui" directory inside "blog" (this is the frontend of the app). E.g. cd c:/blog/react-ui.
+11. In the command line interface, once again type 'npm install'.
+12. Once it has finished installing, type 'npm start'.
+13. You have now started both the backend and frontend servers.
+14. Open [http://localhost:3000](http://localhost:3000) to view the project in your web browser.
 
 ## System Architecture
 
