@@ -12,9 +12,11 @@ The app has been deployed with Heroku and can be accessed at this URL: [https://
 - [Technologies](#technologies)
 - [Installation](#installation)
 - [Testing](#testing)
+- [Deployment](#deployment)
 - [System Architecture](#system-architecture)
 - [System Requirements Specification](#system-requirements-specification)
 - [Security](#security)
+- [Wireframes](#wireframes)
 - [Usage](#usage)
 - [Credits](#credits)
 
@@ -123,9 +125,13 @@ To run the snapshot and unit tests for the frontend of the app:
 ![figure 27](screenshots/screenshot27.png)
 Figure 27
 
+## Deployment
+
+This app has been deployed using Heroku - [https://www.heroku.com/](https://www.heroku.com/). The URL for the app is [https://hyperionblog.herokuapp.com/](https://hyperionblog.herokuapp.com/). I chose to use Heroku because I became very familiar with it while creating other apps for the HyperionDev full stack web developer bootcamp. I chose to deploy the front and backend of the app together, as it seems simpler to me.
+
 ## System Architecture
 
-I will be creating a blog app for this task. It will be built using the MERN stack (MongoDB, Express, React and Node) with a React.js front end. I plan to use the "create react app with node server" buildpack that I found here: https://github.com/mars/heroku-cra-node to make the app easier to deploy with Heroku when it's finished (I had a lot of trouble deploying with Heroku until I discovered this buildpack). I'm using Heroku because I became very familiar with it through spending many hours troubleshooting when my previous tasks would not deploy.
+I will be creating a blog app for this task. It will be built using the MERN stack (MongoDB, Express, React and Node) with a React.js front end. I plan to use the "create react app with node server" buildpack that I found here: [https://github.com/mars/heroku-cra-node](https://github.com/mars/heroku-cra-node) to make the app easier to deploy with Heroku when it's finished (I had a lot of trouble deploying with Heroku until I discovered this buildpack). I'm using Heroku because I became very familiar with it through spending many hours troubleshooting when my previous tasks would not deploy.
 
 I will be using React Bootstrap to aid me in styling the app attractively, since I am very familiar with using bootstrap and I think the end result looks great. I also firmly believe in using libraries such as bootstrap to make my job of coding easier and quicker. My app will have an Express backend server that will read, write, update and delete data from MongoDB using a REST api. I will use JSON Web Tokens (JWT) for authentication and the users will be able to log in using Facebook, Google or their own username and password. Users with Admin rights will be able to modify other user's blog data, while non-admin users will only be able to modify their own blog data. However, any visitor to the website will be able to view all the user's blog entries without having to log into the system.
 
@@ -217,9 +223,13 @@ This app will use MongoDB as a database, which is a huge advantage for performan
 
 ## Security
 
-1. Only users that have been authenticated with a valid JSON Web Token (JWT) will be permitted to modify blog posts, and they will only ever be able to modify their own posts. Only the single Admin user will have rights to modify any user's blog articles and to remove users from the system.
+1. Only users that have been authenticated with a valid JSON Web Token (JWT) will be permitted to modify blog posts, and they will only ever be able to modify their own posts. Only the single Admin user will have rights to modify any user's blog articles.
 
 2. "Helmet" Express middleware will be used by the Express backend to further tighten up security. See [https://www.npmjs.com/package/helmet](https://www.npmjs.com/package/helmet) for details.
+
+## Wireframes
+
+I created wireframes of how I wanted the user interface (UI) of this app to look before I started coding it. I used Draw.io ([https://www.diagrams.net/](https://www.diagrams.net/)) to create/plan them. I have included PDF files for all of the wireframes in the "wireframes" directory of this project.
 
 ## Usage
 
