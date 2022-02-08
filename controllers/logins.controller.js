@@ -32,7 +32,8 @@ exports.findAll = function (req, res) {
         .status(500)
         .send({ message: "Some error occurred while retrieving logins." });
     } else {
-      // Push results to 2 arrays, one for usernames and another for passwords
+      // Push results to 3 arrays, one for usernames, another for passwords and a 3rd for admin status 
+      //(true or false)
       let usernames = [];
       let passwords = [];
       let adminStatus = [];

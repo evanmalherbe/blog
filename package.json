@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
-    "build": "cd react-ui/ && npm install && npm run build"
+    "build": "cd react-ui/ && npm install && npm run build",
+    "test": "mocha"
   },
   "cacheDirectories": [
     "node_modules",
@@ -22,7 +23,8 @@
     "helmet": "5.0.2",
     "jsonwebtoken": "8.5.1",
     "mongoose": "6.1.7",
-    "nodemon": "2.0.15"
+    "nodemon": "2.0.15",
+    "request": "2.88.2"
   },
   "repository": {
     "type": "git",
@@ -34,5 +36,9 @@
     "create-react-app",
     "react"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "4.3.6",
+    "mocha": "9.2.0"
+  }
 }

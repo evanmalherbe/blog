@@ -34,7 +34,7 @@ module.exports = function (app) {
           algorithm: "HS256",
         });
 
-        return res.send({ message: token });
+        return res.send({ message: token, data: "Login page responded." });
       }
     }
 

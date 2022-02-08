@@ -72,9 +72,6 @@ class App extends React.Component {
     this.handleAuth = this.handleAuth.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
-
-    //this.getPosts = this.getPosts.bind(this);
-    // this.loadLogins = this.loadLogins.bind(this);
     this.loadPosts = this.loadPosts.bind(this);
     this.getLogins = this.getLogins.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -82,8 +79,6 @@ class App extends React.Component {
     this.handleSavePost = this.handleSavePost.bind(this);
     this.handleEditPost = this.handleEditPost.bind(this);
     this.handleDeletePost = this.handleDeletePost.bind(this);
-    //this.callEditPost = this.callEditPost.bind(this);
-    //this.createWelcomeMsg = this.createWelcomeMsg.bind(this);
     this.updateSelectedUser = this.updateSelectedUser.bind(this);
     this.fetchRegister = this.fetchRegister.bind(this);
     this.fetchSavePost = this.fetchSavePost.bind(this);
@@ -625,28 +620,6 @@ class App extends React.Component {
   }
 
   // --------------------------------------------------------- //
-
-  // // Retrieve user logins from db - This function is called from child component "GetLogins.js"
-  // loadLogins(
-  //   getIsLoaded,
-  //   getUsersArray,
-  //   getPwordArray,
-  //   getAdminStatusArray,
-  //   getMessage
-  // ) {
-  //   this.setState(
-  //     {
-  //       isLoaded: getIsLoaded,
-  //       UsersArray: getUsersArray,
-  //       pwordArray: getPwordArray,
-  //       adminStatusArray: getAdminStatusArray,
-  //       message: getMessage,
-  //     },
-  //     () => console.log("Message from db is: " + this.state.message)
-  //   );
-
-  //   // End of load logins
-  // }
 
   // Retrieve blog posts from db - This function is called from child component "GetPosts.js"
   loadPosts(

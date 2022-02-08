@@ -11,6 +11,7 @@ The app has been deployed with Heroku and can be accessed at this URL: [https://
 - [Instructions](#instructions)
 - [Technologies](#technologies)
 - [Installation](#installation)
+- [Testing](#testing)
 - [System Architecture](#system-architecture)
 - [System Requirements Specification](#system-requirements-specification)
 - [Security](#security)
@@ -82,6 +83,44 @@ Figure 25
 12. Once it has finished installing, type 'npm start'.
 13. You have now started both the backend and frontend servers.
 14. Open [http://localhost:3000](http://localhost:3000) to view the project in your web browser.
+
+## Testing
+
+There are 4 tests for this app (1 snapshot test and 3 unit tests - 2 for frontend and one for backend).
+
+A "snapshot test" is ".. a type of “output comparison” or “golden master” testing. These tests prevent regressions by comparing the current characteristics of an application or component with stored “good” values for those characteristics."
+
+A "unit test" is "...an automated test of a unit of source code. A unit test asserts if the unit's behaviour matches expectations."
+
+(source of definitions:
+snapshot test: [https://www.sitepen.com/blog/snapshot-testing-benefits-and-drawbacks#:~:text=Snapshot%20testing%20is%20a%20type,from%20unit%20and%20functional%20tests](https://www.sitepen.com/blog/snapshot-testing-benefits-and-drawbacks#:~:text=Snapshot%20testing%20is%20a%20type,from%20unit%20and%20functional%20tests)
+
+unit test: [https://dev.to/dstrekelj/how-to-write-unit-tests-in-javascript-with-jest-2e83](https://dev.to/dstrekelj/how-to-write-unit-tests-in-javascript-with-jest-2e83)
+)
+
+**Backend Test**
+The backend unit test has 2 parts. The first part checks to see that it can successfully reach a resource on the backend server. It succeeds when it receives a status code of "200". The second part of the test checks to see if it returns an expected string of "Hello from Evans server!" from the server.
+
+To run the unit test for the backend of the app:
+
+1. Navigate to the "blog" from the command line interface. E.g. cd c:/blog.
+2. Type "npm test".
+3. If the test runs successfully, you should get a response that looks like figure 26 below.
+
+![figure 26](screenshots/screenshot26.png)
+Figure 26
+
+**Frontend Tests**
+The snapshot test for the frontend checks to see that a <Button> element renders exactly the same as it did when the snapshot was first recorded. The first of the 2 unit tests checks that the <App /> component renders without crashing, and the second test checks that the paragraph element of the Footer component contains the text: "© Copyright Evan Malherbe 2022".
+
+To run the snapshot and unit tests for the frontend of the app:
+
+1. Navigate to the "react-ui" directory from the command line interface. E.g. cd c:/blog/react-ui.
+2. Type "npm test".
+3. If the 3 frontend tests run successfully, you should see a response that looks like figure 27 below.
+
+![figure 27](screenshots/screenshot27.png)
+Figure 27
 
 ## System Architecture
 
@@ -179,9 +218,7 @@ This app will use MongoDB as a database, which is a huge advantage for performan
 
 1. Only users that have been authenticated with a valid JSON Web Token (JWT) will be permitted to modify blog posts, and they will only ever be able to modify their own posts. Only the single Admin user will have rights to modify any user's blog articles and to remove users from the system.
 
-2. User's passwords will be encrypted before they are stored in the Mongo database, so there will be no risk of them being intercepted in plain text while they are being sent to the database.
-
-3. "Helmet" Express middleware will be used by the Express backend to further tighten up security. See [https://www.npmjs.com/package/helmet](https://www.npmjs.com/package/helmet) for details.
+2. "Helmet" Express middleware will be used by the Express backend to further tighten up security. See [https://www.npmjs.com/package/helmet](https://www.npmjs.com/package/helmet) for details.
 
 ## Usage
 

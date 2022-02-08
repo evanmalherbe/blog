@@ -65,7 +65,7 @@ class GetPosts extends React.Component {
 
   // Nothing to return
   render() {
-    return "";
+    return null;
   }
 }
 
