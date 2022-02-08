@@ -41,6 +41,7 @@ This project uses:
 - Express
 - MongoDB
 - JSON Web Tokens (JWT)
+- Jest, Mocha and Chai (for testing)
 
 ## Installation
 
@@ -103,7 +104,7 @@ The backend unit test has 2 parts. The first part checks to see that it can succ
 
 To run the unit test for the backend of the app:
 
-1. Navigate to the "blog" from the command line interface. E.g. cd c:/blog.
+1. Navigate to the "blog" directory from the command line interface. E.g. cd c:/blog.
 2. Type "npm test".
 3. If the test runs successfully, you should get a response that looks like figure 26 below.
 
@@ -111,7 +112,7 @@ To run the unit test for the backend of the app:
 Figure 26
 
 **Frontend Tests**
-The snapshot test for the frontend checks to see that a <Button> element renders exactly the same as it did when the snapshot was first recorded. The first of the 2 unit tests checks that the <App /> component renders without crashing, and the second test checks that the paragraph element of the Footer component contains the text: "© Copyright Evan Malherbe 2022".
+The snapshot test for the frontend checks to see that a `<Button>` element renders exactly the same as it did when the snapshot was first recorded. The first of the 2 unit tests checks that the `<App />` component renders without crashing, and the second test checks that the paragraph element of the Footer component contains the text: "© Copyright Evan Malherbe 2022".
 
 To run the snapshot and unit tests for the frontend of the app:
 
