@@ -10,12 +10,9 @@ import CreatePost from "./components/CreatePost";
 import AdminArea from "./components/AdminArea";
 import GetPosts from "./components/GetPosts";
 import EditPost from "./components/EditPost";
-import DeletePost from "./components/DeletePost";
+//import DeletePost from "./components/DeletePost";
 import CreateWelcome from "./components/CreateWelcome";
 import ScrollToTop from "./components/ScrollToTop";
-//import Breadcrumbs from "./components/BreadCrumbs";
-//import FetchHandleLogin from "./components/FetchHandleLogin";
-//import FetchLogin from "./components/FetchLogin";
 import ModifyPosts from "./components/ModifyPosts";
 
 // Import Components for React-Router (to display certain components based on the URL the user chooses)
@@ -84,9 +81,7 @@ class App extends React.Component {
     this.fetchSavePost = this.fetchSavePost.bind(this);
     this.toggleEditVar = this.toggleEditVar.bind(this);
     this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
-    /// this.handleGoogleRegister = this.handleGoogleRegister.bind(this);
     this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
-    //this.handleFacebookRegister = this.handleFacebookRegister.bind(this);
     this.handleCancelEdit = this.handleCancelEdit.bind(this);
   }
 
@@ -106,20 +101,6 @@ class App extends React.Component {
     );
   }
 
-  // // Handles registering with Google account when user clicks button on register page
-  // handleFacebookRegister(fUsername, fbId) {
-  //   this.setState(
-  //     {
-  //       username: fUsername,
-  //       password: fbId,
-  //       justRegistered: true,
-  //     },
-  //     () => {
-  //       this.handleRegister();
-  //     }
-  //   );
-  // }
-
   // Handles logging in with Google account when user clicks button on login page
   handleFacebookLogin(user, loginStatus, userID) {
     this.setState(
@@ -137,20 +118,6 @@ class App extends React.Component {
       }
     );
   }
-
-  // // Handles registering with Google account when user clicks button on register page
-  // handleGoogleRegister(gUsername, googleId) {
-  //   this.setState(
-  //     {
-  //       username: gUsername,
-  //       password: googleId,
-  //       justRegistered: true,
-  //     },
-  //     () => {
-  //       this.handleRegister();
-  //     }
-  //   );
-  // }
 
   // Handles logging in with Google account when user clicks button on login page
   handleGoogleLogin(loginStatus, gUsername, googleId) {
@@ -540,6 +507,7 @@ class App extends React.Component {
     );
   }
 
+  // Function for fetch method to register new user (i.e. create user on db)
   fetchRegister() {
     fetch("/register", {
       method: "POST",
@@ -673,7 +641,7 @@ class App extends React.Component {
     // End of load Posts
   }
 
-  // Reloads page
+  // Retrieve logins from db
   reloadPage() {
     if (this.state.isLoaded === false) {
       this.getLogins();
@@ -714,7 +682,7 @@ class App extends React.Component {
       );
   }
 
-  // Runs when page is first loaded.
+  // Runs when page is first loaded. Retrieves logins from db
   componentDidMount() {
     if (this.state.isLoaded === false) {
       this.getLogins();
@@ -728,6 +696,7 @@ class App extends React.Component {
   }
 
   render() {
+    // Shorten variable names
     const {
       error,
       isLoaded,
@@ -788,10 +757,10 @@ class App extends React.Component {
               {loginStatusMsg}
             </div>
             <Routes>
-              <Route
+              {/* <Route
                 path="/DeletePost"
                 element={<DeletePost postId={postId} />}
-              />
+              /> */}
 
               <Route
                 exact={true}
@@ -918,20 +887,6 @@ class App extends React.Component {
                   />
                 }
               />
-
-              {/* <Route
-                path="/FetchLogin"
-                element={
-                  <FetchLogin
-                    username={username}
-                    password={password}
-                    usersArray={usersArray}
-                    pwordArray={pwordArray}
-                    adminStatusArray={adminStatusArray}
-                    handleAuth={this.handleAuth}
-                  />
-                }
-              /> */}
             </Routes>
           </BrowserRouter>
           <Footer />

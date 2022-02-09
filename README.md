@@ -258,8 +258,12 @@ Figure 3
 Figure 4
 
 ```
-**Note:**
-If you would prefer to log in with Google or Facebook (see step 6 below), then you don't need to register, as it will be done automatically for you. Simply click the "Login with Google" or "Login with Facebook" button on the "Login" page.
+Note:
+
+If you would prefer to log in with Google or Facebook (see step 6 below),
+then you don't need to register, as it will be done automatically for you.
+Simply click the "Login with Google" or "Login with Facebook" button on
+the "Login" page.
 ```
 
 ### Log in
