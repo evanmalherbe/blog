@@ -12,10 +12,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // Import custom stylesheet
 import "../App.css";
 
-// import components
-import GoogleRegButton from "./GoogleRegButton";
-import FacebookRegButton from "./FacebookRegButton";
-
 // Function to display register page
 function Register(props) {
   let showButton;
@@ -59,20 +55,6 @@ function Register(props) {
               >
                 Register
               </Button>
-            </Col>
-          </Row>
-          <Row className="mb-3">
-            <Col>
-              <GoogleRegButton
-                handleGoogleRegister={props.handleGoogleRegister}
-              />
-            </Col>
-          </Row>
-          <Row className="mb-3">
-            <Col>
-              <FacebookRegButton
-                handleFacebookRegister={props.handleFacebookRegister}
-              />
             </Col>
           </Row>
         </Form>

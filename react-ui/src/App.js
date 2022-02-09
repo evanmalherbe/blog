@@ -84,9 +84,9 @@ class App extends React.Component {
     this.fetchSavePost = this.fetchSavePost.bind(this);
     this.toggleEditVar = this.toggleEditVar.bind(this);
     this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
-    this.handleGoogleRegister = this.handleGoogleRegister.bind(this);
+    /// this.handleGoogleRegister = this.handleGoogleRegister.bind(this);
     this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
-    this.handleFacebookRegister = this.handleFacebookRegister.bind(this);
+    //this.handleFacebookRegister = this.handleFacebookRegister.bind(this);
     this.handleCancelEdit = this.handleCancelEdit.bind(this);
   }
 
@@ -106,58 +106,66 @@ class App extends React.Component {
     );
   }
 
-  // Handles registering with Google account when user clicks button on register page
-  handleFacebookRegister(fUsername, fbId) {
+  // // Handles registering with Google account when user clicks button on register page
+  // handleFacebookRegister(fUsername, fbId) {
+  //   this.setState(
+  //     {
+  //       username: fUsername,
+  //       password: fbId,
+  //       justRegistered: true,
+  //     },
+  //     () => {
+  //       this.handleRegister();
+  //     }
+  //   );
+  // }
+
+  // Handles logging in with Google account when user clicks button on login page
+  handleFacebookLogin(user, loginStatus, userID) {
     this.setState(
       {
-        username: fUsername,
-        password: fbId,
-        justRegistered: true,
+        currentUser: user,
+        username: user,
+        password: userID,
+        loggedIn: loginStatus,
+        authMessage: "Success! Token valid.",
+        adminStatus: false,
       },
       () => {
+        console.log("Login status is: " + this.state.loggedIn);
         this.handleRegister();
       }
     );
   }
 
-  // Handles logging in with Google account when user clicks button on login page
-  handleFacebookLogin(fUsername, fbId) {
-    this.setState(
-      {
-        username: fUsername,
-        password: fbId,
-        justRegistered: false,
-      },
-      () => {
-        this.handleLogin();
-      }
-    );
-  }
+  // // Handles registering with Google account when user clicks button on register page
+  // handleGoogleRegister(gUsername, googleId) {
+  //   this.setState(
+  //     {
+  //       username: gUsername,
+  //       password: googleId,
+  //       justRegistered: true,
+  //     },
+  //     () => {
+  //       this.handleRegister();
+  //     }
+  //   );
+  // }
 
-  // Handles registering with Google account when user clicks button on register page
-  handleGoogleRegister(gUsername, googleId) {
+  // Handles logging in with Google account when user clicks button on login page
+  handleGoogleLogin(loginStatus, gUsername, googleId) {
     this.setState(
       {
+        currentUser: gUsername,
         username: gUsername,
         password: googleId,
-        justRegistered: true,
+        loggedIn: loginStatus,
+        authMessage: "Success! Token valid.",
+        adminStatus: false,
       },
       () => {
+        console.log("Google Login status is: " + this.state.loggedIn);
         this.handleRegister();
-      }
-    );
-  }
-
-  // Handles logging in with Google account when user clicks button on login page
-  handleGoogleLogin(gUsername, googleId) {
-    this.setState(
-      {
-        username: gUsername,
-        password: googleId,
-        justRegistered: false,
-      },
-      () => {
-        this.handleLogin();
       }
     );
   }
@@ -575,7 +583,28 @@ class App extends React.Component {
   /* Register new user. Saves their login details to db and lets them create their own blog posts */
   handleRegister() {
     if (this.state.username !== null || this.state.password !== null) {
-      this.fetchRegister();
+      let match = false;
+      let users = [];
+      let pwords = [];
+
+      users = this.state.usersArray.split(",");
+      pwords = this.state.pwordArray.split(",");
+
+      // Check to see if user already exists on database
+      for (let i = 0; i <= users.length - 1; i++) {
+        if (
+          users[i] === this.state.username &&
+          pwords[i] === this.state.password
+        ) {
+          match = true;
+        }
+      }
+      console.log("Match is: " + match);
+
+      // If user does not yet exist on db, register them. If they exist, do nothing.
+      if (match === false) {
+        this.fetchRegister();
+      }
     } else {
       // Runs if user submits form with blank username or password field
       this.setState(

@@ -1,27 +1,63 @@
-import React from "react";
-
-// Import facebook login
+import React, { useState } from "react";
 import FacebookLogin from "react-facebook-login";
+import "../App.css";
 
-// Function to display facebook login button
-// Learned how to use this here:
-// https://medium.com/recraftrelic/login-with-facebook-and-google-in-reactjs-990d818d5dab
+function FacebookLoginComponent(props) {
+  const [login, setLogin] = useState(false);
+  const [data, setData] = useState({});
+  const [picture, setPicture] = useState("");
 
-function FacebookLoginButton(props) {
-  // Send fb name and userId to function in app.js to use as login details
   const responseFacebook = (response) => {
-    props.handleFacebookLogin(response.name, response.userID);
+    console.log(response);
+    // Login failed
+    if (response.status === "unknown") {
+      alert("Login failed!");
+      setLogin(false);
+      return false;
+    }
+    setData(response);
+    setPicture(response.picture.data.url);
+    if (response.accessToken) {
+      setLogin(true);
+      props.handleFacebookLogin(response.name, true, response.userID);
+    } else {
+      setLogin(false);
+    }
   };
+
+  const logout = () => {
+    setLogin(false);
+    setData({});
+    setPicture("");
+  };
+
   return (
     <div>
-      <FacebookLogin
-        appId="640271867025410"
-        fields="name,email,picture"
-        callback={responseFacebook}
-      />
+      {!login && (
+        <FacebookLogin
+          appId="640271867025410"
+          autoLoad={false}
+          fields="name,email,picture"
+          scope="public_profile,email,user_friends"
+          callback={responseFacebook}
+          icon="fa-facebook"
+        />
+      )}
+
+      {/* {login && (
+        <div className="card">
+          <div className="card-body">
+            <img className="rounded" src={picture} alt="Profile" />
+            <h5 className="card-title">{data.name}</h5>
+            <p className="card-text">Email ID: {data.email}</p>
+            <button className="btn btn-danger btn-sm" onClick={logout}>
+              Logout
+            </button>
+          </div>
+        </div>
+      )} */}
     </div>
   );
 }
 
-// Export component to be used by other files
-export default FacebookLoginButton;
+export default FacebookLoginComponent;

@@ -14,7 +14,8 @@ import "../App.css";
 
 // Import components
 import GoogleLoginButton from "./GoogleLoginButton";
-import FacebookLoginButton from "./FacebookLoginButton";
+//import FacebookLoginButton from "./FacebookLoginButton";
+import FacebookLoginComponent from "./FacebookLoginButton";
 
 // Function to display login page
 function Login(props) {
@@ -72,9 +73,9 @@ function Login(props) {
           </Row>
           <Row className="mb-3">
             <Col>
-              <FacebookLoginButton
+              <FacebookLoginComponent
                 handleFacebookLogin={props.handleFacebookLogin}
-              />{" "}
+              />
             </Col>
           </Row>
         </Form>

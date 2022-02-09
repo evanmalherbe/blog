@@ -50,7 +50,7 @@ function EditPost(props) {
               as="textarea"
               rows={5}
               name="post"
-              defaultValue={props.post}
+              defaultValue={props.post.replace("///", "")}
               onChange={props.handlePost}
             />{" "}
           </FormGroup>

@@ -18,7 +18,7 @@ function GoogleLoginButton(props) {
 
     refreshTokenSetup(res);
     // Send google username and id to app.js to be used to log user in
-    props.handleGoogleLogin(res.profileObj.name, res.profileObj.googleId);
+    props.handleGoogleLogin(true, res.profileObj.name, res.profileObj.googleId);
   };
 
   // Console log message on failure to log in
