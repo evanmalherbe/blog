@@ -252,39 +252,36 @@ Figure 2
 ![figure 3](screenshots/screenshot3.png)
 Figure 3
 
-4. You will be taken to a page where you can choose to register in one of 3 ways (your preference):
-
-- Choose a new username and password for yourself OR...
-- Click the "Register with Google" button to register with your Google/Gmail login details OR...
-- Click the "Register with Facebook" button to use your Facebook login details.
-
-See figure 4 below.
+4. You will be taken to a page where you can enter a username and password to register. See figure 4 below.
 
 ![figure 4](screenshots/screenshot4.png)
 Figure 4
 
-5. If you choose option 2 or 3, another little window will open and ask you to enter your Google or Facebook login details, before bringing you back to the blog register page.
+```
+**Note:**
+If you would prefer to log in with Google or Facebook (see step 6 below), then you don't need to register, as it will be done automatically for you. Simply click the "Login with Google" or "Login with Facebook" button on the "Login" page.
+```
 
 ### Log in
 
-6. Once you have registered, you can click on the "Login" link on the top right hand side of the page. See figure 5 below.
+5. Once you have registered, you can click on the "Login" link on the top right hand side of the page. See figure 5 below.
 
 ![figure 5](screenshots/screenshot5.png)
 Figure 5
 
-7. You can now log in with the same method you chose to register with. For example, if you chose to register with Google, you should click the "Login with Google" button to log in. See figure 6 below.
+6. You can now log in with the username and password you just used to register with. OR if you prefer, you can click the appropriate button to log in with Google or Facebook. See figure 6 below.
 
 ![figure 6](screenshots/screenshot6.png)
 Figure 6
 
 ### Create Blog Post
 
-8. Once you have logged in, you will be able to create your very own blog post. Simply type in an appropriate title for your post (step 1), type your actual blog post or article (step 2) and then click the "Save Post" button at the bottom when you are happy with it (step 3). See figure 7 below.
+7. Once you have logged in, you will be able to create your very own blog post. Simply type in an appropriate title for your post (step 1), type your actual blog post or article (step 2) and then click the "Save Post" button at the bottom when you are happy with it (step 3). See figure 7 below.
 
 ![figure 7](screenshots/screenshot7.png)
 Figure 7
 
-9. To view the post that you just created, click on the "Home" link at the top right hand side of the page and then click on your name button under "Authors" on the left side of the page. See figures 8 and 9 below.
+8. To view the post that you just created, click on the "Home" link at the top right hand side of the page and then click on your name button under "Authors" on the left side of the page. See figures 8 and 9 below.
 
 ![figure 8](screenshots/screenshot8.png)
 Figure 8
