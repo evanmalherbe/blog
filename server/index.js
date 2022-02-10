@@ -30,20 +30,27 @@ if (!isDev && cluster.isMaster) {
   // Use Helmet middleware to improve security
   app.use(helmet());
 
-  // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  // This disables the `contentSecurityPolicy` middleware but keeps the rest.
   app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        "default-src": ["'self'", "https://www.facebook.com"],
-        "script-src": [
-          "'self'",
-          "https://connect.facebook.net",
-          "https://apis.google.com",
-        ],
-        "frame-src": ["'self'", "https://accounts.google.com"],
-      },
+    helmet({
+      contentSecurityPolicy: false,
     })
   );
+
+  // // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  // app.use(
+  //   helmet.contentSecurityPolicy({
+  //     directives: {
+  //       "default-src": ["'self'", "https://www.facebook.com"],
+  //       "script-src": [
+  //         "'self'",
+  //         "https://connect.facebook.net",
+  //         "https://apis.google.com",
+  //       ],
+  //       "frame-src": ["'self'", "https://accounts.google.com"],
+  //     },
+  //   })
+  // );
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
