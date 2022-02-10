@@ -5,7 +5,7 @@ const numCPUs = require("os").cpus().length;
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const helmet = require("helmet");
+//const helmet = require("helmet");
 
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3001;
@@ -27,16 +27,8 @@ if (!isDev && cluster.isMaster) {
 } else {
   const app = express();
 
-  // app.use(function (req, res, next) {
-  //   res.setHeader(
-  //     "Content-Security-Policy",
-  //     "script-src 'self' https://connect.facebook.net/en_US/sdk.js https://apis.google.com/js/api.js"
-  //   );
-  //   next();
-  // });
-
-  // Use Helmet middleware to improve security
-  app.use(helmet());
+  // // Use Helmet middleware to improve security
+  // app.use(helmet());
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
