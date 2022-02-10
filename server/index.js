@@ -51,13 +51,17 @@ if (!isDev && cluster.isMaster) {
   app.use(
     helmet.contentSecurityPolicy({
       directives: {
-        "default-src": ["'self'", "https://*.facebook.com"],
+        "default-src": [
+          "'self'",
+          "https://*.facebook.com",
+          "https://*.google.com",
+        ],
         "script-src": [
           "'self'",
           "https://*.facebook.net",
           "https://*.google.com",
         ],
-        frameAncestors: ["'self'", " https://*.facebook.com/"],
+        frameAncestors: ["'self'", " https://*.facebook.com"],
       },
     })
   );
