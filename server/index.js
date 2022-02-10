@@ -27,6 +27,14 @@ if (!isDev && cluster.isMaster) {
 } else {
   const app = express();
 
+  app.use(function (req, res, next) {
+    res.setHeader(
+      "Content-Security-Policy",
+      "script-src 'self' https://connect.facebook.net/en_US/sdk.js https://apis.google.com/js/api.js"
+    );
+    next();
+  });
+
   // Use Helmet middleware to improve security
   app.use(helmet());
 
