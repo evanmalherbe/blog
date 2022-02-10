@@ -66,6 +66,9 @@ if (!isDev && cluster.isMaster) {
     })
   );
 
+  // Sets "Cross-Origin-Resource-Policy: cross-origin"
+  app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
