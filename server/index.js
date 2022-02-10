@@ -37,6 +37,13 @@ if (!isDev && cluster.isMaster) {
   //   })
   // );
 
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginResourcePolicy: false,
+    })
+  );
+
   // // Sets the "Content-Security-Policy-Report-Only" header instead
   // app.use(
   //   helmet.contentSecurityPolicy({
@@ -47,27 +54,27 @@ if (!isDev && cluster.isMaster) {
   //   })
   // );
 
-  // Override "script-src" to allow Facebook and Google login buttons on Login page to work
-  app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        "default-src": [
-          "'self'",
-          "https://*.facebook.com",
-          "https://*.google.com",
-        ],
-        "script-src": [
-          "'self'",
-          "https://*.facebook.net",
-          "https://*.google.com",
-        ],
-        frameAncestors: ["'self'", " https://*.facebook.com"],
-      },
-    })
-  );
+  // // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  // app.use(
+  //   helmet.contentSecurityPolicy({
+  //     directives: {
+  //       "default-src": [
+  //         "'self'",
+  //         "https://*.facebook.com",
+  //         "https://*.google.com",
+  //       ],
+  //       "script-src": [
+  //         "'self'",
+  //         "https://*.facebook.net",
+  //         "https://*.google.com",
+  //       ],
+  //       frameAncestors: ["'self'", " https://*.facebook.com"],
+  //     },
+  //   })
+  // );
 
-  // Sets "Cross-Origin-Resource-Policy: cross-origin"
-  app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+  // // Sets "Cross-Origin-Resource-Policy: cross-origin"
+  // app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
