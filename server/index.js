@@ -37,30 +37,30 @@ if (!isDev && cluster.isMaster) {
   //   })
   // );
 
-  // Sets the "Content-Security-Policy-Report-Only" header instead
-  app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        /* ... */
-      },
-      reportOnly: true,
-    })
-  );
-
-  // // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  // // Sets the "Content-Security-Policy-Report-Only" header instead
   // app.use(
   //   helmet.contentSecurityPolicy({
   //     directives: {
-  //       "default-src": ["'self'", "https://www.facebook.com"],
-  //       "script-src": [
-  //         "'self'",
-  //         "https://connect.facebook.net",
-  //         "https://apis.google.com",
-  //       ],
-  //       "frame-src": ["'self'", "https://accounts.google.com"],
+  //       /* ... */
   //     },
+  //     reportOnly: true,
   //   })
   // );
+
+  // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        "default-src": ["'self'", "https://*.facebook.com"],
+        "script-src": [
+          "'self'",
+          "https://*.facebook.net",
+          "https://*.google.com",
+        ],
+        frameAncestors: ["'self'", " https://*.facebook.com/"],
+      },
+    })
+  );
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
