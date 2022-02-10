@@ -39,6 +39,7 @@ if (!isDev && cluster.isMaster) {
           "https://connect.facebook.net",
           "https://apis.google.com",
         ],
+        "frame-src": ["'self'", "https://accounts.google.com/"],
       },
     })
   );
