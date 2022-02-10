@@ -69,13 +69,17 @@ if (!isDev && cluster.isMaster) {
           "https://*.facebook.net",
           "https://*.google.com",
         ],
-        "frame-src": ["'self'", " https://*.facebook.com"],
+        "frame-src": [
+          "'self'",
+          "https://*.facebook.com",
+          "https://*.google.com",
+        ],
       },
     })
   );
 
-  // Sets "Cross-Origin-Resource-Policy: cross-origin"
-  // app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+  //Sets "Cross-Origin-Resource-Policy: cross-origin"
+  app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
