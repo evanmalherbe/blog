@@ -37,16 +37,30 @@ if (!isDev && cluster.isMaster) {
   //   })
   // );
 
-  // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  // Sets the "Content-Security-Policy-Report-Only" header instead
   app.use(
     helmet.contentSecurityPolicy({
       directives: {
-        "default-src": ["'self'", "*.facebook.com", "*.google.com"],
-        "script-src": ["'self'", "*.facebook.net", "*.google.com"],
-        "frame-src": ["'self'", "*.google.com"],
+        /* ... */
       },
+      reportOnly: true,
     })
   );
+
+  // // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  // app.use(
+  //   helmet.contentSecurityPolicy({
+  //     directives: {
+  //       "default-src": ["'self'", "https://www.facebook.com"],
+  //       "script-src": [
+  //         "'self'",
+  //         "https://connect.facebook.net",
+  //         "https://apis.google.com",
+  //       ],
+  //       "frame-src": ["'self'", "https://accounts.google.com"],
+  //     },
+  //   })
+  // );
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
