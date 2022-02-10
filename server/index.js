@@ -34,12 +34,13 @@ if (!isDev && cluster.isMaster) {
   app.use(
     helmet.contentSecurityPolicy({
       directives: {
+        "default-src": ["'self'", "https://www.facebook.com"],
         "script-src": [
           "'self'",
           "https://connect.facebook.net",
           "https://apis.google.com",
         ],
-        "frame-src": ["'self'", "https://accounts.google.com/"],
+        "frame-src": ["'self'", "https://accounts.google.com"],
       },
     })
   );
