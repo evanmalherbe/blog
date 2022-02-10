@@ -5,7 +5,7 @@ const numCPUs = require("os").cpus().length;
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-//const helmet = require("helmet");
+const helmet = require("helmet");
 
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3001;
@@ -27,8 +27,21 @@ if (!isDev && cluster.isMaster) {
 } else {
   const app = express();
 
-  // // Use Helmet middleware to improve security
-  // app.use(helmet());
+  // Use Helmet middleware to improve security
+  app.use(helmet());
+
+  // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        "script-src": [
+          "'self'",
+          "https://connect.facebook.net/en_US/sdk.js",
+          "https://apis.google.com/js/api.js",
+        ],
+      },
+    })
+  );
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
