@@ -36,8 +36,8 @@ if (!isDev && cluster.isMaster) {
       directives: {
         "script-src": [
           "'self'",
-          "https://connect.facebook.net/en_US/sdk.js",
-          "https://apis.google.com/js/api.js",
+          "https://connect.facebook.net",
+          "https://apis.google.com",
         ],
       },
     })
