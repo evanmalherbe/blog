@@ -70,7 +70,7 @@ if (!isDev && cluster.isMaster) {
           "https://web.facebook.com",
           "https://z-p3-graph.facebook.com",
         ],
-        "image-src": ["'self'", "https://web.facebook.com"],
+        "img-src": ["'self'", "https://web.facebook.com"],
         "frame-ancestors": ["'self'", "https://www.facebook.com"],
       },
     })
