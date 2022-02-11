@@ -47,34 +47,24 @@ if (!isDev && cluster.isMaster) {
   //   })
   // );
 
-  //Sets "Cross-Origin-Resource-Policy: cross-origin"
-  app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+  // //Sets "Cross-Origin-Resource-Policy: cross-origin"
+  // app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
   // https://connect.facebook.net/en_US/sdk.js
   // https://apis.google.com/js/api.js
 
-  // // Override "script-src" to allow Facebook and Google login buttons on Login page to work
-  // app.use(
-  //   helmet.contentSecurityPolicy({
-  //     directives: {
-  //       "default-src": [
-  //         "'self'",
-  //         "https://*.facebook.com",
-  //         "https://*.google.com",
-  //       ],
-  //       "script-src": [
-  //         "'self'",
-  //         "https://*.facebook.net",
-  //         "https://*.google.com",
-  //       ],
-  //       "frame-src": [
-  //         "'self'",
-  //         "https://*.facebook.com",
-  //         "https://*.google.com",
-  //       ],
-  //     },
-  //   })
-  // );
+  // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        "script-src-elem": [
+          "'self'",
+          "https://connect.facebook.net",
+          "https://apis.google.com",
+        ],
+      },
+    })
+  );
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
