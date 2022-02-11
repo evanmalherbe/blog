@@ -64,7 +64,13 @@ if (!isDev && cluster.isMaster) {
           "https://apis.google.com",
         ],
         "frame-src": ["'self'", "https://accounts.google.com"],
-        "connect-src": ["'self'", "https://www.facebook.com"],
+        "connect-src": [
+          "'self'",
+          "https://www.facebook.com",
+          "https://web.facebook.com",
+          "https://z-p3-graph.facebook.com",
+        ],
+        "image-src": ["'self'", "https://web.facebook.com"],
         "frame-ancestors": ["'self'", "https://www.facebook.com"],
       },
     })
