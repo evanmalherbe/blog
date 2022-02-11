@@ -27,55 +27,28 @@ if (!isDev && cluster.isMaster) {
 } else {
   const app = express();
 
-  // Use Helmet middleware to improve security
-  // app.use(helmet());
+  /* Use Helmet middleware to improve security
 
-  // // This disables the `contentSecurityPolicy` middleware but keeps the rest.
-  // app.use(
-  //   helmet({
-  //     contentSecurityPolicy: false,
-  //   })
-  // );
+  All the custom Content security policy settings were necessary because the Google and Facebook login buttons were causing so many errors. The following sites were helpful in figuring out which settings 
+  to change: 
 
-  // // Sets the "Content-Security-Policy-Report-Only" header instead
-  // app.use(
-  //   helmet.contentSecurityPolicy({
-  //     directives: {
-  //       /* ... */
-  //     },
-  //     reportOnly: true,
-  //   })
-  // );
+  https://stackoverflow.com/questions/70752770/helmet-express-err-blocked-by-response-notsameorigin-200
 
-  // //Sets "Cross-Origin-Resource-Policy: cross-origin"
-  // app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+  https://helmetjs.github.io/
 
-  // https://connect.facebook.net/en_US/sdk.js
-  // https://apis.google.com/js/api.js
+  https://github.com/anthonyjgrove/react-google-login/issues/132
 
-  // // Override "script-src" to allow Facebook and Google login buttons on Login page to work
-  // app.use(
-  //   helmet.contentSecurityPolicy({
-  //     directives: {
-  //       "script-src-elem": [
-  //         "'self'",
-  //         "https://connect.facebook.net",
-  //         "https://www.facebook.com",
-  //         "https://apis.google.com",
-  //       ],
-  //       "frame-src": ["'self'", "https://accounts.google.com"],
-  //       "connect-src": [
-  //         "'self'",
-  //         "https://www.facebook.com",
-  //         "https://web.facebook.com",
-  //         "https://z-p3-graph.facebook.com",
-  //       ],
-  //       "img-src": ["'self'", "data:", "https://web.facebook.com"],
-  //       "frame-ancestors": ["'self'", "https://www.facebook.com"],
-  //     },
-  //   })
-  // );
+  https://stackoverflow.com/questions/18447970/
+  content-security-policy-data-not-working-for-base64-images-in-chrome-28/18449556#18449556
 
+  https://drupal.stackexchange.com/questions/302192/
+  how-do-i-configure-content-security-policy-for-base64-images
+
+  https://csp-evaluator.withgoogle.com/
+  
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
+
+  */
   app.use(
     helmet({
       crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
@@ -102,11 +75,6 @@ if (!isDev && cluster.isMaster) {
       },
     })
   );
-
-  // // Sets "Cross-Origin-Opener-Policy: same-origin-allow-popups"
-  // app.use(
-  //   helmet.crossOriginOpenerPolicy({ policy: "same-origin-allow-popups" })
-  // );
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
