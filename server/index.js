@@ -72,7 +72,7 @@ if (!isDev && cluster.isMaster) {
 
   // Sets "Cross-Origin-Opener-Policy: same-origin-allow-popups"
   app.use(
-    helmet({ crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" } })
+    helmet.crossOriginOpenerPolicy({ policy: "same-origin-allow-popups" })
   );
 
   // Use bodyparser to send data in body of http request
