@@ -60,8 +60,11 @@ if (!isDev && cluster.isMaster) {
         "script-src-elem": [
           "'self'",
           "https://connect.facebook.net",
+          "https://www.facebook.com",
           "https://apis.google.com",
         ],
+        "frame-src": ["'self'", "https://accounts.google.com"],
+        "connect-src": ["'self'", "https://www.facebook.com"],
       },
     })
   );
