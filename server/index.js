@@ -65,6 +65,7 @@ if (!isDev && cluster.isMaster) {
         ],
         "frame-src": ["'self'", "https://accounts.google.com"],
         "connect-src": ["'self'", "https://www.facebook.com"],
+        "frame-ancestors": ["'self'", "https://www.facebook.com"],
       },
     })
   );
