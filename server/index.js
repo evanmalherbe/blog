@@ -28,7 +28,7 @@ if (!isDev && cluster.isMaster) {
   const app = express();
 
   // Use Helmet middleware to improve security
-  app.use(helmet());
+  // app.use(helmet());
 
   // // This disables the `contentSecurityPolicy` middleware but keeps the rest.
   // app.use(
@@ -53,33 +53,58 @@ if (!isDev && cluster.isMaster) {
   // https://connect.facebook.net/en_US/sdk.js
   // https://apis.google.com/js/api.js
 
-  // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  // // Override "script-src" to allow Facebook and Google login buttons on Login page to work
+  // app.use(
+  //   helmet.contentSecurityPolicy({
+  //     directives: {
+  //       "script-src-elem": [
+  //         "'self'",
+  //         "https://connect.facebook.net",
+  //         "https://www.facebook.com",
+  //         "https://apis.google.com",
+  //       ],
+  //       "frame-src": ["'self'", "https://accounts.google.com"],
+  //       "connect-src": [
+  //         "'self'",
+  //         "https://www.facebook.com",
+  //         "https://web.facebook.com",
+  //         "https://z-p3-graph.facebook.com",
+  //       ],
+  //       "img-src": ["'self'", "data:", "https://web.facebook.com"],
+  //       "frame-ancestors": ["'self'", "https://www.facebook.com"],
+  //     },
+  //   })
+  // );
+
   app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        "script-src-elem": [
-          "'self'",
-          "https://connect.facebook.net",
-          "https://www.facebook.com",
-          "https://apis.google.com",
-        ],
-        "frame-src": ["'self'", "https://accounts.google.com"],
-        "connect-src": [
-          "'self'",
-          "https://www.facebook.com",
-          "https://web.facebook.com",
-          "https://z-p3-graph.facebook.com",
-        ],
-        "img-src": ["'self'", "data:", "https://web.facebook.com"],
-        "frame-ancestors": ["'self'", "https://www.facebook.com"],
+    helmet({
+      crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+      contentSecurityPolicy: {
+        directives: {
+          "script-src-elem": [
+            "'self'",
+            "https://connect.facebook.net",
+            "https://www.facebook.com",
+            "https://apis.google.com",
+          ],
+          "frame-src": ["'self'", "https://accounts.google.com"],
+          "connect-src": [
+            "'self'",
+            "https://www.facebook.com",
+            "https://web.facebook.com",
+            "https://z-p3-graph.facebook.com",
+          ],
+          "img-src": ["'self'", "data:", "https://web.facebook.com"],
+          "frame-ancestors": ["'self'", "https://www.facebook.com"],
+        },
       },
     })
   );
 
-  // Sets "Cross-Origin-Opener-Policy: same-origin-allow-popups"
-  app.use(
-    helmet.crossOriginOpenerPolicy({ policy: "same-origin-allow-popups" })
-  );
+  // // Sets "Cross-Origin-Opener-Policy: same-origin-allow-popups"
+  // app.use(
+  //   helmet.crossOriginOpenerPolicy({ policy: "same-origin-allow-popups" })
+  // );
 
   // Use bodyparser to send data in body of http request
   app.use(bodyParser.urlencoded({ extended: false }));
