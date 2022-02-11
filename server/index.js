@@ -79,6 +79,7 @@ if (!isDev && cluster.isMaster) {
   app.use(
     helmet({
       crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+      crossOriginEmbedderPolicy: false,
       contentSecurityPolicy: {
         directives: {
           "script-src-elem": [
