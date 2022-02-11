@@ -94,6 +94,7 @@ if (!isDev && cluster.isMaster) {
             "https://www.facebook.com",
             "https://web.facebook.com",
             "https://z-p3-graph.facebook.com",
+            "https://graph.facebook.com",
           ],
           "img-src": ["'self'", "data:", "https://web.facebook.com"],
           "frame-ancestors": ["'self'", "https://www.facebook.com"],
