@@ -1,3 +1,4 @@
+// Require modules
 const express = require("express");
 const path = require("path");
 const cluster = require("cluster");
@@ -101,7 +102,7 @@ if (!isDev && cluster.isMaster) {
   const username = "evanmalherbe";
 
   /* Get password from .env file. Needed to consult the following website to get it to work: 
-https://stackoverflow.com/questions/65896414/how-can-i-use-environmental-variable-for-database-password-in-nodejs */
+    https://stackoverflow.com/questions/65896414/how-can-i-use-environmental-variable-for-database-password-in-nodejs */
   const password = process.env.PASSWORD;
   const cluster = "cluster0.xrjxb";
   const dbname = "blog";

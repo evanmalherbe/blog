@@ -10,7 +10,6 @@ import CreatePost from "./components/CreatePost";
 import AdminArea from "./components/AdminArea";
 import GetPosts from "./components/GetPosts";
 import EditPost from "./components/EditPost";
-//import DeletePost from "./components/DeletePost";
 import CreateWelcome from "./components/CreateWelcome";
 import ScrollToTop from "./components/ScrollToTop";
 import ModifyPosts from "./components/ModifyPosts";
@@ -101,7 +100,7 @@ class App extends React.Component {
     );
   }
 
-  // Handles logging in with Google account when user clicks button on login page
+  // Handles logging in with Facebook account when user clicks button on login page
   handleFacebookLogin(user, loginStatus, userID) {
     this.setState(
       {
@@ -137,8 +136,8 @@ class App extends React.Component {
     );
   }
 
-  // Toggles a variable to either show the edit post form or not, depending on whether the user clicked the
-  // "Edit post" button
+  /* Toggles a variable to either show the edit post form or not, depending on whether the user
+   clicked the "Edit post" button */
   toggleEditVar(id, author, title, post) {
     this.setState(
       {
@@ -158,8 +157,7 @@ class App extends React.Component {
     );
   }
 
-  /* Runs when user clicks on a particular blog author's name in the left panel to display only that author's
-   posts */
+  /* Runs when user clicks on a particular blog author's name in the left panel to display only that author's posts */
   updateSelectedUser(user) {
     this.setState({ selectedUser: user }, () =>
       console.log("selected user is now: " + this.state.selectedUser)
@@ -182,6 +180,7 @@ class App extends React.Component {
 
     dateModified = dateModified.replace(" (South Africa Standard Time)", "");
 
+    // post request to update post on database
     fetch("/updatepost", {
       method: "POST",
       headers: {
@@ -227,6 +226,7 @@ class App extends React.Component {
     if (
       window.confirm("Are you sure you want to delete this blog post?") === true
     ) {
+      // Post request to delete post from db
       fetch("/deletepost", {
         method: "POST",
         headers: {
@@ -294,6 +294,7 @@ class App extends React.Component {
 
   // ----------------------------------------------------------- //
 
+  // Post request to save new post to database
   fetchSavePost(finalPost, date) {
     fetch("/addpost", {
       method: "POST",
@@ -349,6 +350,7 @@ class App extends React.Component {
 
       date = date.replace(" (South Africa Standard Time)", "");
 
+      // Call function to do post request to save post to db
       this.fetchSavePost(finalPost, date);
     } else {
       this.setState(
@@ -369,6 +371,7 @@ class App extends React.Component {
 
   // Take user login details and create JWT token, then call "handleAuth" function to authenticate user
   handleLogin(event) {
+    // Run if username and password fields are not blank in form
     if (this.state.username !== null && this.state.password !== null) {
       console.log("Got to handle login. Username is: " + this.state.username);
 
@@ -397,6 +400,8 @@ class App extends React.Component {
                 console.log(
                   "Login details sent via post. Token is " + this.state.token
                 );
+
+                // Call handle auth function to authenticate user
                 this.handleAuth(this.state.token);
               }
             );
@@ -407,6 +412,8 @@ class App extends React.Component {
             });
           }
         );
+
+      // Else create alert if form fields are blank
     } else {
       this.setState(
         {
@@ -507,7 +514,7 @@ class App extends React.Component {
     );
   }
 
-  // Function for fetch method to register new user (i.e. create user on db)
+  // Function for post request to register new user (i.e. create user on db)
   fetchRegister() {
     fetch("/register", {
       method: "POST",
@@ -550,6 +557,7 @@ class App extends React.Component {
 
   /* Register new user. Saves their login details to db and lets them create their own blog posts */
   handleRegister() {
+    // Runs if username and password field are not blank
     if (this.state.username !== null || this.state.password !== null) {
       let match = false;
       let users = [];
@@ -740,6 +748,7 @@ class App extends React.Component {
       return (
         <div className="app">
           <BrowserRouter>
+            {/* Component to automatically scroll to top of new page when user arrives */}
             <ScrollToTop />
             <GetPosts
               isLoaded={this.state.isLoaded}
@@ -748,20 +757,11 @@ class App extends React.Component {
 
             <Header loggedIn={loggedIn} adminStatus={adminStatus} />
             <div className="underHeader">
-              {/* <div className="breadCrumbs">
-                <Breadcrumbs />
-              </div> */}
-
               {/* Display login status message. Contents differ according to whether user is logged in or 
               not */}
               {loginStatusMsg}
             </div>
             <Routes>
-              {/* <Route
-                path="/DeletePost"
-                element={<DeletePost postId={postId} />}
-              /> */}
-
               <Route
                 exact={true}
                 path="/"
