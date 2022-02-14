@@ -315,9 +315,9 @@ class App extends React.Component {
           this.setState(
             {
               message: result.message,
+              isLoaded: false,
             },
             () => {
-              document.forms["createPostForm"].reset();
               console.log(
                 "Blog post info sent via post. Reply is: " + this.state.message
               );
