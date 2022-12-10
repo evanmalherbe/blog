@@ -111,6 +111,8 @@ if (!isDev && cluster.isMaster)
   const cluster = "cluster0.xrjxb";
   const dbname = "blog";
 
+  mongoose.set('strictQuery', false);
+
   mongoose.Promise = global.Promise;
 
   /* This website was very useful in getting the connection and error handling commands right:
