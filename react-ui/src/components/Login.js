@@ -13,23 +13,26 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 
 // Import components
-import GoogleLoginButton from "./GoogleLoginButton";
+//import GoogleLoginButton from "./GoogleLoginButton";
 //import FacebookLoginButton from "./FacebookLoginButton";
-import FacebookLoginComponent from "./FacebookLoginButton";
+//import FacebookLoginComponent from "./FacebookLoginButton";
 
 // Function to display login page
-function Login(props) {
+function Login(props)
+{
   let showLoginPage;
 
   // Learned to redirect/Navigate with react router here:
   // https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
   // If user has successfully logged in, display create new post page
-  if (props.authMessage === "Success! Token valid.") {
+  if (props.authMessage === "Success! Token valid.")
+  {
     showLoginPage = <Navigate to="/CreatePost" />;
 
     // If user not yet logged in, display login page/form
-  } else {
+  } else
+  {
     showLoginPage = (
       <div className="loginDiv">
         <h1>Log in</h1>
@@ -68,14 +71,14 @@ function Login(props) {
           </Row>
           <Row className="mb-3">
             <Col>
-              <GoogleLoginButton handleGoogleLogin={props.handleGoogleLogin} />
+              {/* <GoogleLoginButton handleGoogleLogin={props.handleGoogleLogin} /> */}
             </Col>
           </Row>
           <Row className="mb-3">
             <Col>
-              <FacebookLoginComponent
+              {/* <FacebookLoginComponent
                 handleFacebookLogin={props.handleFacebookLogin}
-              />
+              /> */}
             </Col>
           </Row>
         </Form>
