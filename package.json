@@ -2,10 +2,6 @@
   "name": "heroku-cra-node",
   "version": "3.0.0",
   "description": "How to use create-react-app with a custom Node API on Heroku",
-  "engines": {
-    "node": "16.17.0",
-    "npm": "8.15.0"
-  },
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "cd react-ui/ && npm install && npm run build",
